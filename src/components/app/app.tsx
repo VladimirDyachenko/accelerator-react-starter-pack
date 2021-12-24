@@ -2,7 +2,7 @@ import CartPage from 'components/pages/cart-page/cart-page';
 import CatalogPage from 'components/pages/catalog-page/catalog-page';
 import ProductPage from 'components/pages/product-page/product-page';
 import { AppRoute } from 'const/const';
-import { Route, Switch } from 'react-router-dom';
+import { Link, Route, Switch } from 'react-router-dom';
 
 function App(): JSX.Element {
   return (
@@ -17,7 +17,7 @@ function App(): JSX.Element {
         <ProductPage />
       </Route>
       <Route path=''>
-        <h2>404</h2>
+        <h2><Link to={AppRoute.Catalog}>404</Link></h2>
       </Route>
     </Switch>
   );
