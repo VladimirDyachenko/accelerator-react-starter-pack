@@ -9,4 +9,7 @@ export enum ApiRoute {
   Guitars = '/guitars',
 }
 
-export const BACKEND_URL = 'https://accelerator-guitar-shop-api-v1.glitch.me';
+export const Api = {
+  Url: 'https://accelerator-guitar-shop-api-v1.glitch.me',
+  RequestTimeOut: 5000,
+};

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ApiRoute, BACKEND_URL } from 'const/const';
+import { ApiRoute, Api } from 'const/const';
 import { useEffect, useState } from 'react';
 import { Guitar } from 'types/guitars';
 
@@ -11,7 +11,7 @@ function useGuitarSearch(searchTerm: string | undefined) {
         setResults([]);
         return;
       }
-      const backEndURLWithSearch = `${BACKEND_URL}${ApiRoute.Guitars}?name_like=${searchTerm}`;
+      const backEndURLWithSearch = `${Api.Url}${ApiRoute.Guitars}?name_like=${searchTerm}`;
       const { data } = await axios.get<Guitar[]>(backEndURLWithSearch);
 
       setResults(data);
