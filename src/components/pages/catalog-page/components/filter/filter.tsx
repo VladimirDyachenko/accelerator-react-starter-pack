@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 function Filter(): JSX.Element {
   return (
     <form className='catalog-filter'>
@@ -114,4 +116,4 @@ function Filter(): JSX.Element {
   );
 }
 
-export default Filter;
+export default memo(Filter);
