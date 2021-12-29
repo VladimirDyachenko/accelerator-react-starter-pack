@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { Guitar } from 'types/guitars';
+import { Guitar } from 'types/types';
 
 export enum CatalogActionType {
   SetGuitarList = 'SetGuitarList',

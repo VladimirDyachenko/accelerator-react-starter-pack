@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ApiRoute, Api } from 'const/const';
 import { useEffect, useState } from 'react';
-import { Guitar } from 'types/guitars';
+import { Guitar } from 'types/types';
 
 function useGuitarSearch(searchTerm: string | undefined) {
   const [results, setResults] = useState<Guitar[]>([]);

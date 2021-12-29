@@ -1,6 +1,6 @@
 import { AppRoute } from 'const/const';
 import { Link } from 'react-router-dom';
-import { Guitar } from 'types/guitars';
+import { Guitar } from 'types/types';
 
 type ProductCardProps = {
   product: Guitar;

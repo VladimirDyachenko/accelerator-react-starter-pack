@@ -1,4 +1,4 @@
-import { Guitar } from 'types/guitars';
+import { Guitar } from 'types/types';
 
 export type CatalogProcessState = {
   guitars: Guitar[];

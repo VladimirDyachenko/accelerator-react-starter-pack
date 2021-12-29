@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { CatalogProcessState } from 'types/store/catalog-process';
+import { CatalogProcessState } from 'types/types';
 import { setGuitarList } from './actions';
 
 const initialState: CatalogProcessState = {

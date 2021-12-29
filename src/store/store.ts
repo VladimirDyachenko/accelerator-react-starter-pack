@@ -1,10 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { setGuitarList } from './catalog-process/actions';
 import { rootReducer } from './root-reducer';
-
-import mockGuitars from 'mock/guitars.json';
-import { Guitar } from 'types/guitars';
 import { createApi } from 'services/api';
+import { fetchGuitarList } from './api-actions';
 
 const api = createApi();
 
@@ -17,6 +14,6 @@ const store = configureStore({
   }),
 });
 
-store.dispatch(setGuitarList(mockGuitars as Guitar[]));
+store.dispatch(fetchGuitarList());
 
 export { store };

@@ -1,3 +1,5 @@
+import { Comment } from './comment';
+
 export enum GuitarType {
   Electric = 'electric',
   Acoustic = 'acoustic',
@@ -14,4 +16,5 @@ export type Guitar = {
   stringCount: 4 | 6 | 7 | 12;
   rating: number;
   price: number;
+  comments: Comment[];
 };
