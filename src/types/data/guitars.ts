@@ -6,6 +6,8 @@ export enum GuitarType {
   Ukulele = 'ukulele',
 }
 
+export type StringsCount = 4 | 6 | 7 | 12;
+
 export type Guitar = {
   id: number;
   name: string;
@@ -13,7 +15,7 @@ export type Guitar = {
   type: GuitarType;
   description: string;
   previewImg: string;
-  stringCount: 4 | 6 | 7 | 12;
+  stringCount: StringsCount;
   rating: number;
   price: number;
   comments: Comment[];

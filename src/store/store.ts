@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { rootReducer } from './root-reducer';
 import { createApi } from 'services/api';
-import { fetchGuitarList } from './api-actions';
+import { fetchMinMaxPrice } from './api-actions';
 
 const api = createApi();
 
@@ -14,6 +14,6 @@ const store = configureStore({
   }),
 });
 
-store.dispatch(fetchGuitarList());
+store.dispatch(fetchMinMaxPrice());
 
 export { store };
