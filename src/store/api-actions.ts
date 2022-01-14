@@ -1,12 +1,15 @@
-import { ApiRoute, FALLBACK_FILTER_MAX_PRICE, FALLBACK_FILTER_MIN_PRICE } from 'const/const';
+import { ApiRoute, FALLBACK_FILTER_MAX_PRICE, FALLBACK_FILTER_MIN_PRICE, ITEMS_PER_PAGE } from 'const/const';
 import { Guitar, ThunkActionResult } from 'types/types';
-import { setGuitarList, setMinMaxPrice } from './catalog-process/actions';
+import { setGuitarList, setMinMaxPrice, setTotalItemsCount } from './catalog-process/actions';
 
 export const fetchGuitarList = (searchQuery = ''): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     try {
-      const { data } = await api.get<Guitar[]>(`${ApiRoute.Guitars}?_embed=comments&${searchQuery}`);
-      dispatch(setGuitarList(data));
+      const response = await api.get<Guitar[]>(`${ApiRoute.Guitars}?_embed=comments&_limit=${ITEMS_PER_PAGE}&${searchQuery}`);
+      const totalCount: number = response.headers['x-total-count'] || 0;
+
+      dispatch(setGuitarList(response.data));
+      dispatch(setTotalItemsCount(totalCount));
     } catch (error) {
       //TODO Показать уведомление
       dispatch(setGuitarList([]));

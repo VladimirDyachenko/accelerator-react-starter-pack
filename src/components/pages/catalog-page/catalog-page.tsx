@@ -1,11 +1,11 @@
-import { Breadcrumbs, Footer, Header, Paginator } from 'components/common/common';
-import { AppRoute } from 'const/const';
-import useCatalogFilter from 'hooks/use-catalog-filter/use-catalog-filter';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory, useParams } from 'react-router-dom';
+import { Breadcrumbs, Footer, Header, Paginator } from 'components/common/common';
+import { AppRoute, ITEMS_PER_PAGE } from 'const/const';
+import useCatalogFilter from 'hooks/use-catalog-filter/use-catalog-filter';
 import { fetchGuitarList } from 'store/api-actions';
-import { getMinMaxPrice } from 'store/catalog-process/selectors';
+import { getMinMaxPrice, getTotalItemsCount } from 'store/catalog-process/selectors';
 import { SortOption } from 'types/types';
 import { ProductList, Filter, Sort } from './components/components';
 
@@ -36,14 +36,28 @@ function CatalogPage(): JSX.Element {
 
   const fetchGuitars = useCallback((query) => dispatch(fetchGuitarList(query)), [dispatch]);
 
-  //Обновление search и получение актуального списка гитар
+  const { page } = useParams<{page: string}>();
+  const totalItems = useSelector(getTotalItemsCount);
+  const currentPage = useMemo(() => parseInt(page, 10), [page]);
+
   useEffect(() => {
     history.push({
       search: filterSearchQuery,
     });
+  }, [history, filterSearchQuery]);
 
-    fetchGuitars(`${filterSearchQuery}&${sortSearchQuery}`);
-  }, [dispatch, fetchGuitars, history, filterSearchQuery, sortSearchQuery]);
+  useEffect(() => {
+
+    const start = currentPage * ITEMS_PER_PAGE - ITEMS_PER_PAGE;
+
+    fetchGuitars(`_start=${start}&${filterSearchQuery}&${sortSearchQuery}`);
+  }, [fetchGuitars, filterSearchQuery, sortSearchQuery, currentPage]);
+
+  if (isNaN(currentPage) || currentPage < 1) {
+    return (
+      <Redirect to={`${AppRoute.Catalog}/1`} />
+    );
+  }
 
   return (
     <div className='wrapper'>
@@ -69,7 +83,11 @@ function CatalogPage(): JSX.Element {
             />
             <Sort currentOption={selectedSort} onSetSort={onSetSort} />
             <ProductList />
-            <Paginator />
+            <Paginator
+              currentPage={currentPage}
+              itemsPerPage={ITEMS_PER_PAGE}
+              totalItems={totalItems}
+            />
           </div>
         </div>
       </main>

@@ -63,3 +63,5 @@ export const QueryParams = {
   GuitarType: 'type_like',
   StringCount: 'stringCount_like',
 };
+
+export const ITEMS_PER_PAGE = 9;
