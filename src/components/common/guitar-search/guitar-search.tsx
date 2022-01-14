@@ -45,9 +45,10 @@ function GuitarSearch(): JSX.Element {
           placeholder='что вы ищите?'
           onChange={onInputChange}
           onFocus={() =>  guitarsList.length > 0 && setIsOpen(true)}
+          data-testid='guitar-search-input'
         />
         <label className='visually-hidden' htmlFor='search'>
-        Поиск
+          Поиск
         </label>
       </form>
       <ul
@@ -55,6 +56,7 @@ function GuitarSearch(): JSX.Element {
         //при котором лист оказывается под декоративными изображением гитары
         style={{'zIndex': '1'}}
         className={`form-search__select-list ${isOpen ? '' : 'hidden'}`}
+        data-testid='search-ul'
       >
         {guitarsList.map((item) => (
           <li key={item.id} className='form-search__select-item' tabIndex={0}>

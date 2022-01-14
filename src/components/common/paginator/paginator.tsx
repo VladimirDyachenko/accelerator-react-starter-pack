@@ -28,6 +28,7 @@ function Paginator({currentPage, totalItems, itemsPerPage}: PaginatorProps): JSX
           <Link
             className='link pagination__page-link'
             to={`${AppRoute.Catalog}/${currentPage - 1}`}
+            data-testid='prev'
           >
             Назад
           </Link>
@@ -40,6 +41,7 @@ function Paginator({currentPage, totalItems, itemsPerPage}: PaginatorProps): JSX
             <Link
               className='link pagination__page-link'
               to={`${AppRoute.Catalog}/${pageNumber}`}
+              data-testid='page-link'
             >
               {pageNumber}
             </Link>
@@ -54,6 +56,7 @@ function Paginator({currentPage, totalItems, itemsPerPage}: PaginatorProps): JSX
           <Link
             className='link pagination__page-link'
             to={`${AppRoute.Catalog}/${currentPage + 1}`}
+            data-testid='next'
           >
             Далее
           </Link>
