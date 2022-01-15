@@ -57,7 +57,11 @@ function reducer(state: IFilter, action: UpdateFilterAction) {
 }
 
 function getInitialFilter(searchQuery: string): IFilter {
-  const newFilter = {...initialFilter};
+  const newFilter = {
+    ...initialFilter,
+    selectedStringsCounts: {...initialFilter.selectedStringsCounts},
+    selectedGuitarsTypes: {...initialFilter.selectedGuitarsTypes},
+  };
   const params = new URLSearchParams(searchQuery);
 
   const minPrice = params.get(QueryParams.MinPrice);
