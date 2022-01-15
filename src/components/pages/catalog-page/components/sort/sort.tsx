@@ -18,6 +18,7 @@ function Sort({currentOption, onSetSort}: SortProps): JSX.Element {
           aria-label='по цене'
           tabIndex={isSortActive('price') ? -1 : 0}
           onClick={() => onSetSort({...currentOption, sortProperty: 'price'})}
+          data-testid='sort-by-price'
         >
           по цене
         </button>
@@ -26,6 +27,7 @@ function Sort({currentOption, onSetSort}: SortProps): JSX.Element {
           aria-label='по популярности'
           tabIndex={isSortActive('rating') ? -1 : 0}
           onClick={() => onSetSort({...currentOption, sortProperty: 'rating'})}
+          data-testid='sort-by-rating'
         >
           по популярности
         </button>
@@ -36,12 +38,14 @@ function Sort({currentOption, onSetSort}: SortProps): JSX.Element {
           aria-label='По возрастанию'
           tabIndex={isOrderActive('acs') ? -1 : 0}
           onClick={() => onSetSort({...currentOption, order: 'acs'})}
+          data-testid='sort-order-acs'
         />
         <button
           className={`catalog-sort__order-button catalog-sort__order-button--down ${isOrderActive('desc') ? 'catalog-sort__order-button--active' : ''}`}
           aria-label='По убыванию'
           tabIndex={isOrderActive('desc') ? -1 : 0}
           onClick={() => onSetSort({...currentOption, order: 'desc'})}
+          data-testid='sort-order-desc'
         />
       </div>
     </div>

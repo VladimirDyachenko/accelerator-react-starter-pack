@@ -56,6 +56,7 @@ function Filter(props: FilterProps): JSX.Element {
               value={minPrice}
               onChange={(event) => setMinPrice(event.target.value)}
               onBlur={handleMinPriceBlur}
+              data-testid='filter-min-price'
             />
           </div>
           <div className='form-input'>
@@ -68,6 +69,7 @@ function Filter(props: FilterProps): JSX.Element {
               value={maxPrice}
               onChange={(event) => setMaxPrice(event.target.value)}
               onBlur={handleMaxPriceBlur}
+              data-testid='filter-max-price'
             />
           </div>
         </div>
@@ -82,6 +84,7 @@ function Filter(props: FilterProps): JSX.Element {
             name='acoustic'
             checked={filterState.selectedGuitarsTypes[GuitarType.Acoustic]}
             onChange={() => onUpdateFilter({type: 'toggleGuitarType', payload: GuitarType.Acoustic})}
+            data-testid='filter-type-acoustic'
           />
           <label htmlFor='acoustic'>Акустические гитары</label>
         </div>
@@ -93,6 +96,7 @@ function Filter(props: FilterProps): JSX.Element {
             name='electric'
             checked={filterState.selectedGuitarsTypes[GuitarType.Electric]}
             onChange={() => onUpdateFilter({type: 'toggleGuitarType', payload: GuitarType.Electric})}
+            data-testid='filter-type-electric'
           />
           <label htmlFor='electric'>Электрогитары</label>
         </div>
@@ -104,6 +108,7 @@ function Filter(props: FilterProps): JSX.Element {
             name='ukulele'
             checked={filterState.selectedGuitarsTypes[GuitarType.Ukulele]}
             onChange={() => onUpdateFilter({type: 'toggleGuitarType', payload: GuitarType.Ukulele})}
+            data-testid='filter-type-ukulele'
           />
           <label htmlFor='ukulele'>Укулеле</label>
         </div>
@@ -121,6 +126,7 @@ function Filter(props: FilterProps): JSX.Element {
             disabled={!filterState.getIsStringsCountValid(4)}
             checked={filterState.selectedStringsCounts[4]}
             onChange={() => onUpdateFilter({type: 'toggleStringCount', payload: 4})}
+            data-testid='filter-string-four'
           />
           <label htmlFor='4-strings'>4</label>
         </div>
@@ -133,6 +139,7 @@ function Filter(props: FilterProps): JSX.Element {
             disabled={!filterState.getIsStringsCountValid(6)}
             checked={filterState.selectedStringsCounts[6]}
             onChange={() => onUpdateFilter({type: 'toggleStringCount', payload: 6})}
+            data-testid='filter-string-six'
           />
           <label htmlFor='6-strings'>6</label>
         </div>
@@ -145,6 +152,7 @@ function Filter(props: FilterProps): JSX.Element {
             disabled={!filterState.getIsStringsCountValid(7)}
             checked={filterState.selectedStringsCounts[7]}
             onChange={() => onUpdateFilter({type: 'toggleStringCount', payload: 7})}
+            data-testid='filter-string-seven'
           />
           <label htmlFor='7-strings'>7</label>
         </div>
@@ -157,6 +165,7 @@ function Filter(props: FilterProps): JSX.Element {
             disabled={!filterState.getIsStringsCountValid(12)}
             checked={filterState.selectedStringsCounts[12]}
             onChange={() => onUpdateFilter({type: 'toggleStringCount', payload: 12})}
+            data-testid='filter-string-twelve'
           />
           <label htmlFor='12-strings'>12</label>
         </div>

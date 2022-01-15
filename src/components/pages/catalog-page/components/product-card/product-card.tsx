@@ -13,7 +13,8 @@ function ProductCard({product}: ProductCardProps): JSX.Element {
         src={product.previewImg}
         width='75'
         height='190'
-        alt='СURT Z30 Plus Acoustics'
+        alt={product.name}
+        data-testid='product-image'
       />
       <div className='product-card__info'>
         <div className='rate product-card__rate' aria-hidden='true'>
@@ -33,17 +34,20 @@ function ProductCard({product}: ProductCardProps): JSX.Element {
           <svg width='12' height='11' aria-hidden='true'>
             <use xlinkHref={product.rating >= 5 ? '#icon-full-star' : '#icon-star'} />
           </svg>
-          {/* //TODO Узнать в каком месте брать число отзывов */}
-          <span className='rate__count'>{product.stringCount}</span>
+          <span className='rate__count' data-testid='string-count'>{product.stringCount}</span>
           <span className='rate__message'></span>
         </div>
-        <p className='product-card__title'>{product.name}</p>
+        <p className='product-card__title' data-testid='product-name'>{product.name}</p>
         <p className='product-card__price'>
           <span className='visually-hidden'>Цена:</span>{product.price} ₽
         </p>
       </div>
       <div className='product-card__buttons'>
-        <Link className='button button--mini' to={`${AppRoute.Product}/${product.id}`}>
+        <Link
+          className='button button--mini'
+          to={`${AppRoute.Product}/${product.id}`}
+          data-testid='details-link'
+        >
           Подробнее
         </Link>
         <a
