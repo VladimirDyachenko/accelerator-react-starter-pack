@@ -1,0 +1,22 @@
+.wrapper {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 10rem;
+  line-height: 120%;
+  user-select: none;
+}
+
+.link {
+  font-size: xx-large;
+  color: black;
+  line-height: 120%;
+}
+
+.link:hover {
+  color: gray;
+}

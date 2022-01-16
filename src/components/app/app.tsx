@@ -1,8 +1,9 @@
 import CartPage from 'components/pages/cart-page/cart-page';
 import CatalogPage from 'components/pages/catalog-page/catalog-page';
+import NotFoundPage from 'components/pages/not-found-page/not-found-page';
 import ProductPage from 'components/pages/product-page/product-page';
 import { AppRoute } from 'const/const';
-import { Link, Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 function App(): JSX.Element {
   return (
@@ -23,7 +24,7 @@ function App(): JSX.Element {
         <Redirect to={`${AppRoute.Catalog}/1`}/>
       </Route>
       <Route path=''>
-        <h2><Link to={AppRoute.Catalog}>404</Link></h2>
+        <NotFoundPage />
       </Route>
     </Switch>
   );
