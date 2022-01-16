@@ -11,29 +11,29 @@ export const fetchGuitarList = (searchQuery = ''): ThunkActionResult =>
       dispatch(setGuitarList(response.data));
       dispatch(setTotalItemsCount(totalCount));
     } catch (error) {
-      //TODO Показать уведомление
       dispatch(setGuitarList([]));
     }
   };
 
 export const fetchMinMaxPrice = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    const minPricePromise = api.get<Guitar[]>(`${ApiRoute.Guitars}?_sort=price&_order=acs&_limit=1`);
-    const maxPricePromise = api.get<Guitar[]>(`${ApiRoute.Guitars}?_sort=price&_order=desc&_limit=1`);
-    Promise.allSettled([minPricePromise, maxPricePromise])
-      .then(([minPriceRes, maxPriceRes]) => {
-        let minPrice = FALLBACK_FILTER_MIN_PRICE;
-        let maxPrice = FALLBACK_FILTER_MAX_PRICE;
+    try {
+      const minPricePromise = api.get<Guitar[]>(`${ApiRoute.Guitars}?_sort=price&_order=acs&_limit=1`);
+      const maxPricePromise = api.get<Guitar[]>(`${ApiRoute.Guitars}?_sort=price&_order=desc&_limit=1`);
+      const [minPriceRes, maxPriceRes] = await Promise.allSettled([minPricePromise, maxPricePromise]);
+      let minPrice = FALLBACK_FILTER_MIN_PRICE;
+      let maxPrice = FALLBACK_FILTER_MAX_PRICE;
 
-        if (minPriceRes.status === 'fulfilled') {
-          minPrice = minPriceRes.value.data[0].price;
-        }
+      if (minPriceRes.status === 'fulfilled') {
+        minPrice = minPriceRes.value.data[0].price;
+      }
 
-        if (maxPriceRes.status === 'fulfilled') {
-          maxPrice = maxPriceRes.value.data[0].price;
-        }
+      if (maxPriceRes.status === 'fulfilled') {
+        maxPrice = maxPriceRes.value.data[0].price;
+      }
 
-        dispatch(setMinMaxPrice(minPrice, maxPrice));
-      })
-      .catch(() => dispatch(setMinMaxPrice(FALLBACK_FILTER_MIN_PRICE, FALLBACK_FILTER_MAX_PRICE)));
+      dispatch(setMinMaxPrice(minPrice, maxPrice));
+    } catch (error) {
+      dispatch(setMinMaxPrice(FALLBACK_FILTER_MIN_PRICE, FALLBACK_FILTER_MAX_PRICE));
+    }
   };
