@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react-hooks';
-import { initialFilter, QueryParams } from 'const/const';
+import { initialFilter, QueryParam } from 'const/const';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import { GuitarType } from 'types/types';
@@ -14,7 +14,7 @@ describe('Hook: useCatalogFilter', () => {
   });
 
   it('should return correct search query based on URL search params', () => {
-    history.push(`/?${QueryParams.MinPrice}=100&${QueryParams.MaxPrice}=1000&${QueryParams.StringCount}=4&${QueryParams.GuitarType}=electric`);
+    history.push(`/?${QueryParam.MinPrice}=100&${QueryParam.MaxPrice}=1000&${QueryParam.StringCount}=4&${QueryParam.GuitarType}=electric`);
 
     const { result, unmount } = renderHook(
       useCatalogFilter,

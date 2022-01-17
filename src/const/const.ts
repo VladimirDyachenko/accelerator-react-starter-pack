@@ -14,10 +14,12 @@ export enum ApiRoute {
 export const Api = {
   Url: 'https://accelerator-guitar-shop-api-v1.glitch.me',
   RequestTimeOut: 5000,
-};
+} as const;
 
-export const FALLBACK_FILTER_MIN_PRICE = 0;
-export const FALLBACK_FILTER_MAX_PRICE = 100_000;
+export const FallbackMinMaxPrice = {
+  min: 0,
+  max: 100_000,
+} as const;
 
 export const initialFilter: IFilter = {
   minPrice: '',
@@ -55,13 +57,13 @@ export const initialFilter: IFilter = {
         return true;
     }
   },
-};
+} as const;
 
-export const QueryParams = {
+export const QueryParam = {
   MinPrice: 'price_gte',
   MaxPrice: 'price_lte',
   GuitarType: 'type_like',
   StringCount: 'stringCount_like',
-};
+} as const;
 
 export const ITEMS_PER_PAGE = 9;

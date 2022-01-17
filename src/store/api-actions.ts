@@ -1,4 +1,4 @@
-import { ApiRoute, FALLBACK_FILTER_MAX_PRICE, FALLBACK_FILTER_MIN_PRICE, ITEMS_PER_PAGE } from 'const/const';
+import { ApiRoute, FallbackMinMaxPrice, ITEMS_PER_PAGE } from 'const/const';
 import { Guitar, ThunkActionResult } from 'types/types';
 import { setGuitarList, setMinMaxPrice, setTotalItemsCount } from './catalog-process/actions';
 
@@ -21,8 +21,10 @@ export const fetchMinMaxPrice = (): ThunkActionResult =>
       const minPricePromise = api.get<Guitar[]>(`${ApiRoute.Guitars}?_sort=price&_order=acs&_limit=1`);
       const maxPricePromise = api.get<Guitar[]>(`${ApiRoute.Guitars}?_sort=price&_order=desc&_limit=1`);
       const [minPriceRes, maxPriceRes] = await Promise.allSettled([minPricePromise, maxPricePromise]);
-      let minPrice = FALLBACK_FILTER_MIN_PRICE;
-      let maxPrice = FALLBACK_FILTER_MAX_PRICE;
+      //TS не позволил присвоить что-то в переменную потом, поэтому использовал хак 0 + readonly number
+      //let minPrice = FallbackMinMaxPrice.min
+      let minPrice = 0 + FallbackMinMaxPrice.min;
+      let maxPrice = 0 + FallbackMinMaxPrice.max;
 
       if (minPriceRes.status === 'fulfilled') {
         minPrice = minPriceRes.value.data[0].price;
@@ -34,6 +36,6 @@ export const fetchMinMaxPrice = (): ThunkActionResult =>
 
       dispatch(setMinMaxPrice(minPrice, maxPrice));
     } catch (error) {
-      dispatch(setMinMaxPrice(FALLBACK_FILTER_MIN_PRICE, FALLBACK_FILTER_MAX_PRICE));
+      dispatch(setMinMaxPrice(FallbackMinMaxPrice.min, FallbackMinMaxPrice.max));
     }
   };

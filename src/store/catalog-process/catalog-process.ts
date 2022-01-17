@@ -1,13 +1,13 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { FALLBACK_FILTER_MAX_PRICE, FALLBACK_FILTER_MIN_PRICE } from 'const/const';
+import { FallbackMinMaxPrice } from 'const/const';
 import { CatalogProcessState } from 'types/types';
 import { setGuitarList, setMinMaxPrice, setTotalItemsCount } from './actions';
 
 const initialState: CatalogProcessState = {
   guitars: [],
   minMaxPrice: {
-    min: FALLBACK_FILTER_MIN_PRICE,
-    max: FALLBACK_FILTER_MAX_PRICE,
+    min: FallbackMinMaxPrice.min,
+    max: FallbackMinMaxPrice.max,
   },
   totalProductsCount: 0,
 };

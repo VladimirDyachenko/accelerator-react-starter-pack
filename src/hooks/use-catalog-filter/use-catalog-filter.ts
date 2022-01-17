@@ -1,5 +1,5 @@
 import { useDebugValue, useEffect, useReducer, useState } from 'react';
-import { initialFilter, QueryParams } from 'const/const';
+import { initialFilter, QueryParam } from 'const/const';
 import { GuitarType, StringsCount, IFilter } from 'types/types';
 import { useHistory } from 'react-router-dom';
 
@@ -64,10 +64,10 @@ function getInitialFilter(searchQuery: string): IFilter {
   };
   const params = new URLSearchParams(searchQuery);
 
-  const minPrice = params.get(QueryParams.MinPrice);
-  const maxPrice = params.get(QueryParams.MaxPrice);
-  const guitarType = params.getAll(QueryParams.GuitarType);
-  const stringCount = params.getAll(QueryParams.StringCount);
+  const minPrice = params.get(QueryParam.MinPrice);
+  const maxPrice = params.get(QueryParam.MaxPrice);
+  const guitarType = params.getAll(QueryParam.GuitarType);
+  const stringCount = params.getAll(QueryParam.StringCount);
 
   if (minPrice !== null) {
     newFilter.minPrice = minPrice;
@@ -107,24 +107,24 @@ function useCatalogFilter() {
     const queryParams = new URLSearchParams();
 
     if (filterState.minPrice !== '') {
-      queryParams.set(QueryParams.MinPrice, filterState.minPrice);
+      queryParams.set(QueryParam.MinPrice, filterState.minPrice);
     }
 
     if (filterState.maxPrice !== '') {
-      queryParams.set(QueryParams.MaxPrice, filterState.maxPrice);
+      queryParams.set(QueryParam.MaxPrice, filterState.maxPrice);
     }
 
     Object.entries(filterState.selectedGuitarsTypes)
       .forEach((element) => {
         if (element[1]) {
-          queryParams.append(QueryParams.GuitarType, element[0]);
+          queryParams.append(QueryParam.GuitarType, element[0]);
         }
       });
 
     Object.entries(filterState.selectedStringsCounts)
       .forEach((element) => {
         if (element[1]) {
-          queryParams.append(QueryParams.StringCount, element[0]);
+          queryParams.append(QueryParam.StringCount, element[0]);
         }
       });
 
