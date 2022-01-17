@@ -14,7 +14,7 @@ export const setGuitarList = createAction(
 
 export const setMinMaxPrice = createAction(
   CatalogActionType.SetMinMaxPrice,
-  (min:number, max: number) => ({payload: [min, max]}),
+  (min:number, max: number) => ({payload: { min, max }}),
 );
 
 export const setTotalItemsCount = createAction(

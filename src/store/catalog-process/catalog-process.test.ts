@@ -12,7 +12,10 @@ describe('Reducer: catalogProcess', () => {
   it('without additional parameters should return initial state', () => {
     const state: CatalogProcessState = {
       guitars: [],
-      minMaxPrice: [150, 300],
+      minMaxPrice: {
+        min: 150,
+        max: 300,
+      },
       totalProductsCount: 20,
     };
     expect(catalogProcess(state, { type: 'UNKNOWN_ACTION' }))
@@ -22,7 +25,10 @@ describe('Reducer: catalogProcess', () => {
   it('should set guitars list', () => {
     const state: CatalogProcessState = {
       guitars: [],
-      minMaxPrice: [150, 300],
+      minMaxPrice: {
+        min: 150,
+        max: 300,
+      },
       totalProductsCount: 20,
     };
 
@@ -37,7 +43,10 @@ describe('Reducer: catalogProcess', () => {
   it('should set min and max price', () => {
     const state: CatalogProcessState = {
       guitars: [],
-      minMaxPrice: [0, 0],
+      minMaxPrice: {
+        min: 150,
+        max: 300,
+      },
       totalProductsCount: 20,
     };
 
@@ -46,13 +55,16 @@ describe('Reducer: catalogProcess', () => {
     expect(
       catalogProcess(state, setMinMaxPrice(minMaxPriceMock[0], minMaxPriceMock[1])),
     )
-      .toEqual({...state, minMaxPrice: minMaxPriceMock});
+      .toEqual({...state, minMaxPrice: { min: minMaxPriceMock[0], max: minMaxPriceMock[1] }});
   });
 
-  it('should total products count', () => {
+  it('should set total products count', () => {
     const state: CatalogProcessState = {
       guitars: [],
-      minMaxPrice: [1000, 10_000],
+      minMaxPrice: {
+        min: 150,
+        max: 300,
+      },
       totalProductsCount: 0,
     };
 

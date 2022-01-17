@@ -22,7 +22,10 @@ const history = createMemoryHistory();
 const store = mockStore({
   [NameSpace.Catalog]: {
     guitars: [],
-    minMaxPrice: [0, 100],
+    minMaxPrice: {
+      min: 100,
+      max: 1000,
+    },
     totalProductsCount: 0,
   },
 });

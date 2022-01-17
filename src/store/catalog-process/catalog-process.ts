@@ -5,7 +5,10 @@ import { setGuitarList, setMinMaxPrice, setTotalItemsCount } from './actions';
 
 const initialState: CatalogProcessState = {
   guitars: [],
-  minMaxPrice: [FALLBACK_FILTER_MIN_PRICE, FALLBACK_FILTER_MAX_PRICE],
+  minMaxPrice: {
+    min: FALLBACK_FILTER_MIN_PRICE,
+    max: FALLBACK_FILTER_MAX_PRICE,
+  },
   totalProductsCount: 0,
 };
 
@@ -17,7 +20,7 @@ const catalogProcess = createReducer(
         state.guitars = action.payload;
       })
       .addCase(setMinMaxPrice, (state, action) => {
-        state.minMaxPrice = [action.payload[0], action.payload[1]];
+        state.minMaxPrice = { min: action.payload.min, max: action.payload.max };
       })
       .addCase(setTotalItemsCount, (state, action) => {
         state.totalProductsCount = action.payload;

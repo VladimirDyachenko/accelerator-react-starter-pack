@@ -5,7 +5,7 @@ import { GuitarType, IFilter } from 'types/types';
 type FilterProps = {
   filterState: IFilter,
   onUpdateFilter: React.Dispatch<UpdateFilterAction>,
-  minMaxPrice: [number, number],
+  minMaxPrice: { min: number, max: number },
 };
 
 function Filter(props: FilterProps): JSX.Element {
@@ -19,8 +19,8 @@ function Filter(props: FilterProps): JSX.Element {
   const handleMinPriceBlur = () => {
     let payload = minPrice;
 
-    if (parseInt(payload, 10) < minMaxPrice[0]) {
-      payload = minMaxPrice[0].toString();
+    if (parseInt(payload, 10) < minMaxPrice.max) {
+      payload = minMaxPrice.min.toString();
       setMinPrice(payload);
     }
 
@@ -30,8 +30,8 @@ function Filter(props: FilterProps): JSX.Element {
   const handleMaxPriceBlur = () => {
     let payload = maxPrice;
 
-    if (parseInt(payload, 10) > minMaxPrice[1]) {
-      payload = minMaxPrice[1].toString();
+    if (parseInt(payload, 10) > minMaxPrice.max) {
+      payload = minMaxPrice.max.toString();
       setMaxPrice(payload);
     }
 
@@ -50,7 +50,7 @@ function Filter(props: FilterProps): JSX.Element {
             <label className='visually-hidden'>Минимальная цена</label>
             <input
               type='number'
-              placeholder={minMaxPrice[0].toString()}
+              placeholder={minMaxPrice.min.toString()}
               id='priceMin'
               name='от'
               value={minPrice}
@@ -63,7 +63,7 @@ function Filter(props: FilterProps): JSX.Element {
             <label className='visually-hidden'>Максимальная цена</label>
             <input
               type='number'
-              placeholder={minMaxPrice[1].toString()}
+              placeholder={minMaxPrice.max.toString()}
               id='priceMax'
               name='до'
               value={maxPrice}

@@ -25,7 +25,10 @@ const store = mockStore(
   {
     [NameSpace.Catalog]: {
       guitars: guitarsList,
-      minMaxPrice: [0, 100],
+      minMaxPrice: {
+        min: 100,
+        max: 1000,
+      },
       totalProductsCount: 1,
     },
   },

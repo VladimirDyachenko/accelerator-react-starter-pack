@@ -2,6 +2,6 @@ import { Guitar } from 'types/types';
 
 export type CatalogProcessState = {
   guitars: Guitar[];
-  minMaxPrice: [number, number];
+  minMaxPrice: { min: number, max: number };
   totalProductsCount: number;
 }

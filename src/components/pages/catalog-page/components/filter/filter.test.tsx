@@ -13,7 +13,7 @@ describe('Component: Filter', () => {
       <Filter
         filterState={filterState}
         onUpdateFilter={jest.fn()}
-        minMaxPrice={[0, 100]}
+        minMaxPrice={{ min: 100, max: 1000 }}
       />,
     );
 
@@ -43,7 +43,7 @@ describe('Component: Filter', () => {
       <Filter
         filterState={filterState}
         onUpdateFilter={onUpdateFilter}
-        minMaxPrice={[100, 1000]}
+        minMaxPrice={{ min: 100, max: 1000 }}
       />,
     );
 
@@ -67,7 +67,7 @@ describe('Component: Filter', () => {
       <Filter
         filterState={filterState}
         onUpdateFilter={onUpdateFilter}
-        minMaxPrice={[100, 1000]}
+        minMaxPrice={{ min: 100, max: 1000 }}
       />,
     );
 
@@ -91,7 +91,7 @@ describe('Component: Filter', () => {
       <Filter
         filterState={filterState}
         onUpdateFilter={onUpdateFilter}
-        minMaxPrice={[100, 1000]}
+        minMaxPrice={{ min: 100, max: 1000 }}
       />,
     );
 
@@ -117,7 +117,7 @@ describe('Component: Filter', () => {
       <Filter
         filterState={filterState}
         onUpdateFilter={onUpdateFilter}
-        minMaxPrice={[100, 1000]}
+        minMaxPrice={{ min: 100, max: 1000 }}
       />,
     );
 
