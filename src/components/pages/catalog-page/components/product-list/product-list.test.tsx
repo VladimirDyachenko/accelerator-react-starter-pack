@@ -34,9 +34,8 @@ describe('Component: ProductList', () => {
       </Provider>,
     );
 
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(screen.getByTestId('products-list-wrapper').children.length)
-      .toBe(guitarsList.length);
+    expect(screen.getAllByTestId('product-image').length).toBe(guitarsList.length);
+
   });
 
 });
