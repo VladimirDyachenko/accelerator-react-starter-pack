@@ -19,7 +19,7 @@ function Filter(props: FilterProps): JSX.Element {
   const handleMinPriceBlur = () => {
     let payload = minPrice;
 
-    if (parseInt(payload, 10) < minMaxPrice.max) {
+    if (parseInt(payload, 10) < minMaxPrice.min) {
       payload = minMaxPrice.min.toString();
       setMinPrice(payload);
     }
