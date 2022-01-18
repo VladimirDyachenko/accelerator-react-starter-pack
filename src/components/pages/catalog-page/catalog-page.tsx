@@ -18,40 +18,44 @@ function CatalogPage(): JSX.Element {
     dispatch: onUpdateFilter,
     searchQuery: filterSearchQuery,
   } = useCatalogFilter();
-  const [selectedSort, setSelectedSort] = useState<SortOption>({order: undefined, sortProperty: undefined });
   const [sortSearchQuery, setSortSearchQuery] = useState('');
-
-  const onSetSort = useCallback((sort: SortOption) => {
-    if (sort.order === undefined) {
-      sort.order = 'acs';
-    }
-
-    if (sort.sortProperty === undefined) {
-      sort.sortProperty = 'price';
-    }
-
-    setSelectedSort(sort);
-    setSortSearchQuery(`_sort=${sort.sortProperty ?? 'price'}&_order=${sort.order ?? 'acs'}`);
-  }, []);
-
   const fetchGuitars = useCallback((query) => dispatch(fetchGuitarList(query)), [dispatch]);
+  const onSortChange = useCallback((newSort: SortOption) => {
+    if (newSort.sortProperty === undefined && newSort.order === undefined) {
+      return setSortSearchQuery('');
+    }
+
+    setSortSearchQuery(`_sort=${newSort.sortProperty ?? 'price'}&_order=${newSort.order ?? 'acs'}`);
+  }, []);
 
   const { page } = useParams<{page: string}>();
   const totalItems = useSelector(getTotalItemsCount);
   const currentPage = useMemo(() => parseInt(page, 10), [page]);
 
+  const combinedQuery = useMemo(() => {
+    let searchQuery = '';
+
+    if (filterSearchQuery !== '') {
+      searchQuery += filterSearchQuery;
+    }
+
+    if (sortSearchQuery !== '') {
+      searchQuery += `&${sortSearchQuery}`;
+    }
+
+    return searchQuery;
+  }, [filterSearchQuery, sortSearchQuery]);
+
   useEffect(() => {
     history.push({
-      search: filterSearchQuery,
+      search: combinedQuery,
     });
-  }, [history, filterSearchQuery]);
+  }, [history, combinedQuery]);
 
   useEffect(() => {
-
     const start = currentPage * ITEMS_PER_PAGE - ITEMS_PER_PAGE;
-
-    fetchGuitars(`_start=${start}&${filterSearchQuery}&${sortSearchQuery}`);
-  }, [fetchGuitars, filterSearchQuery, sortSearchQuery, currentPage]);
+    fetchGuitars(`_start=${start}&${combinedQuery}`);
+  }, [fetchGuitars, currentPage, combinedQuery]);
 
   if (isNaN(currentPage) || currentPage < 1) {
     return (
@@ -81,7 +85,7 @@ function CatalogPage(): JSX.Element {
               minMaxPrice={minMaxPrice}
               onUpdateFilter={onUpdateFilter}
             />
-            <Sort currentOption={selectedSort} onSetSort={onSetSort} />
+            <Sort onSortChange={onSortChange}/>
             <ProductList />
             <Paginator
               currentPage={currentPage}

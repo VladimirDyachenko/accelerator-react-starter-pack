@@ -1,18 +1,23 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { createMemoryHistory } from 'history';
+import { Router } from 'react-router-dom';
 import Sort from './sort';
 
+const history = createMemoryHistory();
 
 describe('Component: Sort', () => {
+  beforeEach(() => {
+    history.push({ pathname: '/', search: ''});
+  });
 
   it('should render Sort correctly', () => {
     const onSetSort = jest.fn();
 
     render(
-      <Sort
-        currentOption={{order: undefined, sortProperty: undefined }}
-        onSetSort={onSetSort}
-      />,
+      <Router history={history}>
+        <Sort onSortChange={onSetSort}/>
+      </Router>,
     );
 
     expect(screen.getByTestId('sort-by-price'))
@@ -25,31 +30,46 @@ describe('Component: Sort', () => {
       .toBeInTheDocument();
   });
 
-  it('should call `onSetSort` with right arguments', () => {
-    const onSetSort = jest.fn();
+  it('should call `onSortChange` with right arguments', async () => {
+    const onSortChange = jest.fn();
 
     render(
-      <Sort
-        currentOption={{order: undefined, sortProperty: undefined }}
-        onSetSort={onSetSort}
-      />,
+      <Router history={history}>
+        <Sort onSortChange={onSortChange}/>
+      </Router>,
     );
 
     userEvent.click(screen.getByTestId('sort-by-price'));
-    expect(onSetSort)
-      .toBeCalledWith({order: undefined, sortProperty: 'price'});
+    await waitFor(() => expect(onSortChange)
+      .lastCalledWith({ order: 'acs', sortProperty: 'price' }));
 
     userEvent.click(screen.getByTestId('sort-by-rating'));
-    expect(onSetSort)
-      .toBeCalledWith({order: undefined, sortProperty: 'rating'});
+    await waitFor(() => expect(onSortChange)
+      .lastCalledWith({ order: 'acs', sortProperty: 'rating' }));
 
     userEvent.click(screen.getByTestId('sort-order-acs'));
-    expect(onSetSort)
-      .toBeCalledWith({order: 'acs', sortProperty: undefined});
+    await waitFor(() => expect(onSortChange)
+      .lastCalledWith({ order: 'acs', sortProperty: 'rating' }));
 
     userEvent.click(screen.getByTestId('sort-order-desc'));
-    expect(onSetSort)
-      .toBeCalledWith({order: 'desc', sortProperty: undefined});
+    await waitFor(() => expect(onSortChange)
+      .lastCalledWith({ order: 'desc', sortProperty: 'rating' }));
+
+  });
+
+  it('should test getInitialSortState', async () => {
+    const onSortChange = jest.fn();
+
+    history.push({search: '?_sort=rating&_order=desc'});
+
+    render(
+      <Router history={history}>
+        <Sort onSortChange={onSortChange}/>
+      </Router>,
+    );
+
+    expect(onSortChange)
+      .toBeCalledWith({ order: 'desc', sortProperty: 'rating' });
   });
 
 });
