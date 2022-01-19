@@ -1,6 +1,6 @@
 import { AppRoute } from 'const/const';
 import { useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 type PaginatorProps = {
   currentPage: number;
@@ -14,6 +14,7 @@ function Paginator({currentPage, totalItems, itemsPerPage}: PaginatorProps): JSX
       .fill(undefined)
       .map((_, index) => index + 1)
   , [totalItems, itemsPerPage]);
+  const { search } = useLocation();
 
   const [isCanGoBack, isCanGoForward] = useMemo(() => [currentPage - 1 > 0, currentPage + 1 <= totalPages.length], [totalPages, currentPage]);
 
@@ -27,7 +28,7 @@ function Paginator({currentPage, totalItems, itemsPerPage}: PaginatorProps): JSX
         >
           <Link
             className='link pagination__page-link'
-            to={`${AppRoute.Catalog}/${currentPage - 1}`}
+            to={`${AppRoute.Catalog}/${currentPage - 1}${search}`}
             data-testid='prev'
           >
             Назад
@@ -40,7 +41,7 @@ function Paginator({currentPage, totalItems, itemsPerPage}: PaginatorProps): JSX
           >
             <Link
               className='link pagination__page-link'
-              to={`${AppRoute.Catalog}/${pageNumber}`}
+              to={`${AppRoute.Catalog}/${pageNumber}${search}`}
               data-testid='page-link'
             >
               {pageNumber}
@@ -55,7 +56,7 @@ function Paginator({currentPage, totalItems, itemsPerPage}: PaginatorProps): JSX
         >
           <Link
             className='link pagination__page-link'
-            to={`${AppRoute.Catalog}/${currentPage + 1}`}
+            to={`${AppRoute.Catalog}/${currentPage + 1}${search}`}
             data-testid='next'
           >
             Далее
