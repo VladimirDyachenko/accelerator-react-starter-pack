@@ -14,6 +14,8 @@ function useGuitarSearch(searchTerm: string | undefined) {
       const backEndURLWithSearch = `${Api.Url}${ApiRoute.Guitars}?name_like=${searchTerm}`;
       const { data } = await axios.get<Guitar[]>(backEndURLWithSearch);
 
+      data.sort((a, _) => a.name.startsWith(searchTerm) ? -1 : 1);
+
       setResults(data);
     }
 
