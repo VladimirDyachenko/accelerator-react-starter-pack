@@ -1,5 +1,5 @@
 import { UpdateFilterAction } from 'hooks/use-catalog-filter/use-catalog-filter';
-import { memo, useEffect, useState } from 'react';
+import { useEffect, useState, KeyboardEvent, memo} from 'react';
 import { GuitarType, IFilter } from 'types/types';
 
 type FilterProps = {
@@ -38,6 +38,12 @@ function Filter(props: FilterProps): JSX.Element {
     onUpdateFilter({type: 'setMaxPrice', payload});
   };
 
+  const handleEnterKeyDown = (event: KeyboardEvent<HTMLInputElement>, cb: () => void) => {
+    if (event.key === 'Enter') {
+      cb();
+    }
+  };
+
   return (
     <form className='catalog-filter'>
       <h2 className='title title--bigger catalog-filter__title'>
@@ -56,6 +62,7 @@ function Filter(props: FilterProps): JSX.Element {
               value={minPrice}
               onChange={(event) => setMinPrice(event.target.value)}
               onBlur={handleMinPriceBlur}
+              onKeyDown={(event) => handleEnterKeyDown(event, handleMinPriceBlur)}
               data-testid='filter-min-price'
             />
           </div>
@@ -69,6 +76,7 @@ function Filter(props: FilterProps): JSX.Element {
               value={maxPrice}
               onChange={(event) => setMaxPrice(event.target.value)}
               onBlur={handleMaxPriceBlur}
+              onKeyDown={(event) => handleEnterKeyDown(event, handleMaxPriceBlur)}
               data-testid='filter-max-price'
             />
           </div>
