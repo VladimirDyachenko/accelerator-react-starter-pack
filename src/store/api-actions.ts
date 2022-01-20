@@ -1,17 +1,20 @@
 import { ApiRoute, FallbackMinMaxPrice, ITEMS_PER_PAGE } from 'const/const';
 import { Guitar, ThunkActionResult } from 'types/types';
-import { setGuitarList, setMinMaxPrice, setTotalItemsCount } from './catalog-process/actions';
+import { setGuitarList, setMinMaxPrice, setProductsLoadingStatus, setTotalItemsCount } from './catalog-process/actions';
 
 export const fetchGuitarList = (searchQuery = ''): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
+    dispatch(setProductsLoadingStatus(true, false));
     try {
       const response = await api.get<Guitar[]>(`${ApiRoute.Guitars}?_embed=comments&_limit=${ITEMS_PER_PAGE}&${searchQuery}`);
       const totalCount: number = response.headers['x-total-count'] || 0;
 
       dispatch(setGuitarList(response.data));
       dispatch(setTotalItemsCount(totalCount));
+      dispatch(setProductsLoadingStatus(false, false));
     } catch (error) {
       dispatch(setGuitarList([]));
+      dispatch(setProductsLoadingStatus(false, true));
     }
   };
 
@@ -22,7 +25,6 @@ export const fetchMinMaxPrice = (): ThunkActionResult =>
       const maxPricePromise = api.get<Guitar[]>(`${ApiRoute.Guitars}?_sort=price&_order=desc&_limit=1`);
       const [minPriceRes, maxPriceRes] = await Promise.allSettled([minPricePromise, maxPricePromise]);
       //TS не позволил присвоить что-то в переменную потом, поэтому использовал хак 0 + readonly number
-      //let minPrice = FallbackMinMaxPrice.min
       let minPrice = 0 + FallbackMinMaxPrice.min;
       let maxPrice = 0 + FallbackMinMaxPrice.max;
 

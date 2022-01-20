@@ -10,6 +10,7 @@ import { generateGuitarMock } from 'mock/generate-guitar-mock';
 import {
   setGuitarList,
   setMinMaxPrice,
+  setProductsLoadingStatus,
   setTotalItemsCount
 } from './catalog-process/actions';
 import {
@@ -44,12 +45,14 @@ describe('test async actions', () => {
     await store.dispatch(fetchGuitarList());
 
     expect(store.getActions()).toEqual([
+      setProductsLoadingStatus(true, false),
       setGuitarList(guitarListMock),
       setTotalItemsCount(totalItemsCountMock),
+      setProductsLoadingStatus(false, false),
     ]);
   });
 
-  it('fetchGuitarList: should set guitars data to empty array when server respond with error', async () => {
+  it('fetchGuitarList: should set guitars data to empty array and set loading error when server respond with error', async () => {
     const store = mockStore();
     const mockAPI = new MockAdapter(api);
 
@@ -62,7 +65,9 @@ describe('test async actions', () => {
     await store.dispatch(fetchGuitarList());
 
     expect(store.getActions()).toEqual([
+      setProductsLoadingStatus(true, false),
       setGuitarList([]),
+      setProductsLoadingStatus(false, true),
     ]);
   });
 

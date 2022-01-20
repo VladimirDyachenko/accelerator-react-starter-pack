@@ -5,6 +5,7 @@ export enum CatalogActionType {
   SetGuitarList = 'SetGuitarList',
   SetMinMaxPrice = 'SetMinMaxPrice',
   SetTotalProductsCount = 'SetTotalProductsCount',
+  SetProductsLoadingStatus = 'SetProductsLoadingStatus',
 }
 
 export const setGuitarList = createAction(
@@ -20,4 +21,9 @@ export const setMinMaxPrice = createAction(
 export const setTotalItemsCount = createAction(
   CatalogActionType.SetTotalProductsCount,
   (count: number) => ({payload: count}),
+);
+
+export const setProductsLoadingStatus = createAction(
+  CatalogActionType.SetProductsLoadingStatus,
+  (isLoading: boolean, isError: boolean) => ({payload: { isLoading, isError }}),
 );

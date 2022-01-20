@@ -27,6 +27,10 @@ const store = mockStore({
       max: 1000,
     },
     totalProductsCount: 0,
+    loadingStatus: {
+      isLoading: false,
+      isError: false,
+    },
   },
 });
 

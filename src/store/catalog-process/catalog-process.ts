@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { FallbackMinMaxPrice } from 'const/const';
 import { CatalogProcessState } from 'types/types';
-import { setGuitarList, setMinMaxPrice, setTotalItemsCount } from './actions';
+import { setGuitarList, setProductsLoadingStatus, setMinMaxPrice, setTotalItemsCount } from './actions';
 
 const initialState: CatalogProcessState = {
   guitars: [],
@@ -10,6 +10,10 @@ const initialState: CatalogProcessState = {
     max: FallbackMinMaxPrice.max,
   },
   totalProductsCount: 0, //TODO поменять начальное значение на undefined, позволит реализовать редирект если текущая страница превышает максимальное число страниц
+  loadingStatus: {
+    isLoading: true,
+    isError: false,
+  },
 };
 
 const catalogProcess = createReducer(
@@ -24,6 +28,9 @@ const catalogProcess = createReducer(
       })
       .addCase(setTotalItemsCount, (state, action) => {
         state.totalProductsCount = action.payload;
+      })
+      .addCase(setProductsLoadingStatus, (state, action) => {
+        state.loadingStatus = action.payload;
       });
   },
 );
