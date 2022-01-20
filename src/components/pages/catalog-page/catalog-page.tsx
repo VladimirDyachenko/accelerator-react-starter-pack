@@ -1,14 +1,15 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory, useParams } from 'react-router-dom';
 import { Breadcrumbs, Footer, Header, Paginator } from 'components/common/common';
-import { AppRoute, ITEMS_PER_PAGE } from 'const/const';
+import { AppRoute, FallbackMinMaxPrice, ITEMS_PER_PAGE } from 'const/const';
 import useCatalogFilter from 'hooks/use-catalog-filter/use-catalog-filter';
 import { fetchGuitarList } from 'store/api-actions';
 import { getMinMaxPrice, getTotalItemsCount } from 'store/catalog-process/selectors';
 import { SortOption } from 'types/types';
 import { ProductList, Filter, Sort } from './components/components';
-import { setTotalItemsCount } from 'store/catalog-process/actions';
+import { setMinMaxPrice, setTotalItemsCount } from 'store/catalog-process/actions';
 
 function CatalogPage(): JSX.Element {
   const history = useHistory();
@@ -60,6 +61,7 @@ function CatalogPage(): JSX.Element {
 
   useEffect(() => function () {
     dispatch(setTotalItemsCount(undefined));
+    dispatch(setMinMaxPrice(FallbackMinMaxPrice.min, FallbackMinMaxPrice.max));
   }, [dispatch]);
 
   if (isNaN(currentPage) || currentPage < 1) {

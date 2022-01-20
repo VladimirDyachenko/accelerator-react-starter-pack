@@ -9,9 +9,21 @@ export const fetchGuitarList = (searchQuery = ''): ThunkActionResult =>
       const response = await api.get<Guitar[]>(`${ApiRoute.Guitars}?_embed=comments&_limit=${ITEMS_PER_PAGE}&${searchQuery}`);
       const totalCount: number = response.headers['x-total-count'] || 0;
 
+      const minMaxPrice = response.data.reduce(((prev, current) => {
+        if (current.price < prev.min) {
+          prev.min = current.price;
+        }
+        if (current.price > prev.max) {
+          prev.max = current.price;
+        }
+
+        return prev;
+      }), {min: Infinity, max: -Infinity});
+
       dispatch(setGuitarList(response.data));
       dispatch(setTotalItemsCount(totalCount));
       dispatch(setProductsLoadingStatus(false, false));
+      dispatch(setMinMaxPrice(minMaxPrice.min, minMaxPrice.max));
     } catch (error) {
       dispatch(setGuitarList([]));
       dispatch(setProductsLoadingStatus(false, true));
