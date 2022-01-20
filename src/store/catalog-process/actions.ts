@@ -20,7 +20,7 @@ export const setMinMaxPrice = createAction(
 
 export const setTotalItemsCount = createAction(
   CatalogActionType.SetTotalProductsCount,
-  (count: number) => ({payload: count}),
+  (count: number | undefined) => ({payload: count}),
 );
 
 export const setProductsLoadingStatus = createAction(

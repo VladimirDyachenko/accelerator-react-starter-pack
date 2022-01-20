@@ -9,7 +9,7 @@ const initialState: CatalogProcessState = {
     min: FallbackMinMaxPrice.min,
     max: FallbackMinMaxPrice.max,
   },
-  totalProductsCount: 0, //TODO поменять начальное значение на undefined, позволит реализовать редирект если текущая страница превышает максимальное число страниц
+  totalProductsCount: undefined,
   loadingStatus: {
     isLoading: true,
     isError: false,

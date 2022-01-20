@@ -8,6 +8,7 @@ import { fetchGuitarList } from 'store/api-actions';
 import { getMinMaxPrice, getTotalItemsCount } from 'store/catalog-process/selectors';
 import { SortOption } from 'types/types';
 import { ProductList, Filter, Sort } from './components/components';
+import { setTotalItemsCount } from 'store/catalog-process/actions';
 
 function CatalogPage(): JSX.Element {
   const history = useHistory();
@@ -57,9 +58,19 @@ function CatalogPage(): JSX.Element {
     fetchGuitars(`_start=${start}&${combinedQuery}`);
   }, [fetchGuitars, currentPage, combinedQuery]);
 
+  useEffect(() => function () {
+    dispatch(setTotalItemsCount(undefined));
+  }, [dispatch]);
+
   if (isNaN(currentPage) || currentPage < 1) {
     return (
-      <Redirect to={`${AppRoute.Catalog}/1`} />
+      <Redirect to={`${AppRoute.Catalog}/1${history.location.search}`} />
+    );
+  }
+
+  if (totalItems !== undefined && currentPage > Math.ceil(totalItems / ITEMS_PER_PAGE)) {
+    return (
+      <Redirect to={`${AppRoute.Catalog}/1${history.location.search}`} />
     );
   }
 
@@ -87,11 +98,13 @@ function CatalogPage(): JSX.Element {
             />
             <Sort onSortChange={onSortChange}/>
             <ProductList />
+
+            {totalItems !== undefined &&
             <Paginator
               currentPage={currentPage}
               itemsPerPage={ITEMS_PER_PAGE}
               totalItems={totalItems}
-            />
+            />}
           </div>
         </div>
       </main>

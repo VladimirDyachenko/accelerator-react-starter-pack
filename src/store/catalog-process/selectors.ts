@@ -5,6 +5,6 @@ export const getGuitarList = (state: State): Guitar[] => state[NameSpace.Catalog
 
 export const getMinMaxPrice = (state: State): { min: number, max: number } => state[NameSpace.Catalog].minMaxPrice;
 
-export const getTotalItemsCount = (state: State): number => state[NameSpace.Catalog].totalProductsCount;
+export const getTotalItemsCount = (state: State): number | undefined => state[NameSpace.Catalog].totalProductsCount;
 
 export const getLoadingStatus = (state: State): {isLoading:  boolean, isError: boolean} => state[NameSpace.Catalog].loadingStatus;
