@@ -3,5 +3,6 @@ import Footer from './footer/footer';
 import Breadcrumbs from './breadcrumbs/breadcrumbs';
 import Paginator from './paginator/paginator';
 import GuitarSearch from './guitar-search/guitar-search';
+import Spinner from './spinner/spinner';
 
-export { Header, Footer, Breadcrumbs, Paginator, GuitarSearch };
+export { Header, Footer, Breadcrumbs, Paginator, GuitarSearch, Spinner };
