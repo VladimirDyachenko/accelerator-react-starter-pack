@@ -3,7 +3,7 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 function GuitarSearch(): JSX.Element {
   const [searchTerm, setSearchTerm] = useState('');
-  const [guitarsList] = useGuitarSearch(searchTerm);
+  const [results] = useGuitarSearch(searchTerm);
   const [isOpen, setIsOpen] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const onClickOutside =() => {
@@ -16,12 +16,12 @@ function GuitarSearch(): JSX.Element {
   };
 
   useEffect(() => {
-    if (guitarsList.length > 0) {
+    if (results.data.length > 0 || results.error !== null) {
       setIsOpen(true);
     } else {
       setIsOpen(false);
     }
-  }, [guitarsList.length, searchTerm]);
+  }, [results.data.length, results.error, searchTerm]);
 
   return (
     <div className='form-search' ref={searchRef}>
@@ -44,7 +44,7 @@ function GuitarSearch(): JSX.Element {
           autoComplete='off'
           placeholder='что вы ищите?'
           onChange={onInputChange}
-          onFocus={() =>  guitarsList.length > 0 && setIsOpen(true)}
+          onFocus={() =>  results.data.length > 0 && setIsOpen(true)}
           data-testid='guitar-search-input'
         />
         <label className='visually-hidden' htmlFor='search'>
@@ -58,11 +58,16 @@ function GuitarSearch(): JSX.Element {
         className={`form-search__select-list ${isOpen ? '' : 'hidden'}`}
         data-testid='search-ul'
       >
-        {guitarsList.map((item) => (
+        {results.error === null && results.data.map((item) => (
           <li key={item.id} className='form-search__select-item' tabIndex={0}>
             {item.name}
           </li>
         ))}
+
+        {results.error &&
+        <li className='form-search__select-item' tabIndex={0}>
+          <span>Не удалось загрузить результаты</span>
+        </li>}
       </ul>
     </div>
   );

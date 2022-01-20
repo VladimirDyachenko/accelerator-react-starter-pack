@@ -7,7 +7,7 @@ const history = createMemoryHistory();
 let mockSearchList: {id: number, name: string}[] = [];
 
 jest.mock('hooks/hooks', () => ({
-  useGuitarSearch: (searchTerm: string) => [mockSearchList],
+  useGuitarSearch: (searchTerm: string) => [{data: mockSearchList, error: null}],
   useClickOutside: (
     elementRef: MutableRefObject<HTMLElement>,
     callback: (e: MouseEvent) => void,
