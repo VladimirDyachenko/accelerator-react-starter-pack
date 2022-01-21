@@ -23,7 +23,7 @@ describe('test async actions', () => {
   const middlewareList = [thunk.withExtraArgument(api)];
   const mockStore = configureMockStore<State, Action, ThunkDispatch<State, typeof api, Action>>(middlewareList);
 
-  it('fetchGuitarList: should set guitars data, total items count and minMax price when server respond with 200', async () => {
+  it('fetchGuitarList: should set guitars data and total items count when server respond with 200', async () => {
     const store = mockStore();
     const mockAPI = new MockAdapter(api);
 
@@ -31,8 +31,6 @@ describe('test async actions', () => {
       .fill(undefined)
       .map(generateGuitarMock);
     const totalItemsCountMock = guitarListMock.length;
-    guitarListMock[0].price = 200000;
-    guitarListMock[1].price = 0;
 
     mockAPI
       .onGet(/\/guitars/)
@@ -51,7 +49,6 @@ describe('test async actions', () => {
       setGuitarList(guitarListMock),
       setTotalItemsCount(totalItemsCountMock),
       setProductsLoadingStatus(false, false),
-      setMinMaxPrice(0, 200000),
     ]);
   });
 

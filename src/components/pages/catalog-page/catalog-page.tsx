@@ -3,9 +3,9 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory, useParams } from 'react-router-dom';
 import { Breadcrumbs, Footer, Header, Paginator } from 'components/common/common';
-import { AppRoute, FallbackMinMaxPrice, ITEMS_PER_PAGE } from 'const/const';
+import { AppRoute, FallbackMinMaxPrice, ITEMS_PER_PAGE, QueryParam } from 'const/const';
 import useCatalogFilter from 'hooks/use-catalog-filter/use-catalog-filter';
-import { fetchGuitarList } from 'store/api-actions';
+import { fetchGuitarList, fetchMinMaxPrice } from 'store/api-actions';
 import { getMinMaxPrice, getTotalItemsCount } from 'store/catalog-process/selectors';
 import { SortOption } from 'types/types';
 import { ProductList, Filter, Sort } from './components/components';
@@ -59,6 +59,27 @@ function CatalogPage(): JSX.Element {
     fetchGuitars(`_start=${start}&${combinedQuery}`);
   }, [fetchGuitars, currentPage, combinedQuery]);
 
+  // Обновление минимальной и максимальной цены в фильтре в зависимости от выбранного типа и количества струн
+  useEffect(() => {
+    const searchParams = new URLSearchParams();
+
+    Object.entries(filterState.selectedGuitarsTypes)
+      .forEach((element) => {
+        if (element[1]) {
+          searchParams.append(QueryParam.GuitarType, element[0]);
+        }
+      });
+
+    Object.entries(filterState.selectedStringsCounts)
+      .forEach((element) => {
+        if (element[1]) {
+          searchParams.append(QueryParam.StringCount, element[0]);
+        }
+      });
+
+    dispatch(fetchMinMaxPrice(`&${searchParams.toString()}`));
+  }, [dispatch, filterState.selectedStringsCounts, filterState.selectedGuitarsTypes]);
+
   useEffect(() => function () {
     dispatch(setTotalItemsCount(undefined));
     dispatch(setMinMaxPrice(FallbackMinMaxPrice.min, FallbackMinMaxPrice.max));
@@ -70,7 +91,7 @@ function CatalogPage(): JSX.Element {
     );
   }
 
-  if (totalItems !== undefined && currentPage > Math.ceil(totalItems / ITEMS_PER_PAGE)) {
+  if (totalItems !== undefined && currentPage > Math.max(Math.ceil(totalItems / ITEMS_PER_PAGE), 1)) {
     return (
       <Redirect to={`${AppRoute.Catalog}/1${history.location.search}`} />
     );
@@ -102,11 +123,7 @@ function CatalogPage(): JSX.Element {
             <ProductList />
 
             {totalItems !== undefined &&
-            <Paginator
-              currentPage={currentPage}
-              itemsPerPage={ITEMS_PER_PAGE}
-              totalItems={totalItems}
-            />}
+            <Paginator currentPage={currentPage} itemsPerPage={ITEMS_PER_PAGE} totalItems={totalItems} />}
           </div>
         </div>
       </main>
