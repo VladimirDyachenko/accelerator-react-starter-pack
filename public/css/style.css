@@ -1389,7 +1389,7 @@ button,
 
 .button--black-border {
   color: #201f1f;
-  border: 1px solid #131212;
+  border: 2px solid #131212;
   background-color: #ffffff;
 }
 
@@ -2351,6 +2351,8 @@ button,
 
   -webkit-transform: rotate(180deg);
           transform: rotate(180deg);
+
+  pointer-events: none;
 }
 
 .page-content__title {
