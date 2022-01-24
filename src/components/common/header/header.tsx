@@ -1,3 +1,5 @@
+import { AppRoute } from 'const/const';
+import { Link, NavLink } from 'react-router-dom';
 import { GuitarSearch } from '../common';
 
 function Header(): JSX.Element {
@@ -16,26 +18,38 @@ function Header(): JSX.Element {
         <nav className='main-nav'>
           <ul className='main-nav__list'>
             <li>
-              <a className='link main-nav__link link--current' href='#todo'>
+              <NavLink
+                to={`${AppRoute.Catalog}/1`}
+                className='link main-nav__link'
+                activeClassName='link--current'
+              >
                 Каталог
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a className='link main-nav__link' href='#todo'>
+              <NavLink
+                to={'/page-404'}
+                className='link main-nav__link'
+                activeClassName='link--current'
+              >
                 Где купить?
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a className='link main-nav__link' href='#todo'>
+              <NavLink
+                to={'/page-404'}
+                className='link main-nav__link'
+                activeClassName='link--current'
+              >
                 О компании
-              </a>
+              </NavLink>
             </li>
           </ul>
         </nav>
 
         <GuitarSearch />
 
-        <a className='header__cart-link' href='#todo' aria-label='Корзина'>
+        <Link className='header__cart-link' to={AppRoute.Cart} aria-label='Корзина'>
           <svg
             className='header__cart-icon'
             width='14'
@@ -46,7 +60,7 @@ function Header(): JSX.Element {
           </svg>
           <span className='visually-hidden'>Перейти в корзину</span>
           <span className='header__cart-count'>2</span>
-        </a>
+        </Link>
       </div>
     </header>
 
