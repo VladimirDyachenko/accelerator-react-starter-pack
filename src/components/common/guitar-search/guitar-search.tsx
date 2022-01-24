@@ -1,11 +1,14 @@
+import { AppRoute } from 'const/const';
 import { useGuitarSearch,  useClickOutside} from 'hooks/hooks';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 function GuitarSearch(): JSX.Element {
   const [searchTerm, setSearchTerm] = useState('');
   const [results] = useGuitarSearch(searchTerm);
   const [isOpen, setIsOpen] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
+  const history = useHistory();
   const onClickOutside =() => {
     setIsOpen(false);
   };
@@ -22,6 +25,8 @@ function GuitarSearch(): JSX.Element {
       setIsOpen(false);
     }
   }, [results.data.length, results.error, searchTerm]);
+
+  const handleGuitarClick = (id: number) => history.push(`${AppRoute.Product}/${id}`);
 
   return (
     <div className='form-search' ref={searchRef}>
@@ -59,7 +64,7 @@ function GuitarSearch(): JSX.Element {
         data-testid='search-ul'
       >
         {results.error === null && results.data.map((item) => (
-          <li key={item.id} className='form-search__select-item' tabIndex={0}>
+          <li key={item.id} className='form-search__select-item' tabIndex={0} onClick={() => handleGuitarClick(item.id)}>
             {item.name}
           </li>
         ))}
