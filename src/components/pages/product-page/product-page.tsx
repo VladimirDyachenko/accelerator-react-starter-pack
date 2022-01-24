@@ -1,17 +1,60 @@
+import { useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
+import { fetchProductData } from 'store/api-actions';
+import { getProductData } from 'store/product-process/selectors';
+import { AppRoute, HttpCode } from 'const/const';
 import { Breadcrumbs, Footer, Header } from 'components/common/common';
-import { AppRoute } from 'const/const';
-import { useParams } from 'react-router-dom';
 import { ProductCard, Reviews } from './components/components';
 
 function ProductPage(): JSX.Element {
   const { id } = useParams<{id: string}>();
-  const productName = `Временное название гитары 666 ${id}`;
+  const dispatch = useDispatch();
+  const productData = useSelector(getProductData);
+  const history = useHistory();
+  const [isError, setIsError] = useState(false);
+  const productId = useMemo(() => parseInt(id, 10), [id]);
+
+  useEffect(() => {
+
+    if (isNaN(productId)) {
+      history.replace('/page-404');
+      return;
+    }
+
+    const onLoadError = (code: number) => {
+      setIsError(true);
+      if (code === HttpCode.NotFound) {
+        // без таймаута происходит обновление стэйта unmounted компонента, что приводит к ошибке
+        setTimeout(() => history.replace('/page-404'), 1);
+      }
+    };
+
+    dispatch(fetchProductData(productId, onLoadError));
+  }, [productId, dispatch, history]);
+
+  const productName = productData?.name || '';
+
+  if (isError) {
+    return (
+      <div className='wrapper'>
+        <Header />
+        <main className='page-content'>
+          <div className='container'>
+            <p style={{'textAlign': 'center', 'marginTop': '10%'}}>Ошибка загрузки</p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className='wrapper'>
       <Header />
 
       <main className='page-content'>
+        {productData && productData.id === productId &&
         <div className='container'>
           <h1 className='page-content__title title title--bigger'>{productName}</h1>
           <Breadcrumbs
@@ -23,9 +66,9 @@ function ProductPage(): JSX.Element {
               ]
             }
           />
-          <ProductCard />
+          <ProductCard product={productData}/>
           <Reviews />
-        </div>
+        </div>}
       </main>
 
       <Footer />

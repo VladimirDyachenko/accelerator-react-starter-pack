@@ -1,6 +1,8 @@
+import axios from 'axios';
 import { ApiRoute, FallbackMinMaxPrice, ITEMS_PER_PAGE } from 'const/const';
 import { Guitar, ThunkActionResult } from 'types/types';
 import { setGuitarList, setMinMaxPrice, setProductsLoadingStatus, setTotalItemsCount } from './catalog-process/actions';
+import { setProductData } from './product-process/actions';
 
 export const fetchGuitarList = (searchQuery = ''): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -39,5 +41,21 @@ export const fetchMinMaxPrice = (searchQuery = ''): ThunkActionResult =>
       dispatch(setMinMaxPrice(minPrice, maxPrice));
     } catch (error) {
       dispatch(setMinMaxPrice(FallbackMinMaxPrice.min, FallbackMinMaxPrice.max));
+    }
+  };
+
+export const fetchProductData = (id: number, onError: (code: number) => void): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    try {
+      const { data } = await api.get<Guitar>(`${ApiRoute.Guitars}/${id}`);
+
+      dispatch(setProductData(data));
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status !== undefined) {
+          onError(error.response.status);
+        }
+      }
+      onError(0);
     }
   };

@@ -1,8 +1,13 @@
-import { TabOption } from 'const/const';
+import { GuitarTypeDict, TabOption } from 'const/const';
 import { memo } from 'react';
 import { NavLink, Redirect, useLocation } from 'react-router-dom';
+import { Guitar } from 'types/types';
 
-function Tabs(): JSX.Element {
+type TabsProps = {
+  product: Guitar;
+}
+
+function Tabs({product}: TabsProps): JSX.Element {
   const location = useLocation();
 
   if (location.hash !== TabOption.Characteristics && location.hash !== TabOption.Description) {
@@ -34,25 +39,21 @@ function Tabs(): JSX.Element {
           <tbody>
             <tr className='tabs__table-row'>
               <td className='tabs__title'>Артикул:</td>
-              <td className='tabs__value'>SO754565</td>
+              <td className='tabs__value'>{product.vendorCode}</td>
             </tr>
             <tr className='tabs__table-row'>
               <td className='tabs__title'>Тип:</td>
-              <td className='tabs__value'>Электрогитара</td>
+              <td className='tabs__value'>{GuitarTypeDict[product.type]}</td>
             </tr>
             <tr className='tabs__table-row'>
               <td className='tabs__title'>Количество струн:</td>
-              <td className='tabs__value'>6 струнная</td>
+              <td className='tabs__value'>{product.stringCount} струнная</td>
             </tr>
 
           </tbody>
         </table>
         <p className={`tabs__product-description ${location.hash === TabOption.Description ? '' : 'hidden'}`}>
-          Гитара подходит как для старта обучения, так и для домашних
-          занятий или использования в полевых условиях, например, в
-          походах или для проведения уличных выступлений. Доступная
-          стоимость, качество и надежная конструкция, а также приятный
-          внешний вид, который сделает вас звездой вечеринки.
+          {product.description}
         </p>
       </div>
     </div>

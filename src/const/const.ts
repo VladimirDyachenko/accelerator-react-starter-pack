@@ -72,3 +72,13 @@ export const TabOption = {
   Characteristics: '#characteristics',
   Description: '#description',
 } as const;
+
+export const GuitarTypeDict = {
+  [GuitarType.Acoustic]: 'Акустическая',
+  [GuitarType.Ukulele]: 'Укулеле',
+  [GuitarType.Electric]: 'Электрогитара',
+} as const;
+
+export const HttpCode = {
+  NotFound: 404,
+};
