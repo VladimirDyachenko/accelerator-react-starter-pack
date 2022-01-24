@@ -49,7 +49,7 @@ function CatalogPage(): JSX.Element {
   }, [filterSearchQuery, sortSearchQuery]);
 
   useEffect(() => {
-    history.push({
+    history.replace({
       search: combinedQuery,
     });
   }, [history, combinedQuery]);

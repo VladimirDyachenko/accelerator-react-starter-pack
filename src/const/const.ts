@@ -67,3 +67,8 @@ export const QueryParam = {
 } as const;
 
 export const ITEMS_PER_PAGE = 9;
+
+export const TabOption = {
+  Characteristics: '#characteristics',
+  Description: '#description',
+} as const;
