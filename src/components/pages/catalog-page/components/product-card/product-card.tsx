@@ -34,7 +34,7 @@ function ProductCard({product}: ProductCardProps): JSX.Element {
           <svg width='12' height='11' aria-hidden='true'>
             <use xlinkHref={product.rating >= 5 ? '#icon-full-star' : '#icon-star'} />
           </svg>
-          <span className='rate__count' data-testid='string-count'>{product.stringCount}</span>
+          <span className='rate__count' data-testid='comments-count'>{product.comments.length}</span>
           <span className='rate__message'></span>
         </div>
         <p className='product-card__title' data-testid='product-name'>{product.name}</p>

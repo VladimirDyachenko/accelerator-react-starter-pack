@@ -27,8 +27,8 @@ describe('Component: ProductCard', () => {
       .toBe(mockGuitar.previewImg);
     expect(screen.getByTestId('product-image').getAttribute('alt'))
       .toBe(mockGuitar.name);
-    expect(screen.getByTestId('string-count').textContent)
-      .toBe(mockGuitar.stringCount.toString());
+    expect(screen.getByTestId('comments-count').textContent)
+      .toBe(mockGuitar.comments.length.toString());
     expect(screen.getByTestId('product-name').textContent)
       .toBe(mockGuitar.name);
   });
