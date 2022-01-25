@@ -1,13 +1,18 @@
 import { memo } from 'react';
+import { Comment } from 'types/types';
 
-function ReviewItem(): JSX.Element {
+type ReviewItemProps = {
+  review: Comment;
+}
+
+function ReviewItem({review}: ReviewItemProps): JSX.Element {
   return (
     <div className='review'>
       <div className='review__wrapper'>
         <h4 className='review__title review__title--author title title--lesser'>
-          Преображенская Ксения
+          {review.userName}
         </h4>
-        <span className='review__date'>12 декабря</span>
+        <span className='review__date'>{new Date(review.createAt).toLocaleDateString('ru-RU', {month: 'long', day: '2-digit'})}</span>
       </div>
       <div className='rate review__rating-panel' aria-hidden='true'>
         <span className='visually-hidden'>Рейтинг:</span>
@@ -33,20 +38,15 @@ function ReviewItem(): JSX.Element {
         Достоинства:
       </h4>
       <p className='review__value'>
-        Хороший корпус, чистый звук, стурны хорошего качества
+        {review.advantage}
       </p>
       <h4 className='review__title title title--lesser'>Недостатки:</h4>
-      <p className='review__value'>Тугие колонки</p>
+      <p className='review__value'>{review.disadvantage}</p>
       <h4 className='review__title title title--lesser'>
         Комментарий:
       </h4>
       <p className='review__value'>
-        У гитары отличный цвет, хороше дерево. Тяжелая, в компдлекте
-        неть чехла и ремня. У гитары отличный цвет, хороше дерево.
-        Тяжелая, в компдлекте неть чехла и ремня. У гитары отличный
-        цвет, хороше дерево. Тяжелая, в компдлекте неть чехла и ремня. У
-        гитары отличный цвет, хороше дерево. Тяжелая, в компдлекте неть
-        чехла и ремня.{' '}
+        {review.comment}
       </p>
     </div>
   );

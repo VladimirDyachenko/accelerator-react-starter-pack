@@ -1,7 +1,20 @@
-import { memo } from 'react';
+import React, { memo } from 'react';
+import { Comment } from 'types/types';
 import { ReviewItem } from '../components';
 
-function Reviews():JSX.Element {
+type ReviewsProps = {
+  reviews: Comment[],
+  pageStart: React.RefObject<HTMLElement>
+}
+
+function Reviews({reviews, pageStart}: ReviewsProps):JSX.Element {
+
+  const handleUpButtonClick = (event: React.MouseEvent) => {
+    event.preventDefault();
+    if (pageStart.current !== null) {
+      pageStart.current.scrollIntoView();
+    }
+  };
 
   return (
     <section className='reviews'>
@@ -14,11 +27,7 @@ function Reviews():JSX.Element {
         Оставить отзыв
       </a>
 
-      <ReviewItem />
-
-      <ReviewItem />
-
-      <ReviewItem />
+      {reviews.map((review) => <ReviewItem key={review.id} review={review} />)}
 
       <button className='button button--medium reviews__more-button'>
         Показать еще отзывы
@@ -26,6 +35,7 @@ function Reviews():JSX.Element {
 
       <a
         className='button button--up button--red-border button--big reviews__up-button'
+        onClick={handleUpButtonClick}
         href='#header'
       >
         Наверх

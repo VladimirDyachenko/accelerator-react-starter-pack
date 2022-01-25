@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { fetchProductData } from 'store/api-actions';
@@ -14,6 +14,7 @@ function ProductPage(): JSX.Element {
   const history = useHistory();
   const [isError, setIsError] = useState(false);
   const productId = useMemo(() => parseInt(id, 10), [id]);
+  const pageContentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
 
@@ -50,7 +51,7 @@ function ProductPage(): JSX.Element {
   }
 
   return (
-    <div className='wrapper'>
+    <div className='wrapper' ref={pageContentRef}>
       <Header />
 
       <main className='page-content'>
@@ -67,7 +68,7 @@ function ProductPage(): JSX.Element {
             }
           />
           <ProductCard product={productData}/>
-          <Reviews />
+          <Reviews reviews={productData.comments} pageStart={pageContentRef}/>
         </div>}
       </main>
 

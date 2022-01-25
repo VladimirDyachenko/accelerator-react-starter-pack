@@ -1,10 +1,9 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { ProductProcess } from 'types/store/product-process';
-import { setComments, setProductData } from './actions';
+import { setProductData } from './actions';
 
 const initialState: ProductProcess = {
   product: undefined,
-  comments: [],
 };
 
 const productProcess = createReducer(
@@ -12,10 +11,8 @@ const productProcess = createReducer(
   (builder) => {
     builder
       .addCase(setProductData, (state, action) => {
+        action.payload.comments.sort((a, b) => Date.parse(b.createAt) - Date.parse(a.createAt));
         state.product = action.payload;
-      })
-      .addCase(setComments, (state, action) => {
-        state.comments = action.payload;
       });
   },
 );

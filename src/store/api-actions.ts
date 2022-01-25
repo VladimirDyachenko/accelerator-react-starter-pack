@@ -47,7 +47,7 @@ export const fetchMinMaxPrice = (searchQuery = ''): ThunkActionResult =>
 export const fetchProductData = (id: number, onError: (code: number) => void): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     try {
-      const { data } = await api.get<Guitar>(`${ApiRoute.Guitars}/${id}`);
+      const { data } = await api.get<Guitar>(`${ApiRoute.Guitars}/${id}?_embed=comments`);
 
       dispatch(setProductData(data));
     } catch (error: unknown) {
