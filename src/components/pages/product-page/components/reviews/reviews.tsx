@@ -1,16 +1,17 @@
 import { REVIEWS_PER_STEP } from 'const/const';
-import React, { memo, useMemo, useState } from 'react';
+import useIntersectionObserver from 'hooks/use-intersection-observer/use-intersection-observer';
+import { memo, useEffect, useMemo, useRef, useState, MouseEvent, RefObject } from 'react';
 import { Comment } from 'types/types';
 import { ReviewItem } from '../components';
 
 type ReviewsProps = {
   reviews: Comment[],
-  pageStart: React.RefObject<HTMLElement>
+  pageStart: RefObject<HTMLElement>
 }
 
 function Reviews({reviews, pageStart}: ReviewsProps):JSX.Element {
 
-  const handleUpButtonClick = (event: React.MouseEvent) => {
+  const handleUpButtonClick = (event: MouseEvent) => {
     event.preventDefault();
     if (pageStart.current !== null) {
       pageStart.current.scrollIntoView();
@@ -20,6 +21,15 @@ function Reviews({reviews, pageStart}: ReviewsProps):JSX.Element {
   const [amountToRender, setAmountToRender] = useState(REVIEWS_PER_STEP);
   const isCanRenderMore = useMemo(() => amountToRender < reviews.length, [amountToRender, reviews.length]);
   const reviewToRender = useMemo(() => reviews.slice(0, amountToRender), [reviews, amountToRender]);
+  const ref = useRef<HTMLButtonElement>(null);
+
+  const [entry] = useIntersectionObserver(ref, {rootMargin: '50px'});
+
+  useEffect(() => {
+    if (entry && entry.isIntersecting && isCanRenderMore) {
+      setAmountToRender((amount) => amount + REVIEWS_PER_STEP);
+    }
+  }, [entry, isCanRenderMore]);
 
   return (
     <section className='reviews'>
@@ -37,6 +47,7 @@ function Reviews({reviews, pageStart}: ReviewsProps):JSX.Element {
 
       {isCanRenderMore &&
       <button
+        ref={ref}
         className='button button--medium reviews__more-button'
         onClick={() => setAmountToRender((amount) => amount + REVIEWS_PER_STEP)}
       >
