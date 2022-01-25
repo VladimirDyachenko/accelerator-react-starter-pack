@@ -82,3 +82,5 @@ export const GuitarTypeDict = {
 export const HttpCode = {
   NotFound: 404,
 };
+
+export const REVIEWS_PER_STEP = 3;

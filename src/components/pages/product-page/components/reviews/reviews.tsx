@@ -1,4 +1,5 @@
-import React, { memo } from 'react';
+import { REVIEWS_PER_STEP } from 'const/const';
+import React, { memo, useMemo, useState } from 'react';
 import { Comment } from 'types/types';
 import { ReviewItem } from '../components';
 
@@ -16,6 +17,10 @@ function Reviews({reviews, pageStart}: ReviewsProps):JSX.Element {
     }
   };
 
+  const [amountToRender, setAmountToRender] = useState(REVIEWS_PER_STEP);
+  const isCanRenderMore = useMemo(() => amountToRender < reviews.length, [amountToRender, reviews.length]);
+  const reviewToRender = useMemo(() => reviews.slice(0, amountToRender), [reviews, amountToRender]);
+
   return (
     <section className='reviews'>
       <h3 className='reviews__title title title--bigger'>Отзывы</h3>
@@ -27,11 +32,16 @@ function Reviews({reviews, pageStart}: ReviewsProps):JSX.Element {
         Оставить отзыв
       </a>
 
-      {reviews.map((review) => <ReviewItem key={review.id} review={review} />)}
+      {reviewToRender.length > 0 && reviewToRender.map((review) => <ReviewItem key={review.id} review={review} />)}
+      {reviewToRender.length === 0 && <p>Отзывов еще нет</p>}
 
-      <button className='button button--medium reviews__more-button'>
+      {isCanRenderMore &&
+      <button
+        className='button button--medium reviews__more-button'
+        onClick={() => setAmountToRender((amount) => amount + REVIEWS_PER_STEP)}
+      >
         Показать еще отзывы
-      </button>
+      </button>}
 
       <a
         className='button button--up button--red-border button--big reviews__up-button'
