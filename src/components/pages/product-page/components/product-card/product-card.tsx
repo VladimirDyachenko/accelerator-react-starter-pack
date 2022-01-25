@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { Guitar } from 'types/types';
+import { RateStars } from 'components/common/common';
 import { Tabs } from '../components';
 
 type ProductCardProps = {
@@ -20,33 +21,15 @@ function ProductCard({ product }: ProductCardProps): JSX.Element {
         <h2 className='product-container__title title title--big title--uppercase'>
           {product.name}
         </h2>
-        <div
-          className='rate product-container__rating'
-          aria-hidden='true'
-        >
-          {/* TODO вынести в отдельный компонент */}
-          <span className='visually-hidden'>Рейтинг:</span>
-          <svg width='14' height='14' aria-hidden='true'>
-            <use xlinkHref='#icon-full-star'></use>
-          </svg>
-          <svg width='14' height='14' aria-hidden='true'>
-            <use xlinkHref='#icon-full-star'></use>
-          </svg>
-          <svg width='14' height='14' aria-hidden='true'>
-            <use xlinkHref='#icon-full-star'></use>
-          </svg>
-          <svg width='14' height='14' aria-hidden='true'>
-            <use xlinkHref='#icon-full-star'></use>
-          </svg>
-          <svg width='14' height='14' aria-hidden='true'>
-            <use xlinkHref='#icon-star'></use>
-          </svg>
-          <span className='rate__count'>{product.comments.length}</span>
-          <span className='rate__message'></span>
-        </div>
+
+        <RateStars
+          size={{width: 14, height: 14}}
+          rating={product.rating}
+          rateCount={product.comments.length}
+          additionalContainerClassName='product-container__rating'
+        />
 
         <Tabs product={product}/>
-
       </div>
 
       <div className='product-container__price-wrapper'>

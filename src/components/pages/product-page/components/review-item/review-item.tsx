@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { Comment } from 'types/types';
+import { RateStars } from 'components/common/common';
 
 type ReviewItemProps = {
   review: Comment;
@@ -14,26 +15,13 @@ function ReviewItem({review}: ReviewItemProps): JSX.Element {
         </h4>
         <span className='review__date'>{new Date(review.createAt).toLocaleDateString('ru-RU', {month: 'long', day: '2-digit'})}</span>
       </div>
-      <div className='rate review__rating-panel' aria-hidden='true'>
-        <span className='visually-hidden'>Рейтинг:</span>
-        <svg width='16' height='16' aria-hidden='true'>
-          <use xlinkHref='#icon-full-star'></use>
-        </svg>
-        <svg width='16' height='16' aria-hidden='true'>
-          <use xlinkHref='#icon-full-star'></use>
-        </svg>
-        <svg width='16' height='16' aria-hidden='true'>
-          <use xlinkHref='#icon-full-star'></use>
-        </svg>
-        <svg width='16' height='16' aria-hidden='true'>
-          <use xlinkHref='#icon-full-star'></use>
-        </svg>
-        <svg width='16' height='16' aria-hidden='true'>
-          <use xlinkHref='#icon-star'></use>
-        </svg>
-        <span className='rate__count'></span>
-        <span className='rate__message'></span>
-      </div>
+
+      <RateStars
+        size={{width: 16, height: 16}}
+        rating={review.rating}
+        additionalContainerClassName='review__rating-panel'
+      />
+
       <h4 className='review__title title title--lesser'>
         Достоинства:
       </h4>

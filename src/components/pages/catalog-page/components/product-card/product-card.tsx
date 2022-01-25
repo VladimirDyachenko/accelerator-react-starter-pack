@@ -1,6 +1,7 @@
-import { AppRoute } from 'const/const';
 import { Link } from 'react-router-dom';
 import { Guitar } from 'types/types';
+import { AppRoute } from 'const/const';
+import { RateStars } from 'components/common/common';
 
 type ProductCardProps = {
   product: Guitar;
@@ -17,29 +18,16 @@ function ProductCard({product}: ProductCardProps): JSX.Element {
         data-testid='product-image'
       />
       <div className='product-card__info'>
-        <div className='rate product-card__rate' aria-hidden='true'>
-          <span className='visually-hidden'>Рейтинг:</span>
-          <svg width='12' height='11' aria-hidden='true'>
-            <use xlinkHref={product.rating >= 1 ? '#icon-full-star' : '#icon-star'} />
-          </svg>
-          <svg width='12' height='11' aria-hidden='true'>
-            <use xlinkHref={product.rating >= 2 ? '#icon-full-star' : '#icon-star'} />
-          </svg>
-          <svg width='12' height='11' aria-hidden='true'>
-            <use xlinkHref={product.rating >= 3 ? '#icon-full-star' : '#icon-star'} />
-          </svg>
-          <svg width='12' height='11' aria-hidden='true'>
-            <use xlinkHref={product.rating >= 4 ? '#icon-full-star' : '#icon-star'} />
-          </svg>
-          <svg width='12' height='11' aria-hidden='true'>
-            <use xlinkHref={product.rating >= 5 ? '#icon-full-star' : '#icon-star'} />
-          </svg>
-          <span className='rate__count' data-testid='comments-count'>{product.comments.length}</span>
-          <span className='rate__message'></span>
-        </div>
+        <RateStars
+          size={{width: 12, height: 11}}
+          rating={product.rating}
+          rateCount={product.comments.length}
+          additionalContainerClassName='product-card__rate'
+        />
+
         <p className='product-card__title' data-testid='product-name'>{product.name}</p>
         <p className='product-card__price'>
-          <span className='visually-hidden'>Цена:</span>{product.price} ₽
+          <span className='visually-hidden'>Цена:</span>{product.price.toLocaleString('ru-RU', {minimumFractionDigits: 0, maximumFractionDigits: 2})} ₽
         </p>
       </div>
       <div className='product-card__buttons'>
