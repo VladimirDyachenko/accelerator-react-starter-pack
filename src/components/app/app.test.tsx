@@ -10,7 +10,8 @@ import { createApi } from 'services/api';
 import { State } from 'types/types';
 import { NameSpace } from 'store/root-reducer';
 import App from './app';
-import { AppRoute } from 'const/const';
+import { ApiRoute, AppRoute } from 'const/const';
+import { generateGuitarMock } from 'mock/generate-guitar-mock';
 
 const api = createApi();
 const mockAPI = new MockAdapter(api);
@@ -18,6 +19,8 @@ const middlewares = [thunk.withExtraArgument(api)];
 const mockStore = configureMockStore<State, Action, ThunkDispatch<State, typeof api, Action>>(middlewares);
 
 const history = createMemoryHistory();
+const productMock = generateGuitarMock();
+productMock.id = 1;
 
 const store = mockStore({
   [NameSpace.Catalog]: {
@@ -32,6 +35,8 @@ const store = mockStore({
       isError: false,
     },
   },
+  [NameSpace.Product]: {product: productMock},
+
 });
 
 describe('App routing', () => {
@@ -85,6 +90,9 @@ describe('App routing', () => {
 
   it(`should render "ProductPage" when user navigate "${AppRoute.Product}"`, () => {
     history.push(`${AppRoute.Product}/1`);
+    mockAPI
+      .onGet(`${ApiRoute.Guitars}/${productMock.id}?_embed=comments`)
+      .reply(200, productMock);
 
     render(
       <Provider store={store}>
@@ -94,7 +102,7 @@ describe('App routing', () => {
       </Provider>,
     );
 
-    expect(screen.queryAllByRole('heading')[0]).toHaveTextContent('Товар');
+    expect(screen.queryAllByRole('heading')[0]).toHaveTextContent(productMock.name);
   });
 
   it(`should redirect to "${AppRoute.Catalog}/1" when user navigate "${AppRoute.Home}"`, () => {

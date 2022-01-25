@@ -57,7 +57,9 @@ function ProductPage(): JSX.Element {
       <main className='page-content'>
         {productData && productData.id === productId &&
         <div className='container'>
-          <h1 className='page-content__title title title--bigger'>{productName}</h1>
+          <h1 className='page-content__title title title--bigger' data-testid='product-page-title'>
+            {productName}
+          </h1>
           <Breadcrumbs
             items={
               [
