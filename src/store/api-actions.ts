@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { ApiRoute, FallbackMinMaxPrice, ITEMS_PER_PAGE } from 'const/const';
-import { Guitar, ThunkActionResult } from 'types/types';
+import { Comment, CommentPost, Guitar, ThunkActionResult } from 'types/types';
 import { setGuitarList, setMinMaxPrice, setProductsLoadingStatus, setTotalItemsCount } from './catalog-process/actions';
-import { setProductData } from './product-process/actions';
+import { addProductComment, setProductData } from './product-process/actions';
 
 export const fetchGuitarList = (searchQuery = ''): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -57,5 +57,16 @@ export const fetchProductData = (id: number, onError: (code: number) => void): T
         }
       }
       onError(0);
+    }
+  };
+
+export const addComment = (commentPost: CommentPost, onSuccess: () => void, onError: () => void): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    try {
+      const { data } = await api.post<Comment>(ApiRoute.Comments, commentPost);
+      dispatch(addProductComment(data));
+      onSuccess();
+    } catch (error) {
+      onError();
     }
   };

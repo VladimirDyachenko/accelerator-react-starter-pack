@@ -5,5 +5,6 @@ import Paginator from './paginator/paginator';
 import GuitarSearch from './guitar-search/guitar-search';
 import Spinner from './spinner/spinner';
 import RateStars from './rate-stars/rate-stars';
+import ModalContainer from './modal-container/modal-container';
 
-export { Header, Footer, Breadcrumbs, Paginator, GuitarSearch, Spinner, RateStars };
+export { Header, Footer, Breadcrumbs, Paginator, GuitarSearch, Spinner, RateStars, ModalContainer};

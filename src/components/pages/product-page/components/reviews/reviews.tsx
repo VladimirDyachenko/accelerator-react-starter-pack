@@ -1,26 +1,24 @@
+import { memo, useEffect, useMemo, useRef, useState, MouseEvent, RefObject, useCallback } from 'react';
+import { Comment, CommentPost } from 'types/types';
 import { REVIEWS_PER_STEP } from 'const/const';
 import useIntersectionObserver from 'hooks/use-intersection-observer/use-intersection-observer';
-import { memo, useEffect, useMemo, useRef, useState, MouseEvent, RefObject } from 'react';
-import { Comment } from 'types/types';
-import { ReviewItem } from '../components';
+import { AddReviewModal, AddReviewSuccessModal, ReviewItem } from '../components';
+import { ModalContainer } from 'components/common/common';
+import { useDispatch } from 'react-redux';
+import { addComment } from 'store/api-actions';
 
 type ReviewsProps = {
   reviews: Comment[],
   pageStart: RefObject<HTMLElement>
+  guitarData: { id: number; name: string; }
 }
 
-function Reviews({reviews, pageStart}: ReviewsProps):JSX.Element {
+function Reviews({reviews, pageStart, guitarData}: ReviewsProps):JSX.Element {
 
-  const handleUpButtonClick = (event: MouseEvent) => {
-    event.preventDefault();
-    if (pageStart.current !== null) {
-      pageStart.current.scrollIntoView();
-    }
-  };
-
+  const dispatch = useDispatch();
   const [amountToRender, setAmountToRender] = useState(REVIEWS_PER_STEP);
   const isCanRenderMore = useMemo(() => amountToRender < reviews.length, [amountToRender, reviews.length]);
-  const reviewToRender = useMemo(() => reviews.slice(0, amountToRender), [reviews, amountToRender]);
+  const reviewsToRender = useMemo(() => reviews.slice(0, amountToRender), [reviews, amountToRender]);
   const ref = useRef<HTMLButtonElement>(null);
 
   const [entry] = useIntersectionObserver(ref, {rootMargin: '50px'});
@@ -31,37 +29,80 @@ function Reviews({reviews, pageStart}: ReviewsProps):JSX.Element {
     }
   }, [entry, isCanRenderMore]);
 
+  const [openedModal, setOpenedModal] = useState<'addReview' | 'success' | undefined>(undefined);
+  const onModalClose = useCallback(() => setOpenedModal(undefined), [setOpenedModal]);
+
+  const handleAddReviewClick = (event: MouseEvent) => {
+    event.preventDefault();
+    setOpenedModal('addReview');
+  };
+
+  const onReviewSubmit = useCallback((comment: CommentPost, onError: () => void) => {
+    // eslint-disable-next-line no-console
+    console.log(JSON.stringify(comment, null, 2));
+
+    const onSuccess = () => setOpenedModal('success');
+
+    dispatch(addComment(comment, onSuccess, onError));
+  }, [dispatch]);
+
+  const handleUpButtonClick = (event: MouseEvent) => {
+    event.preventDefault();
+    if (pageStart.current !== null) {
+      pageStart.current.scrollIntoView();
+    }
+  };
+
   return (
-    <section className='reviews'>
-      <h3 className='reviews__title title title--bigger'>Отзывы</h3>
+    <>
+      <section className='reviews'>
+        <h3 className='reviews__title title title--bigger'>Отзывы</h3>
 
-      <a
-        className='button button--red-border button--big reviews__sumbit-button'
-        href='#temp'
+        <a
+          className='button button--red-border button--big reviews__sumbit-button'
+          href='#temp'
+          onClick={handleAddReviewClick}
+        >
+          Оставить отзыв
+        </a>
+
+        {reviewsToRender.length > 0 && reviewsToRender.map((review) => <ReviewItem key={review.id} review={review} />)}
+        {reviewsToRender.length === 0 && <p>Отзывов еще нет</p>}
+
+        {isCanRenderMore &&
+        <button
+          ref={ref}
+          className='button button--medium reviews__more-button'
+          onClick={() => setAmountToRender((amount) => amount + REVIEWS_PER_STEP)}
+        >
+          Показать еще отзывы
+        </button>}
+
+        <a
+          className='button button--up button--red-border button--big reviews__up-button'
+          onClick={handleUpButtonClick}
+          href='#header'
+        >
+          Наверх
+        </a>
+      </section>
+
+      <ModalContainer
+        isModalOpen={openedModal !== undefined}
+        onModalClose={onModalClose}
+        wrapperClassName={`${openedModal === 'addReview' ? 'modal--review' : 'modal--success'}`}
       >
-        Оставить отзыв
-      </a>
 
-      {reviewToRender.length > 0 && reviewToRender.map((review) => <ReviewItem key={review.id} review={review} />)}
-      {reviewToRender.length === 0 && <p>Отзывов еще нет</p>}
+        {openedModal === 'addReview' &&
+        <AddReviewModal
+          guitarData={guitarData}
+          onSubmit={(comment, onError) => onReviewSubmit(comment, onError)}
+          onModalClose={onModalClose}
+        />}
 
-      {isCanRenderMore &&
-      <button
-        ref={ref}
-        className='button button--medium reviews__more-button'
-        onClick={() => setAmountToRender((amount) => amount + REVIEWS_PER_STEP)}
-      >
-        Показать еще отзывы
-      </button>}
-
-      <a
-        className='button button--up button--red-border button--big reviews__up-button'
-        onClick={handleUpButtonClick}
-        href='#header'
-      >
-        Наверх
-      </a>
-    </section>
+        {openedModal === 'success' && <AddReviewSuccessModal onModalClose={onModalClose} />}
+      </ModalContainer>
+    </>
   );
 }
 

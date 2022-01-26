@@ -70,7 +70,7 @@ function ProductPage(): JSX.Element {
             }
           />
           <ProductCard product={productData}/>
-          <Reviews reviews={productData.comments} pageStart={pageContentRef}/>
+          <Reviews reviews={productData.comments} pageStart={pageContentRef} guitarData={{id: productData.id, name: productData.name}}/>
         </div>}
       </main>
 
