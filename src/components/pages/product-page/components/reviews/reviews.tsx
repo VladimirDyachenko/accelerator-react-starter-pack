@@ -37,10 +37,7 @@ function Reviews({reviews, pageStart, guitarData}: ReviewsProps):JSX.Element {
     setOpenedModal('addReview');
   };
 
-  const onReviewSubmit = useCallback((comment: CommentPost, onError: () => void) => {
-    // eslint-disable-next-line no-console
-    console.log(JSON.stringify(comment, null, 2));
-
+  const onReviewSubmit = useCallback((comment: CommentPost, onError: (message: string[]) => void) => {
     const onSuccess = () => setOpenedModal('success');
 
     dispatch(addComment(comment, onSuccess, onError));
@@ -88,7 +85,7 @@ function Reviews({reviews, pageStart, guitarData}: ReviewsProps):JSX.Element {
       </section>
 
       <ModalContainer
-        isModalOpen={openedModal !== undefined}
+        modalName={openedModal}
         onModalClose={onModalClose}
         wrapperClassName={`${openedModal === 'addReview' ? 'modal--review' : 'modal--success'}`}
       >

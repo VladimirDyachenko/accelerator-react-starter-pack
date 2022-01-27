@@ -3,7 +3,7 @@ import { CommentPost } from 'types/types';
 
 type AddReviewModalProps = {
   guitarData: {id: number, name: string};
-  onSubmit: (comment: CommentPost, onError: () => void) => void;
+  onSubmit: (comment: CommentPost, onError: (message: string[]) => void) => void;
   onModalClose: () => void;
 };
 
@@ -13,16 +13,30 @@ function AddReviewModal({guitarData, onSubmit, onModalClose}: AddReviewModalProp
   const [advantage, setAdvantage] = useState('');
   const [disadvantage, setDisadvantage] = useState('');
   const [comment, setComment] = useState('');
-  const [formValidity, setFormValidity] = useState({name: true, rating: true});
+  const [formValidity, setFormValidity] = useState(
+    { userName: true, rating: true, advantage: true, disadvantage: true, comment: true },
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessages, setErrorMessages] = useState<Array<string>>();
 
   const validateForm = () => {
     const isNameValid = userName.length > 0;
     const isRatingValid = rating !== '';
+    const isAdvantageValid = advantage !== '';
+    const isDisadvantageValid = disadvantage !== '';
+    const isCommentValid = comment !== '';
 
-    setFormValidity({rating: isRatingValid, name: isNameValid});
+    setFormValidity({
+      userName: isNameValid,
+      rating: isRatingValid,
+      advantage: isAdvantageValid,
+      disadvantage: isDisadvantageValid,
+      comment: isCommentValid,
+    });
 
-    return isNameValid && isRatingValid;
+    return isNameValid && isRatingValid
+    && isAdvantageValid && isDisadvantageValid
+    && isCommentValid;
   };
 
   const handleFormSubmit = (event: FormEvent) => {
@@ -42,8 +56,9 @@ function AddReviewModal({guitarData, onSubmit, onModalClose}: AddReviewModalProp
       comment: comment,
     };
 
-    const onError = () => {
+    const onError = (message: string[]) => {
       setIsSubmitting(false);
+      setErrorMessages(message);
     };
 
     onSubmit(commentPost, onError);
@@ -64,7 +79,7 @@ function AddReviewModal({guitarData, onSubmit, onModalClose}: AddReviewModalProp
                 value={userName} onChange={(event) => setUserName(event.target.value)}
               />
 
-              {!formValidity.name && <span className='form-review__warning'>Заполните поле</span>}
+              {!formValidity.userName && <span className='form-review__warning'>Заполните поле</span>}
             </div>
             <div>
               <span className='form-review__label form-review__label--required'>Ваша Оценка</span>
@@ -105,23 +120,26 @@ function AddReviewModal({guitarData, onSubmit, onModalClose}: AddReviewModalProp
               </div>
             </div>
           </div>
-          <label className='form-review__label' htmlFor='pros'>Достоинства</label>
+          <label className='form-review__label form-review__label--required' htmlFor='pros'>Достоинства</label>
           <input
             className='form-review__input' id='pros' type='text' autoComplete='off'
             value={advantage} onChange={(event) => setAdvantage(event.target.value)}
           />
+          {!formValidity.advantage && <span className='form-review__warning'>Заполните поле</span>}
 
-          <label className='form-review__label' htmlFor='cons'>Недостатки</label>
+          <label className='form-review__label form-review__label--required' htmlFor='cons'>Недостатки</label>
           <input
             className='form-review__input' id='cons' type='text' autoComplete='off'
             value={disadvantage} onChange={(event) => setDisadvantage(event.target.value)}
           />
+          {!formValidity.disadvantage && <span className='form-review__warning'>Заполните поле</span>}
 
-          <label className='form-review__label' htmlFor='comment'>Комментарий</label>
+          <label className='form-review__label form-review__label--required' htmlFor='comment'>Комментарий</label>
           <textarea
             className='form-review__input form-review__input--textarea' id='comment' rows={10} autoComplete='off'
             value={comment} onChange={(event) => setComment(event.target.value)}
           />
+          {!formValidity.comment && <span className='form-review__warning'>Заполните поле</span>}
 
           <button
             className='button button--medium-20 form-review__button'
@@ -129,6 +147,9 @@ function AddReviewModal({guitarData, onSubmit, onModalClose}: AddReviewModalProp
           >
             Отправить отзыв
           </button>
+          {errorMessages &&
+          errorMessages.map((message) => <span key={message} className='form-review__warning'>{message}</span>)}
+
         </fieldset>
       </form>
 

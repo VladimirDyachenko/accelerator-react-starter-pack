@@ -1,12 +1,12 @@
 import { memo, PropsWithChildren, useEffect } from 'react';
 
 type ModalContainerProps = PropsWithChildren<{
-  isModalOpen: boolean;
+  modalName: string | undefined;
   wrapperClassName?: string;
   onModalClose: () => void;
 }>
 
-function ModalContainer({isModalOpen, wrapperClassName, onModalClose, children}: ModalContainerProps): JSX.Element {
+function ModalContainer({modalName, wrapperClassName, onModalClose, children}: ModalContainerProps): JSX.Element {
   // Закрытие по нажатию Escape и выключение скролла
   useEffect(() => {
     const handleKeydown = (event: KeyboardEvent) => {
@@ -14,16 +14,16 @@ function ModalContainer({isModalOpen, wrapperClassName, onModalClose, children}:
         onModalClose();
       }
     };
-    if (isModalOpen) {
-      document.querySelector('body')?.classList.add('scroll-lock-ios', 'scroll-lock');
+    if (modalName) {
+      document.querySelector('body')?.classList.add('scroll-lock');
       window.addEventListener('keydown', handleKeydown);
     }
 
     return () => {
-      document.querySelector('body')?.classList.remove('scroll-lock-ios', 'scroll-lock');
+      document.querySelector('body')?.classList.remove('scroll-lock');
       window.removeEventListener('keydown', handleKeydown);
     };
-  }, [onModalClose, isModalOpen]);
+  }, [onModalClose, modalName]);
 
   // Ловушка фокуса
   useEffect(() => {
@@ -42,7 +42,7 @@ function ModalContainer({isModalOpen, wrapperClassName, onModalClose, children}:
       (focusableElementsInModal[0] as HTMLElement).focus();
     };
 
-    if (isModalOpen) {
+    if (modalName) {
       document.addEventListener('focusin', handleFocusEvent);
     }
 
@@ -50,10 +50,10 @@ function ModalContainer({isModalOpen, wrapperClassName, onModalClose, children}:
       document.removeEventListener('focusin', handleFocusEvent);
     };
 
-  }, [isModalOpen]);
+  }, [modalName]);
 
   return (
-    <div className={`modal ${isModalOpen ? 'is-active' : ''} ${wrapperClassName ?? ''}`} >
+    <div className={`modal ${modalName !== undefined ? 'is-active' : ''} ${wrapperClassName ?? ''}`} >
       <div className="modal__wrapper">
         <div className="modal__overlay" data-close-modal onClick={onModalClose} />
         {children}

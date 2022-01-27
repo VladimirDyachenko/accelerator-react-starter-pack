@@ -60,13 +60,21 @@ export const fetchProductData = (id: number, onError: (code: number) => void): T
     }
   };
 
-export const addComment = (commentPost: CommentPost, onSuccess: () => void, onError: () => void): ThunkActionResult =>
+export const addComment = (
+  commentPost: CommentPost,
+  onSuccess: () => void,
+  onError: (messages: string[]) => void,
+): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     try {
       const { data } = await api.post<Comment>(ApiRoute.Comments, commentPost);
       dispatch(addProductComment(data));
       onSuccess();
     } catch (error) {
-      onError();
+      if (axios.isAxiosError(error)) {
+        onError(error.response?.data.messages as string[] ?? ['Произошла ошибка']);
+        return;
+      }
+      onError(['Произошла ошибка']);
     }
   };
