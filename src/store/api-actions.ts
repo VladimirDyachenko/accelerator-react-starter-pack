@@ -72,7 +72,7 @@ export const addComment = (
       onSuccess();
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        onError(error.response?.data.messages as string[] ?? ['Произошла ошибка']);
+        onError(error.response?.data?.messages as string[] ?? ['Произошла ошибка']);
         return;
       }
       onError(['Произошла ошибка']);

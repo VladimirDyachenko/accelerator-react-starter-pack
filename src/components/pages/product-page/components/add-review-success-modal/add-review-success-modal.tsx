@@ -24,6 +24,7 @@ function AddReviewSuccessModal({onModalClose}: AddReviewSuccessModalProps) {
       <button
         className='modal__close-btn button-cross'
         type='button' aria-label='Закрыть'
+        data-testid='add-review-success'
         onClick={onModalClose}
       >
         <span className='button-cross__icon'></span>

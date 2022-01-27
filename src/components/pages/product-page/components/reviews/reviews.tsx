@@ -59,6 +59,7 @@ function Reviews({reviews, pageStart, guitarData}: ReviewsProps):JSX.Element {
           className='button button--red-border button--big reviews__sumbit-button'
           href='#temp'
           onClick={handleAddReviewClick}
+          data-testid='reviews-button-add'
         >
           Оставить отзыв
         </a>
@@ -71,6 +72,7 @@ function Reviews({reviews, pageStart, guitarData}: ReviewsProps):JSX.Element {
           ref={ref}
           className='button button--medium reviews__more-button'
           onClick={() => setAmountToRender((amount) => amount + REVIEWS_PER_STEP)}
+          data-testid='reviews-button-load-more'
         >
           Показать еще отзывы
         </button>}
@@ -79,6 +81,7 @@ function Reviews({reviews, pageStart, guitarData}: ReviewsProps):JSX.Element {
           className='button button--up button--red-border button--big reviews__up-button'
           onClick={handleUpButtonClick}
           href='#header'
+          data-testid='reviews-button-up'
         >
           Наверх
         </a>

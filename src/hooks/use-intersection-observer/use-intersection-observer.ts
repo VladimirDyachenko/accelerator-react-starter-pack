@@ -1,7 +1,7 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
 
 function useIntersectionObserver(
-  elementRef: RefObject<HTMLElement>,
+  elementRef: RefObject<HTMLElement | null>,
   { root = null, rootMargin, threshold = 0 }: IntersectionObserverInit,
 ):  [IntersectionObserverEntry | undefined] {
 

@@ -12,7 +12,7 @@ function Tabs({product}: TabsProps): JSX.Element {
 
   if (location.hash !== TabOption.Characteristics && location.hash !== TabOption.Description) {
     return (
-      <Redirect to={{...location, hash: '#characteristics'}}/>
+      <Redirect to={{...location, hash: TabOption.Characteristics}}/>
     );
   }
 
@@ -21,8 +21,9 @@ function Tabs({product}: TabsProps): JSX.Element {
       <NavLink
         className='button button--medium tabs__button'
         activeClassName='button--black-border'
-        to={{hash: '#characteristics'}}
+        to={{hash: TabOption.Characteristics}}
         isActive={(_, { hash }) => hash === TabOption.Characteristics}
+        data-testid='tabs-link-characteristics'
       >
         Характеристики
       </NavLink>
@@ -31,6 +32,7 @@ function Tabs({product}: TabsProps): JSX.Element {
         activeClassName='button--black-border'
         to={{hash: '#description'}}
         isActive={(_, { hash }) => hash === TabOption.Description}
+        data-testid='tabs-link-description'
       >
         Описание
       </NavLink>
@@ -52,7 +54,10 @@ function Tabs({product}: TabsProps): JSX.Element {
 
           </tbody>
         </table>
-        <p className={`tabs__product-description ${location.hash === TabOption.Description ? '' : 'hidden'}`}>
+        <p
+          className={`tabs__product-description ${location.hash === TabOption.Description ? '' : 'hidden'}`}
+          data-testid='tabs-description-text'
+        >
           {product.description}
         </p>
       </div>

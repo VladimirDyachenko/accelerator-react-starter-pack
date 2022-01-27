@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { ProductProcess } from 'types/store/product-process';
+import { ProductProcess } from 'types/types';
 import { addProductComment, setProductData } from './actions';
 
 const initialState: ProductProcess = {

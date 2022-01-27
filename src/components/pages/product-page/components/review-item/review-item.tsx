@@ -10,7 +10,10 @@ function ReviewItem({review}: ReviewItemProps): JSX.Element {
   return (
     <div className='review'>
       <div className='review__wrapper'>
-        <h4 className='review__title review__title--author title title--lesser'>
+        <h4
+          className='review__title review__title--author title title--lesser'
+          data-testid='review-item-heading'
+        >
           {review.userName}
         </h4>
         <span className='review__date'>{new Date(review.createAt).toLocaleDateString('ru-RU', {month: 'long', day: '2-digit'})}</span>

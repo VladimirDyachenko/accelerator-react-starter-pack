@@ -26,7 +26,10 @@ function GuitarSearch(): JSX.Element {
     }
   }, [results.data.length, results.error, searchTerm]);
 
-  const handleGuitarClick = (id: number) => history.push(`${AppRoute.Product}/${id}`);
+  const handleGuitarClick = (id: number) => {
+    setIsOpen(false);
+    history.push(`${AppRoute.Product}/${id}`);
+  };
 
   return (
     <div className='form-search' ref={searchRef}>

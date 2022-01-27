@@ -66,8 +66,18 @@ function AddReviewModal({guitarData, onSubmit, onModalClose}: AddReviewModalProp
 
   return (
     <div className='modal__content'>
-      <h2 className='modal__header modal__header--review title title--medium'>Оставить отзыв</h2>
-      <h3 className='modal__product-name title title--medium-20 title--uppercase'>{guitarData.name}</h3>
+      <h2
+        className='modal__header modal__header--review title title--medium'
+        data-testid='add-review-heading'
+      >
+        Оставить отзыв
+      </h2>
+      <h3
+        className='modal__product-name title title--medium-20 title--uppercase'
+        data-testid='add-review-modal-heading'
+      >
+        {guitarData.name}
+      </h3>
       <form className='form-review' onSubmit={handleFormSubmit}>
         <fieldset disabled={isSubmitting} style={{'padding': '0', 'border': 'none'}}>
           <div className='form-review__wrapper'>
@@ -77,9 +87,16 @@ function AddReviewModal({guitarData, onSubmit, onModalClose}: AddReviewModalProp
                 className='form-review__input form-review__input--name'
                 id='user-name' type='text' autoComplete='off'
                 value={userName} onChange={(event) => setUserName(event.target.value)}
+                data-testid='add-review-modal-name-input'
               />
 
-              {!formValidity.userName && <span className='form-review__warning'>Заполните поле</span>}
+              {!formValidity.userName &&
+              <span
+                className='form-review__warning'
+                data-testid='add-review-modal-name-warning'
+              >
+                Заполните поле
+              </span>}
             </div>
             <div>
               <span className='form-review__label form-review__label--required'>Ваша Оценка</span>
@@ -88,35 +105,46 @@ function AddReviewModal({guitarData, onSubmit, onModalClose}: AddReviewModalProp
                 <input
                   className='visually-hidden' type='radio' id='star-5' name='rate' value='5'
                   checked={rating === '5'} onChange={(event) => setRating(event.target.value)}
+                  data-testid='add-review-modal-radio-input'
                 />
                 <label className='rate__label' htmlFor='star-5' title='Отлично'></label>
 
                 <input
                   className='visually-hidden' type='radio' id='star-4' name='rate' value='4'
                   checked={rating === '4'} onChange={(event) => setRating(event.target.value)}
+                  data-testid='add-review-modal-radio-input'
                 />
                 <label className='rate__label' htmlFor='star-4' title='Хорошо'></label>
 
                 <input
                   className='visually-hidden' type='radio' id='star-3' name='rate' value='3'
                   checked={rating === '3'} onChange={(event) => setRating(event.target.value)}
+                  data-testid='add-review-modal-radio-input'
                 />
                 <label className='rate__label' htmlFor='star-3' title='Нормально'></label>
 
                 <input
                   className='visually-hidden' type='radio' id='star-2' name='rate' value='2'
                   checked={rating === '2'} onChange={(event) => setRating(event.target.value)}
+                  data-testid='add-review-modal-radio-input'
                 />
                 <label className='rate__label' htmlFor='star-2' title='Плохо'></label>
 
                 <input
                   className='visually-hidden' type='radio' id='star-1' name='rate' value='1'
                   checked={rating === '1'} onChange={(event) => setRating(event.target.value)}
+                  data-testid='add-review-modal-radio-input'
                 />
                 <label className='rate__label' htmlFor='star-1' title='Ужасно'></label>
                 <span className='rate__count'></span>
 
-                {!formValidity.rating && <span className='rate__message'>Поставьте оценку</span>}
+                {!formValidity.rating &&
+                <span
+                  className='rate__message'
+                  data-testid='add-review-modal-rating-warning'
+                >
+                  Поставьте оценку
+                </span>}
               </div>
             </div>
           </div>
@@ -124,26 +152,47 @@ function AddReviewModal({guitarData, onSubmit, onModalClose}: AddReviewModalProp
           <input
             className='form-review__input' id='pros' type='text' autoComplete='off'
             value={advantage} onChange={(event) => setAdvantage(event.target.value)}
+            data-testid='add-review-modal-pros-input'
           />
-          {!formValidity.advantage && <span className='form-review__warning'>Заполните поле</span>}
+          {!formValidity.advantage &&
+          <span
+            className='form-review__warning'
+            data-testid='add-review-modal-pros-warning'
+          >
+            Заполните поле
+          </span>}
 
           <label className='form-review__label form-review__label--required' htmlFor='cons'>Недостатки</label>
           <input
             className='form-review__input' id='cons' type='text' autoComplete='off'
             value={disadvantage} onChange={(event) => setDisadvantage(event.target.value)}
+            data-testid='add-review-modal-disadvantage-input'
           />
-          {!formValidity.disadvantage && <span className='form-review__warning'>Заполните поле</span>}
+          {!formValidity.disadvantage &&
+          <span
+            className='form-review__warning'
+            data-testid='add-review-modal-cons-warning'
+          >
+            Заполните поле
+          </span>}
 
           <label className='form-review__label form-review__label--required' htmlFor='comment'>Комментарий</label>
           <textarea
             className='form-review__input form-review__input--textarea' id='comment' rows={10} autoComplete='off'
             value={comment} onChange={(event) => setComment(event.target.value)}
+            data-testid='add-review-modal-comment-input'
           />
-          {!formValidity.comment && <span className='form-review__warning'>Заполните поле</span>}
+          {!formValidity.comment &&
+          <span
+            className='form-review__warning'
+            data-testid='add-review-modal-comment-warning'
+          >
+            Заполните поле
+          </span>}
 
           <button
             className='button button--medium-20 form-review__button'
-            type='submit'
+            type='submit' data-testid='add-review-modal-submit-button'
           >
             Отправить отзыв
           </button>

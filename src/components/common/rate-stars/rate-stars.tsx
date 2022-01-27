@@ -19,7 +19,10 @@ function RateStars(props: RateStarsProps) {
 
 
   return (
-    <div className={`rate ${additionalContainerClassName ?? ''} `} aria-hidden='true'>
+    <div
+      className={`rate ${additionalContainerClassName ?? ''}`} aria-hidden='true'
+      data-testid='rate-stars-wrapper'
+    >
       <span className='visually-hidden'>Рейтинг:</span>
       <svg width={size.width} height={size.height} aria-hidden='true'>
         <use xlinkHref={rating >= 1 ? '#icon-full-star' : '#icon-star'} />

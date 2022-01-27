@@ -18,7 +18,10 @@ function ProductCard({ product }: ProductCardProps): JSX.Element {
         alt={product.name}
       />
       <div className='product-container__info-wrapper'>
-        <h2 className='product-container__title title title--big title--uppercase'>
+        <h2
+          className='product-container__title title title--big title--uppercase'
+          data-testid='product-card-title'
+        >
           {product.name}
         </h2>
 

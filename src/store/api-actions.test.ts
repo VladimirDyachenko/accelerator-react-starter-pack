@@ -14,9 +14,13 @@ import {
   setTotalItemsCount
 } from './catalog-process/actions';
 import {
+  addComment,
   fetchGuitarList,
-  fetchMinMaxPrice
+  fetchMinMaxPrice,
+  fetchProductData
 } from './api-actions';
+import { generateCommentMock } from 'mock/generate-comment-mock';
+import { addProductComment, setProductData } from './product-process/actions';
 
 describe('test async actions', () => {
   const api = createApi();
@@ -107,6 +111,95 @@ describe('test async actions', () => {
     expect(store.getActions()).toEqual([
       setMinMaxPrice(FallbackMinMaxPrice.min, FallbackMinMaxPrice.max),
     ]);
+  });
+
+  it('fetchProductData: should set product data when server respond with 200', async () => {
+    const store = mockStore();
+    const mockAPI = new MockAdapter(api);
+    const onError = jest.fn();
+    const product = generateGuitarMock();
+    product.comments = [generateCommentMock()];
+
+    mockAPI.onGet(`${ApiRoute.Guitars}/1?_embed=comments`).reply(200, product);
+
+    expect(store.getActions()).toEqual([]);
+
+    await store.dispatch(fetchProductData(1, onError));
+
+    expect(store.getActions()).toEqual([
+      setProductData(product),
+    ]);
+    expect(onError).not.toBeCalled();
+  });
+
+  it('fetchProductData: call onError when server respond with error', async () => {
+    const store = mockStore();
+    const mockAPI = new MockAdapter(api);
+    const onError = jest.fn();
+
+    mockAPI.onGet(`${ApiRoute.Guitars}/1?_embed=comments`).reply(404);
+
+    expect(store.getActions()).toEqual([]);
+
+    await store.dispatch(fetchProductData(1, onError));
+
+    expect(store.getActions()).toEqual([]);
+    expect(onError).toBeCalledWith(404);
+  });
+
+  it('addComment: should dispatch `addProductComment` when server respond with 200', async () => {
+    const store = mockStore();
+    const mockAPI = new MockAdapter(api);
+    const onSuccess = jest.fn();
+    const onError = jest.fn();
+    const comment = generateCommentMock();
+
+    const commentPost = {
+      guitarId: 1,
+      userName: 'string',
+      advantage: 'string',
+      disadvantage: 'string',
+      comment: 'string',
+      rating: 1,
+    };
+
+    mockAPI.onPost(ApiRoute.Comments).reply(200, comment);
+
+    expect(store.getActions()).toEqual([]);
+
+    await store.dispatch(addComment(commentPost, onSuccess, onError));
+
+    expect(store.getActions()).toEqual([
+      addProductComment(comment),
+    ]);
+    expect(onSuccess).toBeCalled();
+    expect(onError).not.toBeCalled();
+  });
+
+  it('addComment: should call onError when server respond with 4xx', async () => {
+    const store = mockStore();
+    const mockAPI = new MockAdapter(api);
+    const onSuccess = jest.fn();
+    const onError = jest.fn();
+
+    const commentPost = {
+      guitarId: 1,
+      userName: 'string',
+      advantage: 'string',
+      disadvantage: 'string',
+      comment: 'string',
+      rating: 1,
+    };
+
+    mockAPI.onPost(ApiRoute.Comments).reply(400);
+
+    expect(store.getActions()).toEqual([]);
+
+    await store.dispatch(addComment(commentPost, onSuccess, onError));
+
+    expect(store.getActions()).toEqual([]);
+    expect(onSuccess).not.toBeCalled();
+    expect(onError).toBeCalledWith(['Произошла ошибка']);
   });
 
 });

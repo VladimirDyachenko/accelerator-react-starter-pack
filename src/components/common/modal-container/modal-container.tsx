@@ -54,8 +54,13 @@ function ModalContainer({modalName, wrapperClassName, onModalClose, children}: M
 
   return (
     <div className={`modal ${modalName !== undefined ? 'is-active' : ''} ${wrapperClassName ?? ''}`} >
-      <div className="modal__wrapper">
-        <div className="modal__overlay" data-close-modal onClick={onModalClose} />
+      <div className='modal__wrapper'>
+        <div
+          className='modal__overlay'
+          data-testid='modal-container-close'
+          data-close-modal
+          onClick={onModalClose}
+        />
         {children}
       </div>
     </div>
