@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { fetchProductData } from 'store/api-actions';
 import { getProductData } from 'store/product-process/selectors';
 import { AppRoute, HttpCode } from 'const/const';
-import { Breadcrumbs, Footer, Header } from 'components/common/common';
+import { Breadcrumbs, Footer, Header, Spinner } from 'components/common/common';
 import { ProductCard, Reviews } from './components/components';
 
 function ProductPage(): JSX.Element {
@@ -55,6 +55,11 @@ function ProductPage(): JSX.Element {
       <Header />
 
       <main className='page-content'>
+        {(productData === undefined || productData.id !== productId) &&
+         <div style={{display: 'flex', justifyContent: 'center', paddingTop: '10%'}}>
+           <Spinner />
+         </div>}
+
         {productData && productData.id === productId &&
         <div className='container'>
           <h1 className='page-content__title title title--bigger' data-testid='product-page-title'>

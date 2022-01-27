@@ -13,8 +13,7 @@ export enum ApiRoute {
 }
 
 export const Api = {
-  // Url: 'https://accelerator-guitar-shop-api-v1.glitch.me',
-  Url: 'http://192.168.0.100:3001',
+  Url: 'https://accelerator-guitar-shop-api-v1.glitch.me',
   RequestTimeOut: 5000,
 } as const;
 
