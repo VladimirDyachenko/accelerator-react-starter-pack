@@ -4,7 +4,7 @@ import thunk, { ThunkDispatch } from 'redux-thunk';
 import MockAdapter from 'axios-mock-adapter';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createApi } from '../services/api';
-import { ApiRoute, FallbackMinMaxPrice } from 'const/const';
+import { ApiRoute, FallbackPrice } from 'const/const';
 import { State } from 'types/types';
 import { generateGuitarMock } from 'mock/generate-guitar-mock';
 import {
@@ -109,7 +109,7 @@ describe('test async actions', () => {
     await store.dispatch(fetchMinMaxPrice());
 
     expect(store.getActions()).toEqual([
-      setMinMaxPrice(FallbackMinMaxPrice.min, FallbackMinMaxPrice.max),
+      setMinMaxPrice(FallbackPrice.Min, FallbackPrice.Max),
     ]);
   });
 

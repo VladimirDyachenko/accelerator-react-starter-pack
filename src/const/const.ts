@@ -13,13 +13,13 @@ export enum ApiRoute {
 }
 
 export const Api = {
-  Url: 'https://accelerator-guitar-shop-api-v1.glitch.me',
+  Url: process.env.REACT_APP_API_URL ?? 'https://accelerator-guitar-shop-api-v1.glitch.me',
   RequestTimeOut: 5000,
 } as const;
 
-export const FallbackMinMaxPrice = {
-  min: 0,
-  max: 100_000,
+export const FallbackPrice = {
+  Min: 0,
+  Max: 100_000,
 } as const;
 
 export const initialFilter: IFilter = {

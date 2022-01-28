@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ApiRoute, FallbackMinMaxPrice, ITEMS_PER_PAGE } from 'const/const';
+import { ApiRoute, FallbackPrice, ITEMS_PER_PAGE } from 'const/const';
 import { Comment, CommentPost, Guitar, ThunkActionResult } from 'types/types';
 import { setGuitarList, setMinMaxPrice, setProductsLoadingStatus, setTotalItemsCount } from './catalog-process/actions';
 import { addProductComment, setProductData } from './product-process/actions';
@@ -27,8 +27,8 @@ export const fetchMinMaxPrice = (searchQuery = ''): ThunkActionResult =>
       const maxPricePromise = api.get<Guitar[]>(`${ApiRoute.Guitars}?_sort=price&_order=desc&_limit=1${searchQuery}`);
       const [minPriceRes, maxPriceRes] = await Promise.allSettled([minPricePromise, maxPricePromise]);
       //TS не позволил присвоить что-то в переменную потом, поэтому использовал хак 0 + readonly number
-      let minPrice = 0 + FallbackMinMaxPrice.min;
-      let maxPrice = 0 + FallbackMinMaxPrice.max;
+      let minPrice = 0 + FallbackPrice.Min;
+      let maxPrice = 0 + FallbackPrice.Max;
 
       if (minPriceRes.status === 'fulfilled') {
         minPrice = minPriceRes.value.data[0].price;
@@ -40,7 +40,7 @@ export const fetchMinMaxPrice = (searchQuery = ''): ThunkActionResult =>
 
       dispatch(setMinMaxPrice(minPrice, maxPrice));
     } catch (error) {
-      dispatch(setMinMaxPrice(FallbackMinMaxPrice.min, FallbackMinMaxPrice.max));
+      dispatch(setMinMaxPrice(FallbackPrice.Min, FallbackPrice.Max));
     }
   };
 
