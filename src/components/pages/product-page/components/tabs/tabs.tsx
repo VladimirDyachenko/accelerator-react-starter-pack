@@ -1,6 +1,6 @@
-import { GuitarTypeDict, TabOption } from 'const/const';
 import { memo } from 'react';
 import { NavLink, Redirect, useLocation } from 'react-router-dom';
+import { GuitarTypeToLabelMap, TabOption } from 'const/const';
 import { Guitar } from 'types/types';
 
 type TabsProps = {
@@ -45,7 +45,7 @@ function Tabs({product}: TabsProps): JSX.Element {
             </tr>
             <tr className='tabs__table-row'>
               <td className='tabs__title'>Тип:</td>
-              <td className='tabs__value'>{GuitarTypeDict[product.type]}</td>
+              <td className='tabs__value'>{GuitarTypeToLabelMap[product.type]}</td>
             </tr>
             <tr className='tabs__table-row'>
               <td className='tabs__title'>Количество струн:</td>

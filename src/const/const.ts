@@ -74,11 +74,11 @@ export const TabOption = {
   Description: '#description',
 } as const;
 
-export const GuitarTypeDict = {
+export const GuitarTypeToLabelMap = {
   [GuitarType.Acoustic]: 'Акустическая',
   [GuitarType.Ukulele]: 'Укулеле',
   [GuitarType.Electric]: 'Электрогитара',
-} as const;
+};
 
 export const HttpCode = {
   NotFound: 404,
