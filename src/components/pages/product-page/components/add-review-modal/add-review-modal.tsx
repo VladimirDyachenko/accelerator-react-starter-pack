@@ -1,4 +1,5 @@
-import { FormEvent, memo, useState } from 'react';
+import { ratingOptions } from 'const/const';
+import React, { FormEvent, memo, useState } from 'react';
 import { CommentPost } from 'types/types';
 
 type AddReviewModalProps = {
@@ -102,41 +103,17 @@ function AddReviewModal({guitarData, onSubmit, onModalClose}: AddReviewModalProp
               <span className='form-review__label form-review__label--required'>Ваша Оценка</span>
               <div className='rate rate--reverse'>
 
-                <input
-                  className='visually-hidden' type='radio' id='star-5' name='rate' value='5'
-                  checked={rating === '5'} onChange={(event) => setRating(event.target.value)}
-                  data-testid='add-review-modal-radio-input'
-                />
-                <label className='rate__label' htmlFor='star-5' title='Отлично'></label>
+                {ratingOptions.map((option) => (
+                  <React.Fragment key={option.label}>
+                    <input
+                      className='visually-hidden' type='radio' id={`star-${option.value}`} name='rate' value={option.value}
+                      checked={rating === option.value} onChange={(event) => setRating(event.target.value)}
+                      data-testid='add-review-modal-radio-input'
+                    />
+                    <label className='rate__label' htmlFor={`star-${option.value}`} title={option.label}></label>
+                  </React.Fragment>
+                ))}
 
-                <input
-                  className='visually-hidden' type='radio' id='star-4' name='rate' value='4'
-                  checked={rating === '4'} onChange={(event) => setRating(event.target.value)}
-                  data-testid='add-review-modal-radio-input'
-                />
-                <label className='rate__label' htmlFor='star-4' title='Хорошо'></label>
-
-                <input
-                  className='visually-hidden' type='radio' id='star-3' name='rate' value='3'
-                  checked={rating === '3'} onChange={(event) => setRating(event.target.value)}
-                  data-testid='add-review-modal-radio-input'
-                />
-                <label className='rate__label' htmlFor='star-3' title='Нормально'></label>
-
-                <input
-                  className='visually-hidden' type='radio' id='star-2' name='rate' value='2'
-                  checked={rating === '2'} onChange={(event) => setRating(event.target.value)}
-                  data-testid='add-review-modal-radio-input'
-                />
-                <label className='rate__label' htmlFor='star-2' title='Плохо'></label>
-
-                <input
-                  className='visually-hidden' type='radio' id='star-1' name='rate' value='1'
-                  checked={rating === '1'} onChange={(event) => setRating(event.target.value)}
-                  data-testid='add-review-modal-radio-input'
-                />
-                <label className='rate__label' htmlFor='star-1' title='Ужасно'></label>
-                <span className='rate__count'></span>
 
                 {!formValidity.rating &&
                 <span
