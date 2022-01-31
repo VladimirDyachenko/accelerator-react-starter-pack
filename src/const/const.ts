@@ -87,9 +87,9 @@ export const HttpCode = {
 export const REVIEWS_PER_STEP = 3;
 
 export const ratingOptions = [
-  {label: 'Отлично', value: '5'},
-  {label: 'Хорошо', value: '4'},
-  {label: 'Нормально', value: '3'},
-  {label: 'Плохо', value: '2'},
   {label: 'Ужасно', value: '1'},
+  {label: 'Плохо', value: '2'},
+  {label: 'Нормально', value: '3'},
+  {label: 'Хорошо', value: '4'},
+  {label: 'Отлично', value: '5'},
 ];

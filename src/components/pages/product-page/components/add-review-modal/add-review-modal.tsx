@@ -1,5 +1,5 @@
 import { ratingOptions } from 'const/const';
-import React, { FormEvent, memo, useState } from 'react';
+import {Fragment, FormEvent, memo, useMemo, useState } from 'react';
 import { CommentPost } from 'types/types';
 
 type AddReviewModalProps = {
@@ -11,6 +11,7 @@ type AddReviewModalProps = {
 function AddReviewModal({guitarData, onSubmit, onModalClose}: AddReviewModalProps) {
   const [userName, setUserName] = useState('');
   const [rating, setRating] = useState('');
+  const [hoverRating, setHoverRating] = useState('');
   const [advantage, setAdvantage] = useState('');
   const [disadvantage, setDisadvantage] = useState('');
   const [comment, setComment] = useState('');
@@ -65,6 +66,16 @@ function AddReviewModal({guitarData, onSubmit, onModalClose}: AddReviewModalProp
     onSubmit(commentPost, onError);
   };
 
+  const ratingToFill = useMemo(() => {
+    const parsedHoverValue = parseInt(hoverRating, 10) || 0;
+    const parsedRatingValue = parseInt(rating, 10) || 0;
+    if (parsedHoverValue !== 0 && parsedHoverValue !== parsedRatingValue) {
+      return parsedHoverValue;
+    }
+
+    return parsedRatingValue;
+  }, [rating, hoverRating]);
+
   return (
     <div className='modal__content'>
       <h2
@@ -101,17 +112,23 @@ function AddReviewModal({guitarData, onSubmit, onModalClose}: AddReviewModalProp
             </div>
             <div>
               <span className='form-review__label form-review__label--required'>Ваша Оценка</span>
-              <div className='rate rate--reverse'>
+              <div className='rate'>
 
                 {ratingOptions.map((option) => (
-                  <React.Fragment key={option.label}>
+                  <Fragment key={option.label}>
                     <input
                       className='visually-hidden' type='radio' id={`star-${option.value}`} name='rate' value={option.value}
                       checked={rating === option.value} onChange={(event) => setRating(event.target.value)}
                       data-testid='add-review-modal-radio-input'
                     />
-                    <label className='rate__label' htmlFor={`star-${option.value}`} title={option.label}></label>
-                  </React.Fragment>
+                    <label
+                      className={`rate__label ${(parseInt(option.value, 10) <= ratingToFill) ? 'rate__label--fill' : ''}`} htmlFor={`star-${option.value}`}
+                      title={option.label}
+                      onMouseEnter={() => setHoverRating(option.value)}
+                      onMouseLeave={() => setHoverRating('')}
+                    >
+                    </ label>
+                  </Fragment>
                 ))}
 
 
