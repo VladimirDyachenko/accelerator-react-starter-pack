@@ -25,7 +25,25 @@ function Reviews({reviews, pageStart, guitarData}: ReviewsProps):JSX.Element {
 
   useEffect(() => {
     if (entry && entry.isIntersecting && isCanRenderMore) {
-      setAmountToRender((amount) => amount + REVIEWS_PER_STEP);
+      const showMore = () => {
+        if (entry.isIntersecting && isCanRenderMore) {
+          setAmountToRender((amount) => amount + REVIEWS_PER_STEP);
+        }
+
+        setTimeout(() => {
+          const rect = ref.current?.getBoundingClientRect();
+          if (rect && (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= window.innerHeight + rect.height &&
+            rect.right <= window.innerWidth)
+          ) {
+            showMore();
+          }
+        }, 1);
+      };
+
+      showMore();
     }
   }, [entry, isCanRenderMore]);
 
