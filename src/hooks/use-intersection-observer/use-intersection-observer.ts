@@ -6,21 +6,22 @@ function useIntersectionObserver(
 ):  [IntersectionObserverEntry | undefined] {
 
   const [entry, updateEntry] = useState<IntersectionObserverEntry>();
+  const observer = useRef<IntersectionObserver | null>(null);
 
-  const observer = useRef(
-    new IntersectionObserver(
+  if (window.IntersectionObserver) {
+    observer.current = new IntersectionObserver(
       ([newEntry]) => updateEntry(newEntry),
       {root, rootMargin, threshold},
-    ),
-  );
+    );
+  }
 
   useEffect(() => {
     const observerInstance = observer.current;
-    if (elementRef.current) {
+    if (elementRef.current && observerInstance) {
       observerInstance.observe(elementRef.current);
     }
 
-    return () => observerInstance.disconnect();
+    return () => observerInstance?.disconnect();
   }, [elementRef]);
 
   return [entry];
