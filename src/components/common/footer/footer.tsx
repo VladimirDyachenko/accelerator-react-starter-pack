@@ -125,7 +125,7 @@ function Footer(): JSX.Element {
               <use xlinkHref='#icon-phone'></use>
             </svg>
             <a className='link' href='tel:88125005050'>
-              8-812-500-50-50
+              {' '}8-812-500-50-50
             </a>
           </div>
           <p className='footer__nav-content'>
