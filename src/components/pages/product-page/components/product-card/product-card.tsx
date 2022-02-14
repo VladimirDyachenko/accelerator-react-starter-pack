@@ -1,13 +1,21 @@
-import { memo } from 'react';
+import { memo, MouseEvent } from 'react';
 import { Guitar } from 'types/types';
 import { RateStars } from 'components/common/common';
 import { Tabs } from '../components';
+import useAddToCart from 'hooks/use-add-to-cart/use-add-to-cart';
 
 type ProductCardProps = {
   product: Guitar;
 }
 
 function ProductCard({ product }: ProductCardProps): JSX.Element {
+
+  const { onAddToCart, modal } = useAddToCart();
+  const handleAddToCartClick = (event: MouseEvent) => {
+    event.preventDefault();
+    onAddToCart(product);
+  };
+
   return (
     <div className='product-container'>
       <img
@@ -45,11 +53,14 @@ function ProductCard({ product }: ProductCardProps): JSX.Element {
         <a
           className='button button--red button--big product-container__button'
           href='#temp'
+          title='Добавить в корзину'
+          onClick={handleAddToCartClick}
         >
           Добавить в корзину
         </a>
       </div>
 
+      {modal}
     </div>
   );
 }

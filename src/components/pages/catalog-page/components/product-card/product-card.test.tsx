@@ -19,7 +19,7 @@ describe('Component: ProductCard', () => {
 
     render(
       <Router history={history}>
-        <ProductCard product={mockGuitar}/>
+        <ProductCard product={mockGuitar} onAddToCart={jest.fn()}/>
       </Router>,
     );
 
@@ -37,7 +37,7 @@ describe('Component: ProductCard', () => {
 
     render(
       <Router history={history}>
-        <ProductCard product={mockGuitar}/>
+        <ProductCard product={mockGuitar} onAddToCart={jest.fn()}/>
       </Router>,
     );
 
@@ -46,6 +46,25 @@ describe('Component: ProductCard', () => {
 
     expect(history.location.pathname)
       .toBe(`${AppRoute.Product}/${mockGuitar.id}`);
+
+  });
+
+  it('should call "onAddToCart"', () => {
+    const onAddToCart = jest.fn();
+
+    render(
+      <Router history={history}>
+        <ProductCard product={mockGuitar} onAddToCart={onAddToCart}/>
+      </Router>,
+    );
+
+    const addToCartButton = screen.getByTestId('add-to-cart');
+    userEvent.click(addToCartButton);
+
+    expect(onAddToCart)
+      .toBeCalledTimes(1);
+    expect(onAddToCart)
+      .toBeCalledWith(mockGuitar);
 
   });
 });

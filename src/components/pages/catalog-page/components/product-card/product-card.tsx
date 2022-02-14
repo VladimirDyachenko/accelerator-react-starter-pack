@@ -2,12 +2,19 @@ import { Link } from 'react-router-dom';
 import { Guitar } from 'types/types';
 import { AppRoute } from 'const/const';
 import { RateStars } from 'components/common/common';
+import { MouseEvent } from 'react';
 
 type ProductCardProps = {
   product: Guitar;
+  onAddToCart: (product: Guitar) => void;
 }
 
-function ProductCard({product}: ProductCardProps): JSX.Element {
+function ProductCard({product, onAddToCart}: ProductCardProps): JSX.Element {
+  const handleAddToCartClick = (event: MouseEvent) => {
+    event.preventDefault();
+    onAddToCart(product);
+  };
+
   return (
     <div className='product-card'>
       <img
@@ -41,6 +48,9 @@ function ProductCard({product}: ProductCardProps): JSX.Element {
         <a
           className='button button--red button--mini button--add-to-cart'
           href='#todo'
+          title='Добавить в корзину'
+          onClick={handleAddToCartClick}
+          data-testid='add-to-cart'
         >
           Купить
         </a>

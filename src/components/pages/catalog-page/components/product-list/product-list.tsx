@@ -3,10 +3,12 @@ import { Spinner } from 'components/common/common';
 import { useSelector } from 'react-redux';
 import { getGuitarList, getLoadingStatus } from 'store/catalog-process/selectors';
 import { ProductCard } from '../components';
+import useAddToCart from 'hooks/use-add-to-cart/use-add-to-cart';
 
 function ProductList(): JSX.Element {
   const guitarList = useSelector(getGuitarList);
   const { isLoading, isError } = useSelector(getLoadingStatus);
+  const { onAddToCart, modal } = useAddToCart();
 
   if (isLoading && guitarList.length === 0) {
     return (
@@ -32,7 +34,9 @@ function ProductList(): JSX.Element {
     >
 
       {guitarList
-        .map((product) => <ProductCard key={product.id} product={product}/>)}
+        .map((product) => <ProductCard key={product.id} product={product} onAddToCart={onAddToCart}/>)}
+
+      {modal}
     </div>
   );
 }
