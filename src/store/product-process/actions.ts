@@ -2,8 +2,8 @@ import { createAction } from '@reduxjs/toolkit';
 import { Comment, Guitar } from 'types/types';
 
 export enum ProductActionType {
-  SetProductData = 'SetProductData',
-  AddProductComment = 'AddProductComment',
+  SetProductData = 'Product/SetProductData',
+  AddProductComment = 'Product/AddProductComment',
 }
 
 export const setProductData = createAction(

@@ -2,10 +2,10 @@ import { createAction } from '@reduxjs/toolkit';
 import { Guitar } from 'types/types';
 
 export enum CatalogActionType {
-  SetGuitarList = 'SetGuitarList',
-  SetMinMaxPrice = 'SetMinMaxPrice',
-  SetTotalProductsCount = 'SetTotalProductsCount',
-  SetProductsLoadingStatus = 'SetProductsLoadingStatus',
+  SetGuitarList = 'Catalog/SetGuitarList',
+  SetMinMaxPrice = 'Catalog/SetMinMaxPrice',
+  SetTotalProductsCount = 'Catalog/SetTotalProductsCount',
+  SetProductsLoadingStatus = 'Catalog/SetProductsLoadingStatus',
 }
 
 export const setGuitarList = createAction(

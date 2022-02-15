@@ -2,9 +2,9 @@ import { createAction } from '@reduxjs/toolkit';
 import { Guitar } from 'types/types';
 
 export enum CartActionType {
-  AddProduct = 'AddProduct',
-  RemoveProduct = 'RemoveProduct',
-  SetProductData = 'SetCartData',
+  AddProduct = 'Cart/AddProduct',
+  RemoveProduct = 'Cart/RemoveProduct',
+  SetProductData = 'Cart/SetCartData',
 }
 
 export const addProduct = createAction(
