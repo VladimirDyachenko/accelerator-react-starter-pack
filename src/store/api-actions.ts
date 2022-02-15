@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { ApiRoute, FallbackPrice, ITEMS_PER_PAGE } from 'const/const';
 import { Comment, CommentPost, Guitar, ThunkActionResult } from 'types/types';
+import { setCartData } from './cart-process/actions';
 import { setGuitarList, setMinMaxPrice, setProductsLoadingStatus, setTotalItemsCount } from './catalog-process/actions';
 import { addProductComment, setProductData } from './product-process/actions';
 
@@ -76,5 +77,20 @@ export const addComment = (
         return;
       }
       onError(['Произошла ошибка']);
+    }
+  };
+
+
+export const fetchCartData = (ids: Array<number>): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    try {
+      const promises = ids.map((id) => api.get<Guitar>(`${ApiRoute.Guitars}/${id}`));
+      const guitarsResponse = await Promise.all(promises);
+      const guitarsData = guitarsResponse.map((res) => res.data);
+      dispatch(setCartData(guitarsData));
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      //TODO handle error
     }
   };

@@ -1,6 +1,6 @@
-import { Breadcrumbs, CouponForm, Footer, Header } from 'components/common/common';
+import { Breadcrumbs, Footer, Header } from 'components/common/common';
 import { AppRoute } from 'const/const';
-import { CartItem, CartTotal } from './components/components';
+import { Cart } from './components/components';
 
 function CartPage(): JSX.Element {
 
@@ -31,15 +31,7 @@ function CartPage(): JSX.Element {
             }
           />
 
-          <div className='cart'>
-            <CartItem />
-            <CartItem />
-
-            <div className='cart__footer'>
-              <CouponForm containerClassName='cart__coupon'/>
-              <CartTotal />
-            </div>
-          </div>
+          <Cart/>
         </div>
       </main>
 

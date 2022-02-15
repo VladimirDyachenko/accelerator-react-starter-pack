@@ -1,5 +1,7 @@
 import { AddToCartModal, AddToCartSuccessModal, ModalContainer } from 'components/common/common';
 import { useCallback, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addProduct } from 'store/cart-process/actions';
 import { Guitar } from 'types/types';
 
 type useAddToCartReturn = {
@@ -9,6 +11,7 @@ type useAddToCartReturn = {
 }
 
 function useAddToCart(): useAddToCartReturn {
+  const dispatch = useDispatch();
   const [activeModal, setActiveModal] = useState<'confirm' | 'success'>();
   const [addToCartProduct, setAddToCartProduct] = useState<Guitar>();
   const onModalClose = useCallback(() => {
@@ -20,9 +23,11 @@ function useAddToCart(): useAddToCartReturn {
     setActiveModal('confirm');
   }, []);
   const onConfirmClick = useCallback(() => {
-    //TODO dispatch cart action
+    if (addToCartProduct !== undefined) {
+      dispatch(addProduct(addToCartProduct.id, 1));
+    }
     setActiveModal('success');
-  }, []);
+  }, [dispatch, addToCartProduct]);
 
   const modal = (
     <ModalContainer

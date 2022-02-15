@@ -1,8 +1,12 @@
 import { AppRoute } from 'const/const';
+import { useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
+import { getCartItemsAmount } from 'store/cart-process/selectors';
 import { GuitarSearch } from '../common';
 
 function Header(): JSX.Element {
+  const cartItemsAmount = useSelector(getCartItemsAmount);
+
   return (
     <header className='header' id='header'>
       <div className='container header__wrapper'>
@@ -59,7 +63,7 @@ function Header(): JSX.Element {
             <use xlinkHref='#icon-basket'></use>
           </svg>
           <span className='visually-hidden'>Перейти в корзину</span>
-          <span className='header__cart-count'>2</span>
+          {cartItemsAmount > 0 && <span className='header__cart-count'>{cartItemsAmount}</span>}
         </Link>
       </div>
     </header>
