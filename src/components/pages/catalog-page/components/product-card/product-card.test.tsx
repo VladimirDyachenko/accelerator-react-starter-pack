@@ -19,7 +19,7 @@ describe('Component: ProductCard', () => {
 
     render(
       <Router history={history}>
-        <ProductCard product={mockGuitar} onAddToCart={jest.fn()}/>
+        <ProductCard product={mockGuitar} onAddToCart={jest.fn()} isInCart={false}/>
       </Router>,
     );
 
@@ -37,7 +37,7 @@ describe('Component: ProductCard', () => {
 
     render(
       <Router history={history}>
-        <ProductCard product={mockGuitar} onAddToCart={jest.fn()}/>
+        <ProductCard product={mockGuitar} onAddToCart={jest.fn()} isInCart={false}/>
       </Router>,
     );
 
@@ -54,7 +54,7 @@ describe('Component: ProductCard', () => {
 
     render(
       <Router history={history}>
-        <ProductCard product={mockGuitar} onAddToCart={onAddToCart}/>
+        <ProductCard product={mockGuitar} onAddToCart={onAddToCart} isInCart={false}/>
       </Router>,
     );
 

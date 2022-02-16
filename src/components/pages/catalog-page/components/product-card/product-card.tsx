@@ -7,9 +7,10 @@ import { MouseEvent } from 'react';
 type ProductCardProps = {
   product: Guitar;
   onAddToCart: (product: Guitar) => void;
+  isInCart: boolean;
 }
 
-function ProductCard({product, onAddToCart}: ProductCardProps): JSX.Element {
+function ProductCard({product, onAddToCart, isInCart}: ProductCardProps): JSX.Element {
   const handleAddToCartClick = (event: MouseEvent) => {
     event.preventDefault();
     onAddToCart(product);
@@ -45,15 +46,26 @@ function ProductCard({product, onAddToCart}: ProductCardProps): JSX.Element {
         >
           Подробнее
         </Link>
-        <a
-          className='button button--red button--mini button--add-to-cart'
-          href='#todo'
-          title='Добавить в корзину'
-          onClick={handleAddToCartClick}
-          data-testid='add-to-cart'
-        >
-          Купить
-        </a>
+        {isInCart ?
+          (
+            <Link
+              className='button button--red-border button--mini button--in-cart'
+              to={AppRoute.Cart}
+            >
+            В Корзине
+            </Link>
+          ) :
+          (
+            <a
+              className='button button--red button--mini button--add-to-cart'
+              href='#todo'
+              title='Добавить в корзину'
+              onClick={handleAddToCartClick}
+              data-testid='add-to-cart'
+            >
+              Купить
+            </a>
+          )}
       </div>
     </div>
   );

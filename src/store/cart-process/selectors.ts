@@ -22,3 +22,11 @@ export const getIsNeedFetchProductData = createSelector(
     return !itemsInCart.every((item) => productData[item.id] !== undefined);
   },
 );
+
+export const getProductIdsInCart = createSelector(
+  getItemsInCart,
+  (products) => products.reduce((acc: {[key: number]: boolean}, product) => {
+    acc[product.id] = true;
+    return acc;
+  }, {}),
+);

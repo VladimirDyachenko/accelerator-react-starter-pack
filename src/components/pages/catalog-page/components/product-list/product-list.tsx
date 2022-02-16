@@ -4,11 +4,13 @@ import { useSelector } from 'react-redux';
 import { getGuitarList, getLoadingStatus } from 'store/catalog-process/selectors';
 import { ProductCard } from '../components';
 import useAddToCart from 'hooks/use-add-to-cart/use-add-to-cart';
+import { getProductIdsInCart } from 'store/cart-process/selectors';
 
 function ProductList(): JSX.Element {
   const guitarList = useSelector(getGuitarList);
   const { isLoading, isError } = useSelector(getLoadingStatus);
   const { onAddToCart, modal } = useAddToCart();
+  const productInCartIds = useSelector(getProductIdsInCart);
 
   if (isLoading && guitarList.length === 0) {
     return (
@@ -34,7 +36,13 @@ function ProductList(): JSX.Element {
     >
 
       {guitarList
-        .map((product) => <ProductCard key={product.id} product={product} onAddToCart={onAddToCart}/>)}
+        .map((product) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            onAddToCart={onAddToCart}
+            isInCart={productInCartIds[product.id] !== undefined}
+          />))}
 
       {modal}
     </div>
