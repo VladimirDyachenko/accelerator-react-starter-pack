@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ApiRoute, FallbackPrice, ITEMS_PER_PAGE } from 'const/const';
 import { Comment, CommentPost, Guitar, ThunkActionResult } from 'types/types';
-import { setCartData } from './cart-process/actions';
+import { setCartData, setCoupon, setDiscount } from './cart-process/actions';
 import { setGuitarList, setMinMaxPrice, setProductsLoadingStatus, setTotalItemsCount } from './catalog-process/actions';
 import { addProductComment, setProductData } from './product-process/actions';
 
@@ -92,5 +92,20 @@ export const fetchCartData = (ids: Array<number>): ThunkActionResult =>
       // eslint-disable-next-line no-console
       console.error(error);
       //TODO handle error
+    }
+  };
+
+export const applyCoupon = (coupon: string, onError: () => void): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    try {
+      const payload = { coupon };
+      const { data } = await api.post<number>(ApiRoute.Coupons, payload);
+
+      dispatch(setDiscount(data));
+      dispatch(setCoupon(coupon));
+    } catch (error) {
+      dispatch(setDiscount(0));
+      dispatch(setCoupon(null));
+      onError();
     }
   };

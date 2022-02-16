@@ -31,7 +31,7 @@ export const getProductIdsInCart = createSelector(
   }, {}),
 );
 
-export const getDiscount =  (state: State): number => state[NameSpace.Cart].discount;
+export const getDiscountPercent = (state: State): number => state[NameSpace.Cart].discount;
 
 export const getTotalPrice = createSelector(
   getProductData,
@@ -52,3 +52,17 @@ export const getTotalPrice = createSelector(
     return totalPrice;
   },
 );
+
+export const getDiscountAmount = createSelector(
+  getTotalPrice,
+  getDiscountPercent,
+  (price, discount): number => {
+    if (discount === 0) {
+      return discount;
+    }
+
+    return price / 100 * discount;
+  },
+);
+
+export const getCoupon = (state: State): string | null=> state[NameSpace.Cart].coupon;

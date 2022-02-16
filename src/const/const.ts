@@ -10,6 +10,7 @@ export enum AppRoute {
 export enum ApiRoute {
   Guitars = '/guitars',
   Comments = '/comments',
+  Coupons = '/coupons',
 }
 
 export const Api = {
