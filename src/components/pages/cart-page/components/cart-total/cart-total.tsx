@@ -1,22 +1,36 @@
+import { formatPrice } from 'const/const';
 import { memo } from 'react';
 
-function CartTotal() {
+export type CartTotalProps = {
+  total: number;
+  discount: number;
+}
+
+function CartTotal({total, discount}: CartTotalProps) {
   return (
     <div className='cart__total-info'>
       <p className='cart__total-item'>
         <span className='cart__total-value-name'>Всего:</span>
-        <span className='cart__total-value'>52 000 ₽</span>
+        <span className='cart__total-value'>{formatPrice(total)} ₽</span>
       </p>
       <p className='cart__total-item'>
         <span className='cart__total-value-name'>Скидка:</span>
-        <span className='cart__total-value cart__total-value--bonus'>
-          - 3000 ₽
-        </span>
+        {discount === 0 ?
+          (
+            <span className='cart__total-value'>
+              {formatPrice(discount)} ₽
+            </span>
+          ) :
+          (
+            <span className='cart__total-value cart__total-value--bonus'>
+              - {formatPrice(discount)} ₽
+            </span>
+          )}
       </p>
       <p className='cart__total-item'>
         <span className='cart__total-value-name'>К оплате:</span>
         <span className='cart__total-value cart__total-value--payment'>
-          49 000 ₽
+          {formatPrice(total - discount)} ₽
         </span>
       </p>
       <button className='button button--red button--big cart__order-button'>

@@ -1,6 +1,6 @@
 import { memo, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCartItemsAmount, getIsNeedFetchProductData, getItemsInCart, getProductData } from 'store/cart-process/selectors';
+import { getCartItemsAmount, getDiscount, getIsNeedFetchProductData, getItemsInCart, getProductData, getTotalPrice } from 'store/cart-process/selectors';
 import { CouponForm, ModalContainer, Spinner } from 'components/common/common';
 import { CartItem, CartTotal, RemoveCartItemModal } from '../components';
 import { AppRoute } from 'const/const';
@@ -17,6 +17,8 @@ function Cart() {
   const productData = useSelector(getProductData);
   const [modalName, setModalName] = useState<'confirm-delete'>();
   const [confirmModalData, setConfirmModalData] = useState<Guitar>();
+  const totalPrice = useSelector(getTotalPrice);
+  const discount = useSelector(getDiscount);
 
   const onModalClose = useCallback(() => {
     setModalName(undefined);
@@ -98,7 +100,7 @@ function Cart() {
 
       <div className='cart__footer'>
         <CouponForm containerClassName='cart__coupon'/>
-        <CartTotal />
+        <CartTotal total={totalPrice} discount={discount} />
       </div>
 
       <ModalContainer modalName={modalName} onModalClose={onModalClose}>

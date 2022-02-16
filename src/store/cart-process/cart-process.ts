@@ -1,10 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { CartProcess } from 'types/store/cart-process';
-import { addProduct, setCartData, setProductCount } from './actions';
+import { addProduct, setCartData, setDiscount, setProductCount } from './actions';
 
 const initialState: CartProcess = {
   inCart: [],
   productData: {},
+  discount: 0,
 };
 
 const cartProcess = createReducer(
@@ -33,6 +34,9 @@ const cartProcess = createReducer(
       })
       .addCase(setCartData, (state, action) => {
         action.payload.forEach((product) => state.productData[product.id] = product);
+      })
+      .addCase(setDiscount, (state, action) => {
+        state.discount = action.payload;
       });
   },
 );

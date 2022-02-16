@@ -30,3 +30,25 @@ export const getProductIdsInCart = createSelector(
     return acc;
   }, {}),
 );
+
+export const getDiscount =  (state: State): number => state[NameSpace.Cart].discount;
+
+export const getTotalPrice = createSelector(
+  getProductData,
+  getItemsInCart,
+  (productData, itemsInCart):number => {
+    let totalPrice = 0;
+    if (itemsInCart.length === 0) {
+      return totalPrice;
+    }
+
+    for (const product of itemsInCart) {
+      if (productData[product.id]) {
+        const price = productData[product.id].price;
+        totalPrice += price * product.amount;
+      }
+    }
+
+    return totalPrice;
+  },
+);

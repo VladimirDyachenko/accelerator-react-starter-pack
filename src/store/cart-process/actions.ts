@@ -5,6 +5,7 @@ export enum CartActionType {
   AddProduct = 'Cart/AddProduct',
   SetProductCount = 'Cart/SetProductCount',
   SetProductData = 'Cart/SetCartData',
+  SetDiscount = 'Cart/SetDiscount',
 }
 
 export const addProduct = createAction(
@@ -20,4 +21,9 @@ export const setProductCount = createAction(
 export const setCartData = createAction(
   CartActionType.SetProductData,
   (products: Guitar[]) => ({ payload: products }),
+);
+
+export const setDiscount = createAction(
+  CartActionType.SetDiscount,
+  (discount: number) => ({ payload: discount }),
 );

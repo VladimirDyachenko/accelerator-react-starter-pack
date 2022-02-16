@@ -5,4 +5,5 @@ export type CartProcess = {
   productData: {
     [id: number]: Guitar
   }
+  discount: number,
 }
