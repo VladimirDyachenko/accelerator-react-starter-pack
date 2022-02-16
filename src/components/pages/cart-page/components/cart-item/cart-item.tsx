@@ -1,14 +1,28 @@
 import { GuitarTypeToLabelMap } from 'const/const';
-import { memo, useMemo } from 'react';
+import { ChangeEvent, memo, useMemo } from 'react';
 import { Guitar } from 'types/types';
 
 type CartItemProps = {
   productData: Guitar;
   amount: number;
+  onAmountUpdate: (id: number, amount: number) => void;
 }
 
-function CartItem({productData, amount}: CartItemProps): JSX.Element {
+function CartItem({ productData, amount, onAmountUpdate }: CartItemProps): JSX.Element {
   const totalPrice = useMemo(() => productData.price * amount, [productData, amount]);
+  const handleDeleteClick = () => onAmountUpdate(productData.id, 0);
+  const handleIncrementClick = () => {
+    if (amount + 1 < 100) {
+      onAmountUpdate(productData.id, amount + 1);
+    }
+  };
+  const handleDecrementClick = () => onAmountUpdate(productData.id, amount - 1);
+  const handleAmountInput = (event: ChangeEvent<HTMLInputElement>) => {
+    const newValue = Math.min(parseInt(event.target.value, 10) ?? 0, 99);
+    if (!isNaN(newValue) && newValue !== amount) {
+      onAmountUpdate(productData.id, newValue);
+    }
+  };
 
   return (
     <div className='cart-item'>
@@ -16,6 +30,7 @@ function CartItem({productData, amount}: CartItemProps): JSX.Element {
         className='cart-item__close-button button-cross'
         type='button'
         aria-label='Удалить'
+        onClick={handleDeleteClick}
       >
         <span className='button-cross__icon'></span>
         <span className='cart-item__close-button-interactive-area'></span>
@@ -38,6 +53,7 @@ function CartItem({productData, amount}: CartItemProps): JSX.Element {
         <button
           className='quantity__button'
           aria-label='Уменьшить количество'
+          onClick={handleDecrementClick}
         >
           <svg width='8' height='8' aria-hidden='true'>
             <use xlinkHref='#icon-minus'></use>
@@ -47,15 +63,16 @@ function CartItem({productData, amount}: CartItemProps): JSX.Element {
           className='quantity__input'
           type='number'
           placeholder='1'
-          id='2-count'
-          name='2-count'
+          id={`${productData.id}-count`}
+          name={`${productData.id}-count`}
           max='99'
           value={amount}
-          readOnly
+          onChange={handleAmountInput}
         />
         <button
           className='quantity__button'
           aria-label='Увеличить количество'
+          onClick={handleIncrementClick}
         >
           <svg width='8' height='8' aria-hidden='true'>
             <use xlinkHref='#icon-plus'></use>
