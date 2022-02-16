@@ -93,3 +93,5 @@ export const ratingOptions = [
   {label: 'Хорошо', value: '4'},
   {label: 'Отлично', value: '5'},
 ];
+
+export const formatPrice = (price: number) => price.toLocaleString('ru-RU', {minimumFractionDigits: 0, maximumFractionDigits: 2});

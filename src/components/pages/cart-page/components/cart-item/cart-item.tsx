@@ -1,4 +1,4 @@
-import { GuitarTypeToLabelMap } from 'const/const';
+import { formatPrice, GuitarTypeToLabelMap } from 'const/const';
 import { ChangeEvent, memo, useMemo } from 'react';
 import { Guitar } from 'types/types';
 
@@ -48,7 +48,7 @@ function CartItem({ productData, amount, onAmountUpdate }: CartItemProps): JSX.E
         <p className='product-info__info'>Артикул: {productData.vendorCode}</p>
         <p className='product-info__info'>{GuitarTypeToLabelMap[productData.type]}, {productData.stringCount} струнная</p>
       </div>
-      <div className='cart-item__price'>{productData.price.toLocaleString('ru-RU', {minimumFractionDigits: 0, maximumFractionDigits: 2})} ₽</div>
+      <div className='cart-item__price'>{formatPrice(productData.price)} ₽</div>
       <div className='quantity cart-item__quantity'>
         <button
           className='quantity__button'
@@ -79,7 +79,7 @@ function CartItem({ productData, amount, onAmountUpdate }: CartItemProps): JSX.E
           </svg>
         </button>
       </div>
-      <div className='cart-item__price-total'>{totalPrice.toLocaleString('ru-RU', {minimumFractionDigits: 0, maximumFractionDigits: 2})} ₽</div>
+      <div className='cart-item__price-total'>{formatPrice(totalPrice)} ₽</div>
     </div>
   );
 }

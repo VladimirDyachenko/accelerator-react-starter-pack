@@ -3,6 +3,7 @@ import { Guitar } from 'types/types';
 import { RateStars } from 'components/common/common';
 import { Tabs } from '../components';
 import useAddToCart from 'hooks/use-add-to-cart/use-add-to-cart';
+import { formatPrice } from 'const/const';
 
 type ProductCardProps = {
   product: Guitar;
@@ -48,7 +49,7 @@ function ProductCard({ product }: ProductCardProps): JSX.Element {
           Цена:
         </p>
         <p className='product-container__price-info product-container__price-info--value'>
-          {product.price.toLocaleString('ru-RU', {minimumFractionDigits: 0, maximumFractionDigits: 2})} ₽
+          {formatPrice(product.price)} ₽
         </p>
         <a
           className='button button--red button--big product-container__button'

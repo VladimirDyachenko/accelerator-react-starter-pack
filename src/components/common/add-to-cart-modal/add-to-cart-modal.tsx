@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { Guitar } from 'types/types';
-import { GuitarTypeToLabelMap } from 'const/const';
+import { formatPrice, GuitarTypeToLabelMap } from 'const/const';
 
 type AddToCartModalProps = {
   onModalClose: () => void;
@@ -21,7 +21,7 @@ function AddToCartModal({ onModalClose, onConfirmClick, product }: AddToCartModa
           <p className='modal__product-params'>{GuitarTypeToLabelMap[product.type]}, {product.stringCount} струнная</p>
           <p className='modal__price-wrapper'>
             <span className='modal__price'>Цена:</span>
-            <span className='modal__price'>{product.price.toLocaleString('ru-RU', {minimumFractionDigits: 0, maximumFractionDigits: 2})} ₽</span>
+            <span className='modal__price'>{formatPrice(product.price)} ₽</span>
           </p>
         </div>
       </div>

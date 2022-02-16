@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Guitar } from 'types/types';
-import { AppRoute } from 'const/const';
+import { AppRoute, formatPrice } from 'const/const';
 import { RateStars } from 'components/common/common';
 import { MouseEvent } from 'react';
 
@@ -34,7 +34,7 @@ function ProductCard({product, onAddToCart}: ProductCardProps): JSX.Element {
 
         <p className='product-card__title' data-testid='product-name'>{product.name}</p>
         <p className='product-card__price'>
-          <span className='visually-hidden'>Цена:</span>{product.price.toLocaleString('ru-RU', {minimumFractionDigits: 0, maximumFractionDigits: 2})} ₽
+          <span className='visually-hidden'>Цена:</span>{formatPrice(product.price)} ₽
         </p>
       </div>
       <div className='product-card__buttons'>
