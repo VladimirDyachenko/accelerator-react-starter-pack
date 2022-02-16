@@ -3,7 +3,7 @@ import { Guitar } from 'types/types';
 
 export enum CartActionType {
   AddProduct = 'Cart/AddProduct',
-  RemoveProduct = 'Cart/RemoveProduct',
+  SetProductCount = 'Cart/SetProductCount',
   SetProductData = 'Cart/SetCartData',
 }
 
@@ -12,9 +12,9 @@ export const addProduct = createAction(
   (id: number, amount: number) => ({ payload: { id, amount } }),
 );
 
-export const removeProduct = createAction(
-  CartActionType.RemoveProduct,
-  (id: number, amount: number) => ({ payload: { id, amount } }),
+export const setProductCount = createAction(
+  CartActionType.SetProductCount,
+  (id: number, amount: number) => ({ payload: { id, amount}}),
 );
 
 export const setCartData = createAction(

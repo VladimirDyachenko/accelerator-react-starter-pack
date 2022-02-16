@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { CartProcess } from 'types/store/cart-process';
-import { addProduct, removeProduct, setCartData } from './actions';
+import { addProduct, setCartData, setProductCount } from './actions';
 
 const initialState: CartProcess = {
   inCart: [],
@@ -19,14 +19,16 @@ const cartProcess = createReducer(
           state.inCart.push(action.payload);
         }
       })
-      .addCase(removeProduct, (state, action) => {
+      .addCase(setProductCount, (state, action) => {
+        if (action.payload.amount < 1) {
+          state.inCart = state.inCart.filter((item) => item.id !== action.payload.id);
+          return;
+        }
         const index = state.inCart.findIndex((item) => item.id === action.payload.id);
         if (index !== -1) {
-          if (state.inCart[index].amount - action.payload.amount > 0) {
-            state.inCart[index].amount -= action.payload.amount;
-          } else {
-            state.inCart.slice(index);
-          }
+          state.inCart[index].amount = action.payload.amount;
+        } else {
+          state.inCart.push(action.payload);
         }
       })
       .addCase(setCartData, (state, action) => {
