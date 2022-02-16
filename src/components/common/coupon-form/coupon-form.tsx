@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, memo, useState } from 'react';
+import { ChangeEvent, FormEvent, memo, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { applyCoupon } from 'store/api-actions';
 
@@ -11,6 +11,7 @@ function CouponForm({ containerClassName, currentCoupon }: CouponFormProps) {
   const dispatch = useDispatch();
   const [coupon, setCoupon] = useState(currentCoupon || '');
   const [isError, setIsError] = useState(false);
+  const [isCouponValid, setIsCouponValid] = useState(true);
 
   const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -21,8 +22,17 @@ function CouponForm({ containerClassName, currentCoupon }: CouponFormProps) {
   };
 
   const handleCouponChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setCoupon(event.target.value);
+    setCoupon(event.target.value.trim().toLowerCase());
   };
+
+  useEffect(() => {
+    if (coupon.split(' ').length > 1) {
+      setIsCouponValid(false);
+      return;
+    }
+
+    setIsCouponValid(true);
+  },[coupon]);
 
   return (
     <div className={`${containerClassName} coupon`}>
@@ -49,16 +59,19 @@ function CouponForm({ containerClassName, currentCoupon }: CouponFormProps) {
             value={coupon}
             onChange={handleCouponChange}
           />
-          {currentCoupon !== null &&
+          {currentCoupon !== null && isCouponValid && currentCoupon === coupon &&
           <p className='form-input__message form-input__message--success'>
             Промокод принят
           </p>}
-          {isError && currentCoupon === null &&
+          {((isError && currentCoupon === null) || !isCouponValid) &&
           <p className='form-input__message form-input__message--error'>
             Неверный промокод
           </p>}
         </div>
-        <button type='submit' className='button button--big coupon__button'>
+        <button
+          type='submit' className='button button--big coupon__button'
+          disabled={!isCouponValid}
+        >
           Применить
         </button>
       </form>
