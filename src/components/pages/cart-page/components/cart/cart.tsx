@@ -1,12 +1,13 @@
-import { memo, useCallback, useEffect } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCartItemsAmount, getIsNeedFetchProductData, getItemsInCart, getProductData } from 'store/cart-process/selectors';
-import { CouponForm, Spinner } from 'components/common/common';
-import { CartItem, CartTotal } from '../components';
+import { CouponForm, ModalContainer, Spinner } from 'components/common/common';
+import { CartItem, CartTotal, RemoveCartItemModal } from '../components';
 import { AppRoute } from 'const/const';
 import { Link } from 'react-router-dom';
 import { fetchCartData } from 'store/api-actions';
 import { setProductCount } from 'store/cart-process/actions';
+import { Guitar } from 'types/types';
 
 function Cart() {
   const dispatch = useDispatch();
@@ -14,17 +15,40 @@ function Cart() {
   const cartItemsAmount = useSelector(getCartItemsAmount);
   const isNeedFetchProductData = useSelector(getIsNeedFetchProductData);
   const productData = useSelector(getProductData);
+  const [modalName, setModalName] = useState<'confirm-delete'>();
+  const [confirmModalData, setConfirmModalData] = useState<Guitar>();
+
+  const onModalClose = useCallback(() => {
+    setModalName(undefined);
+    setConfirmModalData(undefined);
+  }, []);
+
+  const onConfirmClick = useCallback(() => {
+    if (confirmModalData) {
+      dispatch(setProductCount(confirmModalData.id, 0));
+    }
+    onModalClose();
+  }, [dispatch, onModalClose, confirmModalData]);
+
+  const openConfirmModal = useCallback((productId: number) => {
+    setConfirmModalData(productData[productId]);
+    setModalName('confirm-delete');
+  }, [productData]);
 
   const onAmountUpdate = useCallback((id: number, amount: number) => {
+    if (amount === 0) {
+      openConfirmModal(id);
+      return;
+    }
     dispatch(setProductCount(id, amount));
-  }, [dispatch]);
+  }, [dispatch, openConfirmModal]);
 
   useEffect(() => {
     if (isNeedFetchProductData) {
       const idsToLoad = itemsInCart.map((item) => item.id);
       dispatch(fetchCartData(idsToLoad));
     }
-  },[dispatch, isNeedFetchProductData, itemsInCart]);
+  }, [dispatch, isNeedFetchProductData, itemsInCart]);
 
   if (isNeedFetchProductData) {
     return (
@@ -76,6 +100,11 @@ function Cart() {
         <CouponForm containerClassName='cart__coupon'/>
         <CartTotal />
       </div>
+
+      <ModalContainer modalName={modalName} onModalClose={onModalClose}>
+        {modalName === 'confirm-delete' && confirmModalData !== undefined &&
+          <RemoveCartItemModal productData={confirmModalData} onConfirmClick={onConfirmClick} onModalClose={onModalClose} />}
+      </ModalContainer>
     </div>
   );
 }
