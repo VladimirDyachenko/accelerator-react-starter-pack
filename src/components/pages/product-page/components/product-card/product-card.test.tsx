@@ -1,10 +1,26 @@
-import { render, screen } from '@testing-library/react';
-import { generateGuitarMock } from 'mock/generate-guitar-mock';
+import { Action } from '@reduxjs/toolkit';
+import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createMemoryHistory } from 'history';
-import ProductCard from './product-card';
+import thunk, { ThunkDispatch } from 'redux-thunk';
+import { Provider } from 'react-redux';
+import { render, screen } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 
+import { generateGuitarMock } from 'mock/generate-guitar-mock';
+import ProductCard from './product-card';
+import { createApi } from 'services/api';
+import { State } from 'types/types';
+import { NameSpace } from 'store/root-reducer';
+
 const history = createMemoryHistory();
+const api = createApi();
+const middlewares = [thunk.withExtraArgument(api)];
+const mockStore = configureMockStore<State, Action, ThunkDispatch<State, typeof api, Action>>(middlewares);
+const productMock = generateGuitarMock();
+const store = mockStore({
+  [NameSpace.Product]: {product: productMock},
+  [NameSpace.Cart]: {inCart: []},
+});
 
 describe('Component: ProductCard', () => {
   beforeEach(() => {
@@ -16,7 +32,9 @@ describe('Component: ProductCard', () => {
 
     render(
       <Router history={history}>
-        <ProductCard product={product} />
+        <Provider store={store}>
+          <ProductCard product={product} />
+        </Provider>
       </Router>,
     );
 

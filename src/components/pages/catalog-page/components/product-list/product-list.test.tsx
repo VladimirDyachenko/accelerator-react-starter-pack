@@ -26,6 +26,7 @@ describe('Component: ProductList', () => {
             isError: false,
           },
         },
+        [NameSpace.Cart]: {inCart: []},
       },
     );
 
@@ -51,6 +52,7 @@ describe('Component: ProductList', () => {
             isError: false,
           },
         },
+        [NameSpace.Cart]: {inCart: []},
       },
     );
 
@@ -75,6 +77,7 @@ describe('Component: ProductList', () => {
             isError: true,
           },
         },
+        [NameSpace.Cart]: {inCart: []},
       },
     );
 
@@ -99,6 +102,7 @@ describe('Component: ProductList', () => {
             isError: false,
           },
         },
+        [NameSpace.Cart]: {inCart: []},
       },
     );
 
