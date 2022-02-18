@@ -67,12 +67,19 @@ function CouponForm({ containerClassName, currentCoupon }: CouponFormProps) {
           >
             Промокод принят
           </p>}
-          {((isError && currentCoupon === null) || !isCouponValid) &&
+          {(isError && currentCoupon === null) && isCouponValid &&
           <p
             className='form-input__message form-input__message--error'
             data-testid='coupon-form-error'
           >
             Неверный промокод
+          </p>}
+          {!isCouponValid &&
+          <p
+            className='form-input__message form-input__message--error'
+            data-testid='coupon-form-error'
+          >
+            Нельзя использовать пробелы
           </p>}
         </div>
         <button
