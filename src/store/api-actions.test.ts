@@ -213,12 +213,34 @@ describe('test async actions', () => {
     mockAPI.onGet(`${ApiRoute.Guitars}/${mockData[0].id}`).reply(200, mockData[0]);
     mockAPI.onGet(`${ApiRoute.Guitars}/${mockData[1].id}`).reply(200, mockData[1]);
     expect(store.getActions()).toEqual([]);
+    const onSuccess = jest.fn();
+    const onError = jest.fn();
 
-    await store.dispatch(fetchCartData([mockData[0].id, mockData[1].id]));
+    await store.dispatch(fetchCartData([mockData[0].id, mockData[1].id], onSuccess, onError));
 
     expect(store.getActions()).toEqual([
       setCartData(mockData),
     ]);
+    expect(onSuccess).toBeCalledTimes(1);
+  });
+
+  it('fetchCartData: should dispatch "setCartData" and call onError then server respond with 4xx', async () => {
+    const store = mockStore();
+    const mockAPI = new MockAdapter(api);
+    const mockData = new Array(2).fill(undefined).map(generateGuitarMock);
+
+    mockAPI.onGet(`${ApiRoute.Guitars}/${mockData[0].id}`).reply(400, mockData[0]);
+    mockAPI.onGet(`${ApiRoute.Guitars}/${mockData[1].id}`).reply(400, mockData[1]);
+    expect(store.getActions()).toEqual([]);
+    const onSuccess = jest.fn();
+    const onError = jest.fn();
+
+    await store.dispatch(fetchCartData([mockData[0].id, mockData[1].id], onSuccess, onError));
+
+    expect(store.getActions()).toEqual([
+      setCartData([]),
+    ]);
+    expect(onError).toBeCalledTimes(1);
   });
 
   it('applyCoupon: should dispatch "setDiscount" and "setCoupon" then server respond with 200', async () => {

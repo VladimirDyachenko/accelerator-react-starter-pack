@@ -81,17 +81,17 @@ export const addComment = (
   };
 
 
-export const fetchCartData = (ids: Array<number>): ThunkActionResult =>
+export const fetchCartData = (ids: Array<number>, onSuccess: () => void, onError: () => void): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     try {
       const promises = ids.map((id) => api.get<Guitar>(`${ApiRoute.Guitars}/${id}`));
       const guitarsResponse = await Promise.all(promises);
       const guitarsData = guitarsResponse.map((res) => res.data);
       dispatch(setCartData(guitarsData));
+      onSuccess();
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
-      //TODO handle error
+      dispatch(setCartData([]));
+      onError();
     }
   };
 

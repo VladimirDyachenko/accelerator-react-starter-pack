@@ -3,7 +3,7 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createMemoryHistory } from 'history';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import { Provider } from 'react-redux';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import MockAdapter from 'axios-mock-adapter';
 
@@ -46,7 +46,7 @@ describe('Component: Cart', () => {
     expect(screen.getByTestId('cart-item-total-price')).toBeInTheDocument();
   });
 
-  it('should show spinner', () => {
+  it('should show spinner', async () => {
     const store = mockStore({
       [NameSpace.Product]: {product: productMock},
       [NameSpace.Cart]: {
@@ -66,6 +66,33 @@ describe('Component: Cart', () => {
     );
 
     expect(screen.getByTestId('hidden-text')).toHaveTextContent(/Загрузка/);
+
+    // Фикс ошибки "An update to Cart inside a test was not wrapped in act(...)"
+    // Из-за обновления стэйта после успешной загрузки эта линия нужна
+    await waitFor(() => mockAPI.history['get'].length !== 0, {timeout: 150});
+  });
+
+  it('should show error message', async () => {
+    const store = mockStore({
+      [NameSpace.Product]: {product: productMock},
+      [NameSpace.Cart]: {
+        inCart: [{id: productMock.id, amount: 1}],
+        productData: {},
+      },
+    });
+
+    mockAPI.onGet(`${ApiRoute.Guitars}/${productMock.id}`).reply(400);
+
+    render(
+      <Router history={history}>
+        <Provider store={store}>
+          <Cart />
+        </Provider>
+      </Router>,
+    );
+    await waitFor(() => mockAPI.history['get'].length !== 0, {timeout: 150});
+
+    expect(screen.getByText(/Ошибка загрузки/)).toBeInTheDocument();
   });
 
   it('should show empty cart message', () => {

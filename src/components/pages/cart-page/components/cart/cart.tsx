@@ -20,6 +20,7 @@ function Cart() {
   const totalPrice = useSelector(getTotalPrice);
   const discount = useSelector(getDiscountAmount);
   const currentCoupon = useSelector(getCoupon);
+  const [isLoadingError, setIsLoadingError] = useState(false);
 
   const onModalClose = useCallback(() => {
     setModalName(undefined);
@@ -49,9 +50,25 @@ function Cart() {
   useEffect(() => {
     if (isNeedFetchProductData) {
       const idsToLoad = itemsInCart.map((item) => item.id);
-      dispatch(fetchCartData(idsToLoad));
+      const onSuccess = () => setIsLoadingError(false);
+      const onError = () => setIsLoadingError(true);
+      dispatch(fetchCartData(idsToLoad, onSuccess, onError));
     }
   }, [dispatch, isNeedFetchProductData, itemsInCart]);
+
+  if (isLoadingError) {
+    return (
+      <div className='cart'
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <p>Ошибка загрузки</p>
+      </div>
+    );
+  }
 
   if (isNeedFetchProductData) {
     return (
