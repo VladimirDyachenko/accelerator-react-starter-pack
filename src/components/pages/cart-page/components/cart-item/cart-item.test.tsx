@@ -50,8 +50,10 @@ describe('Component: CartItem', () => {
     expect(onAmountUpdate).toBeCalledWith(productData.id, amount + 1);
     onAmountUpdate.mockReset();
 
-    userEvent.type(inputField, '2');
-    expect(onAmountUpdate).toBeCalledWith(productData.id, 22);
+    userEvent.clear(inputField);
+    userEvent.type(inputField, '25');
+    userEvent.tab();
+    expect(onAmountUpdate).toBeCalledWith(productData.id, 25);
   });
 
 });

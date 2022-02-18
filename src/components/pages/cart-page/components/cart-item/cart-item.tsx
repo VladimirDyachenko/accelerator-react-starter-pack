@@ -1,5 +1,5 @@
+import { memo, useEffect, useMemo, useRef, KeyboardEvent } from 'react';
 import { formatPrice, GuitarTypeToLabelMap } from 'const/const';
-import { ChangeEvent, memo, useMemo } from 'react';
 import { Guitar } from 'types/types';
 
 type CartItemProps = {
@@ -9,6 +9,7 @@ type CartItemProps = {
 }
 
 function CartItem({ productData, amount, onAmountUpdate }: CartItemProps): JSX.Element {
+  const inputRef = useRef<HTMLInputElement>(null);
   const totalPrice = useMemo(() => productData.price * amount, [productData, amount]);
   const handleDeleteClick = () => onAmountUpdate(productData.id, 0);
   const handleIncrementClick = () => {
@@ -17,10 +18,45 @@ function CartItem({ productData, amount, onAmountUpdate }: CartItemProps): JSX.E
     }
   };
   const handleDecrementClick = () => onAmountUpdate(productData.id, amount - 1);
-  const handleAmountInput = (event: ChangeEvent<HTMLInputElement>) => {
-    const newValue = Math.min(parseInt(event.target.value, 10) ?? 0, 99);
-    if (!isNaN(newValue) && newValue !== amount) {
-      onAmountUpdate(productData.id, newValue);
+
+  useEffect(() => {
+    if (inputRef.current !== null) {
+      inputRef.current.value = amount.toString();
+    }
+  }, [amount]);
+
+  const updateAmount = () => {
+    if (inputRef.current === null) {
+      return;
+    }
+    let value = parseInt(inputRef.current.value, 10);
+
+    if (isNaN(value)) {
+      inputRef.current.value = amount.toString();
+      return;
+    }
+
+    if (value > 99) {
+      value = 99;
+      inputRef.current.value = '99';
+    }
+
+    if (value === amount) {
+      return;
+    }
+
+    onAmountUpdate(productData.id, value);
+
+    if (value < 1) {
+      inputRef.current.value = amount.toString();
+    }
+  };
+
+  const handleInputBlur = () =>  updateAmount();
+
+  const handleInputKeyDown = (event: KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      updateAmount();
     }
   };
 
@@ -68,8 +104,9 @@ function CartItem({ productData, amount, onAmountUpdate }: CartItemProps): JSX.E
           id={`${productData.id}-count`}
           name={`${productData.id}-count`}
           max='99'
-          value={amount}
-          onChange={handleAmountInput}
+          ref={inputRef}
+          onBlur={handleInputBlur}
+          onKeyDown={handleInputKeyDown}
           data-testid='cart-item-input'
         />
         <button
