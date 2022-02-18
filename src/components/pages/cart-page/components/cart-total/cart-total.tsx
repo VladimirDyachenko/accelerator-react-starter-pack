@@ -6,30 +6,40 @@ export type CartTotalProps = {
   discount: number;
 }
 
-function CartTotal({total, discount}: CartTotalProps) {
+function CartTotal({ total, discount }: CartTotalProps) {
   return (
     <div className='cart__total-info'>
       <p className='cart__total-item'>
         <span className='cart__total-value-name'>Всего:</span>
-        <span className='cart__total-value'>{formatPrice(total)} ₽</span>
+        <span
+          className='cart__total-value' data-testid='cart-total-value'
+        >
+          {formatPrice(total)} ₽
+        </span>
       </p>
       <p className='cart__total-item'>
         <span className='cart__total-value-name'>Скидка:</span>
         {discount === 0 ?
           (
-            <span className='cart__total-value'>
+            <span className='cart__total-value' data-testid='cart-total-discount'>
               {formatPrice(discount)} ₽
             </span>
           ) :
           (
-            <span className='cart__total-value cart__total-value--bonus'>
+            <span
+              className='cart__total-value cart__total-value--bonus'
+              data-testid='cart-total-discount'
+            >
               - {formatPrice(discount)} ₽
             </span>
           )}
       </p>
       <p className='cart__total-item'>
         <span className='cart__total-value-name'>К оплате:</span>
-        <span className='cart__total-value cart__total-value--payment'>
+        <span
+          className='cart__total-value cart__total-value--payment'
+          data-testid='cart-total-value-payment'
+        >
           {formatPrice(total - discount)} ₽
         </span>
       </p>

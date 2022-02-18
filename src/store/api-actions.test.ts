@@ -15,12 +15,15 @@ import {
 } from './catalog-process/actions';
 import {
   addComment,
+  applyCoupon,
+  fetchCartData,
   fetchGuitarList,
   fetchMinMaxPrice,
   fetchProductData
 } from './api-actions';
 import { generateCommentMock } from 'mock/generate-comment-mock';
 import { addProductComment, setProductData } from './product-process/actions';
+import { setCartData, setCoupon, setDiscount } from './cart-process/actions';
 
 describe('test async actions', () => {
   const api = createApi();
@@ -200,6 +203,57 @@ describe('test async actions', () => {
     expect(store.getActions()).toEqual([]);
     expect(onSuccess).not.toBeCalled();
     expect(onError).toBeCalledWith(['Произошла ошибка']);
+  });
+
+  it('fetchCartData: should dispatch "setCartData" then server respond with 200', async () => {
+    const store = mockStore();
+    const mockAPI = new MockAdapter(api);
+    const mockData = new Array(2).fill(undefined).map(generateGuitarMock);
+
+    mockAPI.onGet(`${ApiRoute.Guitars}/${mockData[0].id}`).reply(200, mockData[0]);
+    mockAPI.onGet(`${ApiRoute.Guitars}/${mockData[1].id}`).reply(200, mockData[1]);
+    expect(store.getActions()).toEqual([]);
+
+    await store.dispatch(fetchCartData([mockData[0].id, mockData[1].id]));
+
+    expect(store.getActions()).toEqual([
+      setCartData(mockData),
+    ]);
+  });
+
+  it('applyCoupon: should dispatch "setDiscount" and "setCoupon" then server respond with 200', async () => {
+    const store = mockStore();
+    const mockAPI = new MockAdapter(api);
+    const discount = 10;
+    const coupon = 'new-coupon';
+
+    mockAPI.onPost(ApiRoute.Coupons).reply(200, discount);
+
+    expect(store.getActions()).toEqual([]);
+
+    await store.dispatch(applyCoupon(coupon, jest.fn()));
+
+    expect(store.getActions()).toEqual([
+      setDiscount(discount),
+      setCoupon(coupon),
+    ]);
+  });
+
+  it('applyCoupon: should reset discount and coupon when server respond with 4xx', async () => {
+    const store = mockStore();
+    const mockAPI = new MockAdapter(api);
+    const coupon = 'new-coupon';
+
+    mockAPI.onPost(ApiRoute.Coupons).reply(400);
+
+    expect(store.getActions()).toEqual([]);
+
+    await store.dispatch(applyCoupon(coupon, jest.fn()));
+
+    expect(store.getActions()).toEqual([
+      setDiscount(0),
+      setCoupon(null),
+    ]);
   });
 
 });

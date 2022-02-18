@@ -58,19 +58,26 @@ function CouponForm({ containerClassName, currentCoupon }: CouponFormProps) {
             name='coupon'
             value={coupon}
             onChange={handleCouponChange}
+            data-testid='coupon-input'
           />
           {currentCoupon !== null && isCouponValid && currentCoupon === coupon &&
-          <p className='form-input__message form-input__message--success'>
+          <p
+            className='form-input__message form-input__message--success'
+            data-testid='coupon-form-success'
+          >
             Промокод принят
           </p>}
           {((isError && currentCoupon === null) || !isCouponValid) &&
-          <p className='form-input__message form-input__message--error'>
+          <p
+            className='form-input__message form-input__message--error'
+            data-testid='coupon-form-error'
+          >
             Неверный промокод
           </p>}
         </div>
         <button
           type='submit' className='button button--big coupon__button'
-          disabled={!isCouponValid}
+          disabled={!isCouponValid} data-testid='coupon-submit'
         >
           Применить
         </button>

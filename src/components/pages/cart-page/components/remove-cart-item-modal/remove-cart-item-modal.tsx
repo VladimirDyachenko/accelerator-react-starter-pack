@@ -11,11 +11,21 @@ type RemoveCartItemModalProps = {
 function RemoveCartItemModal({productData, onConfirmClick, onModalClose}: RemoveCartItemModalProps) {
   return (
     <div className='modal__content'>
-      <h2 className='modal__header title title--medium title--red'>Удалить этот товар?</h2>
+      <h2
+        className='modal__header title title--medium title--red'
+        data-testid='remove-modal-header'
+      >
+        Удалить этот товар?
+      </h2>
       <div className='modal__info'>
         <img className='modal__img' src={productData.previewImg} width='67' height='137' alt={productData.name} />
         <div className='modal__info-wrapper'>
-          <h3 className='modal__product-name title title--little title--uppercase'>{productData.name}</h3>
+          <h3
+            className='modal__product-name title title--little title--uppercase'
+            data-testid='remove-modal-product-name'
+          >
+            {productData.name}
+          </h3>
           <p className='modal__product-params modal__product-params--margin-11'>Артикул: {productData.vendorCode}</p>
           <p className='modal__product-params'>{GuitarTypeToLabelMap[productData.type]}, {productData.stringCount} струнная</p>
           <p className='modal__price-wrapper'>
@@ -27,13 +37,13 @@ function RemoveCartItemModal({productData, onConfirmClick, onModalClose}: Remove
       <div className='modal__button-container'>
         <button
           className='button button--small modal__button'
-          onClick={onConfirmClick}
+          onClick={onConfirmClick} data-testid='remove-modal-confirm'
         >
           Удалить товар
         </button>
         <button
           className='button button--black-border button--small modal__button modal__button--right'
-          onClick={onModalClose}
+          onClick={onModalClose} data-testid='remove-modal-decline'
         >
           Продолжить покупки
         </button>

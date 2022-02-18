@@ -31,6 +31,7 @@ function CartItem({ productData, amount, onAmountUpdate }: CartItemProps): JSX.E
         type='button'
         aria-label='Удалить'
         onClick={handleDeleteClick}
+        data-testid='cart-item-delete-button'
       >
         <span className='button-cross__icon'></span>
         <span className='cart-item__close-button-interactive-area'></span>
@@ -44,16 +45,17 @@ function CartItem({ productData, amount, onAmountUpdate }: CartItemProps): JSX.E
         />
       </div>
       <div className='product-info cart-item__info'>
-        <p className='product-info__title'>{productData.name}</p>
-        <p className='product-info__info'>Артикул: {productData.vendorCode}</p>
+        <p className='product-info__title' data-testid='cart-item-name'>{productData.name}</p>
+        <p className='product-info__info' data-testid='cart-item-vendor-code'>Артикул: {productData.vendorCode}</p>
         <p className='product-info__info'>{GuitarTypeToLabelMap[productData.type]}, {productData.stringCount} струнная</p>
       </div>
-      <div className='cart-item__price'>{formatPrice(productData.price)} ₽</div>
+      <div className='cart-item__price' data-testid='cart-item-price'>{formatPrice(productData.price)} ₽</div>
       <div className='quantity cart-item__quantity'>
         <button
           className='quantity__button'
           aria-label='Уменьшить количество'
           onClick={handleDecrementClick}
+          data-testid='cart-item-decrement'
         >
           <svg width='8' height='8' aria-hidden='true'>
             <use xlinkHref='#icon-minus'></use>
@@ -68,18 +70,20 @@ function CartItem({ productData, amount, onAmountUpdate }: CartItemProps): JSX.E
           max='99'
           value={amount}
           onChange={handleAmountInput}
+          data-testid='cart-item-input'
         />
         <button
           className='quantity__button'
           aria-label='Увеличить количество'
           onClick={handleIncrementClick}
+          data-testid='cart-item-increment'
         >
           <svg width='8' height='8' aria-hidden='true'>
             <use xlinkHref='#icon-plus'></use>
           </svg>
         </button>
       </div>
-      <div className='cart-item__price-total'>{formatPrice(totalPrice)} ₽</div>
+      <div className='cart-item__price-total' data-testid='cart-item-total-price'>{formatPrice(totalPrice)} ₽</div>
     </div>
   );
 }

@@ -11,7 +11,7 @@ type AddToCartModalProps = {
 function AddToCartModal({ onModalClose, onConfirmClick, product }: AddToCartModalProps) {
 
   return (
-    <div className='modal__content'>
+    <div className='modal__content' data-testid='add-to-cart-modal'>
       <h2 className='modal__header title title--medium'>Добавить товар в корзину</h2>
       <div className='modal__info'>
         <img className='modal__img' src={product.previewImg} width='67' height='137' alt={product.name} />
@@ -28,14 +28,14 @@ function AddToCartModal({ onModalClose, onConfirmClick, product }: AddToCartModa
       <div className='modal__button-container'>
         <button
           className='button button--red button--big modal__button modal__button--add'
-          onClick={onConfirmClick}
+          onClick={onConfirmClick} data-testid='add-to-cart-modal-confirm'
         >
           Добавить в корзину
         </button>
       </div>
       <button
         className='modal__close-btn button-cross' type='button' aria-label='Закрыть'
-        onClick={onModalClose}
+        onClick={onModalClose} data-testid='add-to-cart-modal-close'
       >
         <span className='button-cross__icon'></span>
         <span className='modal__close-btn-interactive-area'></span>

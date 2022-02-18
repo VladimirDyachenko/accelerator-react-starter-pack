@@ -36,13 +36,13 @@ function useAddToCart(): useAddToCartReturn {
       wrapperClassName={activeModal === 'success' ? 'modal--success' : undefined}
     >
       {activeModal === 'confirm' && addToCartProduct !== undefined &&
-    <AddToCartModal
-      onModalClose={onModalClose}
-      onConfirmClick={onConfirmClick}
-      product={addToCartProduct}
-    />}
+        <AddToCartModal
+          onModalClose={onModalClose}
+          onConfirmClick={onConfirmClick}
+          product={addToCartProduct}
+        />}
 
-      {activeModal === 'success' && <AddToCartSuccessModal onModalClose={onModalClose}/>}
+      {activeModal === 'success' && <AddToCartSuccessModal onModalClose={onModalClose} />}
     </ModalContainer>
   );
 

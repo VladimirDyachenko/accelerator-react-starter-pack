@@ -21,7 +21,7 @@ function AddToCartSuccessModal({ onModalClose }: AddToCartSuccessModalProps): JS
   };
 
   return (
-    <div className='modal__content'>
+    <div className='modal__content' data-testid='add-success-modal'>
       <svg className='modal__icon' width='26' height='20' aria-hidden='true'>
         <use xlinkHref='#icon-success'></use>
       </svg>
@@ -30,12 +30,14 @@ function AddToCartSuccessModal({ onModalClose }: AddToCartSuccessModalProps): JS
         <button
           className='button button--small modal__button'
           onClick={handleGoToCartClick}
+          data-testid='success-modal-to-cart'
         >
           Перейти в корзину
         </button>
         <button
           className='button button--black-border button--small modal__button modal__button--right'
           onClick={handleContinueShoppingClick}
+          data-testid='success-modal-to-continue'
         >
           Продолжить покупки
         </button>
@@ -45,7 +47,7 @@ function AddToCartSuccessModal({ onModalClose }: AddToCartSuccessModalProps): JS
         onClick={onModalClose}
       >
         <span className='button-cross__icon'></span>
-        <span className='modal__close-btn-interactive-area'></span>
+        <span className='modal__close-btn-interactive-area' data-testid='add-success-close'></span>
       </button>
     </div>
   );
