@@ -1,5 +1,5 @@
 import { memo, useEffect, useMemo, useRef, KeyboardEvent } from 'react';
-import { formatPrice, GuitarTypeToLabelMap } from 'const/const';
+import { formatPrice, GuitarTypeToLabelMap, MAX_AMOUNT_IN_CART } from 'const/const';
 import { Guitar } from 'types/types';
 
 type CartItemProps = {
@@ -13,7 +13,7 @@ function CartItem({ productData, amount, onAmountUpdate }: CartItemProps): JSX.E
   const totalPrice = useMemo(() => productData.price * amount, [productData, amount]);
   const handleDeleteClick = () => onAmountUpdate(productData.id, 0);
   const handleIncrementClick = () => {
-    if (amount + 1 < 100) {
+    if (amount + 1 <= MAX_AMOUNT_IN_CART) {
       onAmountUpdate(productData.id, amount + 1);
     }
   };
@@ -36,9 +36,9 @@ function CartItem({ productData, amount, onAmountUpdate }: CartItemProps): JSX.E
       return;
     }
 
-    if (value > 99) {
-      value = 99;
-      inputRef.current.value = '99';
+    if (value > MAX_AMOUNT_IN_CART) {
+      value = MAX_AMOUNT_IN_CART;
+      inputRef.current.value = MAX_AMOUNT_IN_CART.toString();
     }
 
     if (value === amount) {
@@ -103,7 +103,7 @@ function CartItem({ productData, amount, onAmountUpdate }: CartItemProps): JSX.E
           placeholder='1'
           id={`${productData.id}-count`}
           name={`${productData.id}-count`}
-          max='99'
+          max={MAX_AMOUNT_IN_CART}
           ref={inputRef}
           onBlur={handleInputBlur}
           onKeyDown={handleInputKeyDown}

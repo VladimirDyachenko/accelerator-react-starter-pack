@@ -96,3 +96,5 @@ export const ratingOptions = [
 ];
 
 export const formatPrice = (price: number) => price.toLocaleString('ru-RU', {minimumFractionDigits: 0, maximumFractionDigits: 2});
+
+export const MAX_AMOUNT_IN_CART = 99;
