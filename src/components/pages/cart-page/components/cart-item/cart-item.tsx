@@ -52,7 +52,7 @@ function CartItem({ productData, amount, onAmountUpdate }: CartItemProps): JSX.E
     }
   };
 
-  const handleInputBlur = () =>  updateAmount();
+  const handleInputBlur = () => updateAmount();
 
   const handleInputKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Enter') {

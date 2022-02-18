@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import { NameSpace } from 'store/root-reducer';
 import { Guitar, State } from 'types/types';
 
-export const getItemsInCart = (state: State): Array<{id: number, amount: number}> => state[NameSpace.Cart].itemsInCartList;
+export const getItemsInCart = (state: State): Array<{ id: number, amount: number }> => state[NameSpace.Cart].itemsInCartList;
 
 export const getProductsData = (state: State): { [id: number]: Guitar } => state[NameSpace.Cart].productsData;
 
@@ -14,7 +14,7 @@ export const getCartItemsAmount = createSelector(
 export const getIsNeedFetchProductsData = createSelector(
   getProductsData,
   getItemsInCart,
-  (productData, itemsInCart):boolean => {
+  (productData, itemsInCart): boolean => {
     if (itemsInCart.length === 0) {
       return false;
     }
@@ -25,7 +25,7 @@ export const getIsNeedFetchProductsData = createSelector(
 
 export const getProductIdsInCart = createSelector(
   getItemsInCart,
-  (products) => products.reduce((acc: {[key: number]: boolean}, product) => {
+  (products) => products.reduce((acc: { [key: number]: boolean }, product) => {
     acc[product.id] = true;
     return acc;
   }, {}),
@@ -36,7 +36,7 @@ export const getDiscountPercent = (state: State): number => state[NameSpace.Cart
 export const getTotalPrice = createSelector(
   getProductsData,
   getItemsInCart,
-  (productData, itemsInCart):number => {
+  (productData, itemsInCart): number => {
     let totalPrice = 0;
     if (itemsInCart.length === 0) {
       return totalPrice;
@@ -65,4 +65,4 @@ export const getDiscountAmount = createSelector(
   },
 );
 
-export const getCoupon = (state: State): string | null=> state[NameSpace.Cart].coupon;
+export const getCoupon = (state: State): string | null => state[NameSpace.Cart].coupon;

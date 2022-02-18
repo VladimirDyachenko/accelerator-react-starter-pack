@@ -18,10 +18,10 @@ const middlewares = [thunk.withExtraArgument(api)];
 const mockStore = configureMockStore<State, Action, ThunkDispatch<State, typeof api, Action>>(middlewares);
 const productMock = generateGuitarMock();
 const store = mockStore({
-  [NameSpace.Product]: {product: productMock},
+  [NameSpace.Product]: { product: productMock },
   [NameSpace.Cart]: {
-    itemsInCartList: [{id: productMock.id, amount: 1}],
-    productsData: {[productMock.id]: productMock},
+    itemsInCartList: [{ id: productMock.id, amount: 1 }],
+    productsData: { [productMock.id]: productMock },
   },
 });
 

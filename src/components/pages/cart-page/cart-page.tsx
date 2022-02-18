@@ -31,11 +31,11 @@ function CartPage(): JSX.Element {
             }
           />
 
-          <Cart/>
+          <Cart />
         </div>
       </main>
 
-      <Footer/>
+      <Footer />
     </div>
   );
 }

@@ -32,7 +32,7 @@ function CouponForm({ containerClassName, currentCoupon }: CouponFormProps) {
     }
 
     setIsCouponValid(true);
-  },[coupon]);
+  }, [coupon]);
 
   return (
     <div className={`${containerClassName} coupon`}>
@@ -61,26 +61,26 @@ function CouponForm({ containerClassName, currentCoupon }: CouponFormProps) {
             data-testid='coupon-input'
           />
           {currentCoupon !== null && isCouponValid && currentCoupon === coupon &&
-          <p
-            className='form-input__message form-input__message--success'
-            data-testid='coupon-form-success'
-          >
-            Промокод принят
-          </p>}
+            <p
+              className='form-input__message form-input__message--success'
+              data-testid='coupon-form-success'
+            >
+              Промокод принят
+            </p>}
           {(isError && currentCoupon === null) && isCouponValid &&
-          <p
-            className='form-input__message form-input__message--error'
-            data-testid='coupon-form-error'
-          >
-            Неверный промокод
-          </p>}
+            <p
+              className='form-input__message form-input__message--error'
+              data-testid='coupon-form-error'
+            >
+              Неверный промокод
+            </p>}
           {!isCouponValid &&
-          <p
-            className='form-input__message form-input__message--error'
-            data-testid='coupon-form-error'
-          >
-            Нельзя использовать пробелы
-          </p>}
+            <p
+              className='form-input__message form-input__message--error'
+              data-testid='coupon-form-error'
+            >
+              Нельзя использовать пробелы
+            </p>}
         </div>
         <button
           type='submit' className='button button--big coupon__button'

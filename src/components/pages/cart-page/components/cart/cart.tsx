@@ -79,7 +79,7 @@ function Cart() {
           alignItems: 'center',
         }}
       >
-        <Spinner/>
+        <Spinner />
       </div>
     );
   }
@@ -95,7 +95,7 @@ function Cart() {
       >
         <p>В корзине еще ничего нет</p>
         <Link
-          style={{width: 'fit-content'}}
+          style={{ width: 'fit-content' }}
           className='button button--red button--big'
           to={AppRoute.Catalog}
         >
@@ -117,7 +117,7 @@ function Cart() {
         />))}
 
       <div className='cart__footer'>
-        <CouponForm containerClassName='cart__coupon' currentCoupon={currentCoupon}/>
+        <CouponForm containerClassName='cart__coupon' currentCoupon={currentCoupon} />
         <CartTotal total={totalPrice} discount={discount} />
       </div>
 

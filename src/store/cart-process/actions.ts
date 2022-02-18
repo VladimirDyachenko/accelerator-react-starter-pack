@@ -16,7 +16,7 @@ export const addProduct = createAction(
 
 export const setProductCount = createAction(
   CartActionType.SetProductCount,
-  (id: number, amount: number) => ({ payload: { id, amount}}),
+  (id: number, amount: number) => ({ payload: { id, amount } }),
 );
 
 export const setCartData = createAction(

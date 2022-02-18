@@ -8,7 +8,7 @@ type RemoveCartItemModalProps = {
   onModalClose: () => void;
 };
 
-function RemoveCartItemModal({productData, onConfirmClick, onModalClose}: RemoveCartItemModalProps) {
+function RemoveCartItemModal({ productData, onConfirmClick, onModalClose }: RemoveCartItemModalProps) {
   return (
     <div className='modal__content'>
       <h2

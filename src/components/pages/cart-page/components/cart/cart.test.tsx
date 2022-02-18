@@ -28,10 +28,10 @@ describe('Component: Cart', () => {
 
   it('should render Cart correctly', () => {
     const store = mockStore({
-      [NameSpace.Product]: {product: productMock},
+      [NameSpace.Product]: { product: productMock },
       [NameSpace.Cart]: {
-        itemsInCartList: [{id: productMock.id, amount: 1}],
-        productsData: {[productMock.id]: productMock},
+        itemsInCartList: [{ id: productMock.id, amount: 1 }],
+        productsData: { [productMock.id]: productMock },
       },
     });
 
@@ -48,9 +48,9 @@ describe('Component: Cart', () => {
 
   it('should show spinner', async () => {
     const store = mockStore({
-      [NameSpace.Product]: {product: productMock},
+      [NameSpace.Product]: { product: productMock },
       [NameSpace.Cart]: {
-        itemsInCartList: [{id: productMock.id, amount: 1}],
+        itemsInCartList: [{ id: productMock.id, amount: 1 }],
         productsData: {},
       },
     });
@@ -69,14 +69,14 @@ describe('Component: Cart', () => {
 
     // Фикс ошибки "An update to Cart inside a test was not wrapped in act(...)"
     // Из-за обновления стэйта после успешной загрузки эта линия нужна
-    await waitFor(() => mockAPI.history['get'].length !== 0, {timeout: 150});
+    await waitFor(() => mockAPI.history['get'].length !== 0, { timeout: 150 });
   });
 
   it('should show error message', async () => {
     const store = mockStore({
-      [NameSpace.Product]: {product: productMock},
+      [NameSpace.Product]: { product: productMock },
       [NameSpace.Cart]: {
-        itemsInCartList: [{id: productMock.id, amount: 1}],
+        itemsInCartList: [{ id: productMock.id, amount: 1 }],
         productsData: {},
       },
     });
@@ -90,14 +90,14 @@ describe('Component: Cart', () => {
         </Provider>
       </Router>,
     );
-    await waitFor(() => mockAPI.history['get'].length !== 0, {timeout: 150});
+    await waitFor(() => mockAPI.history['get'].length !== 0, { timeout: 150 });
 
     expect(screen.getByText(/Ошибка загрузки/)).toBeInTheDocument();
   });
 
   it('should show empty cart message', () => {
     const store = mockStore({
-      [NameSpace.Product]: {product: productMock},
+      [NameSpace.Product]: { product: productMock },
       [NameSpace.Cart]: {
         itemsInCartList: [],
         productsData: {},
