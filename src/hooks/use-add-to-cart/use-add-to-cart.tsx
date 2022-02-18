@@ -12,37 +12,37 @@ type useAddToCartReturn = {
 
 function useAddToCart(): useAddToCartReturn {
   const dispatch = useDispatch();
-  const [activeModal, setActiveModal] = useState<'confirm' | 'success'>();
-  const [addToCartProduct, setAddToCartProduct] = useState<Guitar>();
+  const [activeModalName, setActiveModalName] = useState<'confirm' | 'success'>();
+  const [addToCartProductData, setAddToCartProductData] = useState<Guitar>();
   const onModalClose = useCallback(() => {
-    setActiveModal(undefined);
-    setAddToCartProduct(undefined);
+    setActiveModalName(undefined);
+    setAddToCartProductData(undefined);
   }, []);
   const onAddToCart = useCallback((product: Guitar) => {
-    setAddToCartProduct(product);
-    setActiveModal('confirm');
+    setAddToCartProductData(product);
+    setActiveModalName('confirm');
   }, []);
   const onConfirmClick = useCallback(() => {
-    if (addToCartProduct !== undefined) {
-      dispatch(addProduct(addToCartProduct.id, 1));
+    if (addToCartProductData !== undefined) {
+      dispatch(addProduct(addToCartProductData.id, 1));
     }
-    setActiveModal('success');
-  }, [dispatch, addToCartProduct]);
+    setActiveModalName('success');
+  }, [dispatch, addToCartProductData]);
 
   const modal = (
     <ModalContainer
-      modalName={activeModal}
+      modalName={activeModalName}
       onModalClose={onModalClose}
-      wrapperClassName={activeModal === 'success' ? 'modal--success' : undefined}
+      wrapperClassName={activeModalName === 'success' ? 'modal--success' : undefined}
     >
-      {activeModal === 'confirm' && addToCartProduct !== undefined &&
+      {activeModalName === 'confirm' && addToCartProductData !== undefined &&
         <AddToCartModal
           onModalClose={onModalClose}
           onConfirmClick={onConfirmClick}
-          product={addToCartProduct}
+          product={addToCartProductData}
         />}
 
-      {activeModal === 'success' && <AddToCartSuccessModal onModalClose={onModalClose} />}
+      {activeModalName === 'success' && <AddToCartSuccessModal onModalClose={onModalClose} />}
     </ModalContainer>
   );
 
