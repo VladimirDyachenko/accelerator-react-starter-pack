@@ -40,7 +40,7 @@ function Cart() {
   }, [productsData]);
 
   const onAmountUpdate = useCallback((id: number, amount: number) => {
-    if (amount === 0) {
+    if (amount < 1) {
       openConfirmModal(id);
       return;
     }
