@@ -30,8 +30,8 @@ describe('Component: Cart', () => {
     const store = mockStore({
       [NameSpace.Product]: {product: productMock},
       [NameSpace.Cart]: {
-        inCart: [{id: productMock.id, amount: 1}],
-        productData: {[productMock.id]: productMock},
+        itemsInCartList: [{id: productMock.id, amount: 1}],
+        productsData: {[productMock.id]: productMock},
       },
     });
 
@@ -50,8 +50,8 @@ describe('Component: Cart', () => {
     const store = mockStore({
       [NameSpace.Product]: {product: productMock},
       [NameSpace.Cart]: {
-        inCart: [{id: productMock.id, amount: 1}],
-        productData: {},
+        itemsInCartList: [{id: productMock.id, amount: 1}],
+        productsData: {},
       },
     });
 
@@ -76,8 +76,8 @@ describe('Component: Cart', () => {
     const store = mockStore({
       [NameSpace.Product]: {product: productMock},
       [NameSpace.Cart]: {
-        inCart: [{id: productMock.id, amount: 1}],
-        productData: {},
+        itemsInCartList: [{id: productMock.id, amount: 1}],
+        productsData: {},
       },
     });
 
@@ -99,8 +99,8 @@ describe('Component: Cart', () => {
     const store = mockStore({
       [NameSpace.Product]: {product: productMock},
       [NameSpace.Cart]: {
-        inCart: [],
-        productData: {},
+        itemsInCartList: [],
+        productsData: {},
       },
     });
 

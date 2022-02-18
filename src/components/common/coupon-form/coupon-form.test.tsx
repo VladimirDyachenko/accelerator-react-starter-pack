@@ -33,8 +33,8 @@ describe('Component: CouponForm', () => {
     const store = mockStore({
       [NameSpace.Product]: { product: productMock },
       [NameSpace.Cart]: {
-        inCart: [{ id: productMock.id, amount: 1 }],
-        productData: { [productMock.id]: productMock },
+        itemsInCartList: [{ id: productMock.id, amount: 1 }],
+        productsData: { [productMock.id]: productMock },
       },
     });
     const currentCoupon = null;
@@ -59,8 +59,8 @@ describe('Component: CouponForm', () => {
     const store = mockStore({
       [NameSpace.Product]: { product: productMock },
       [NameSpace.Cart]: {
-        inCart: [{ id: productMock.id, amount: 1 }],
-        productData: { [productMock.id]: productMock },
+        itemsInCartList: [{ id: productMock.id, amount: 1 }],
+        productsData: { [productMock.id]: productMock },
       },
     });
     let currentCoupon = null;
@@ -109,8 +109,8 @@ describe('Component: CouponForm', () => {
     const store = mockStore({
       [NameSpace.Product]: { product: productMock },
       [NameSpace.Cart]: {
-        inCart: [{ id: productMock.id, amount: 1 }],
-        productData: { [productMock.id]: productMock },
+        itemsInCartList: [{ id: productMock.id, amount: 1 }],
+        productsData: { [productMock.id]: productMock },
       },
     });
     const currentCoupon = null;

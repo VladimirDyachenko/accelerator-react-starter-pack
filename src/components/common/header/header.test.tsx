@@ -16,7 +16,7 @@ const api = createApi();
 const middlewares = [thunk.withExtraArgument(api)];
 const mockStore = configureMockStore<State, Action, ThunkDispatch<State, typeof api, Action>>(middlewares);
 const store = mockStore({
-  [NameSpace.Cart]: {inCart: []},
+  [NameSpace.Cart]: {itemsInCartList: []},
 });
 
 describe('Component: Header', () => {

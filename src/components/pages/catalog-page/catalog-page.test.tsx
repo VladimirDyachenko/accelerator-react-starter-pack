@@ -35,7 +35,7 @@ const store = mockStore(
         isError: false,
       },
     },
-    [NameSpace.Cart]: {inCart: []},
+    [NameSpace.Cart]: {itemsInCartList: []},
   },
 );
 

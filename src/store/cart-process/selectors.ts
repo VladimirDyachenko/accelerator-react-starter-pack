@@ -2,17 +2,17 @@ import { createSelector } from 'reselect';
 import { NameSpace } from 'store/root-reducer';
 import { Guitar, State } from 'types/types';
 
-export const getItemsInCart = (state: State): Array<{id: number, amount: number}> => state[NameSpace.Cart].inCart;
+export const getItemsInCart = (state: State): Array<{id: number, amount: number}> => state[NameSpace.Cart].itemsInCartList;
 
-export const getProductData = (state: State): { [id: number]: Guitar } => state[NameSpace.Cart].productData;
+export const getProductsData = (state: State): { [id: number]: Guitar } => state[NameSpace.Cart].productsData;
 
 export const getCartItemsAmount = createSelector(
   getItemsInCart,
   (products) => products.reduce((acc, product) => acc += product.amount, 0),
 );
 
-export const getIsNeedFetchProductData = createSelector(
-  getProductData,
+export const getIsNeedFetchProductsData = createSelector(
+  getProductsData,
   getItemsInCart,
   (productData, itemsInCart):boolean => {
     if (itemsInCart.length === 0) {
@@ -34,7 +34,7 @@ export const getProductIdsInCart = createSelector(
 export const getDiscountPercent = (state: State): number => state[NameSpace.Cart].discount;
 
 export const getTotalPrice = createSelector(
-  getProductData,
+  getProductsData,
   getItemsInCart,
   (productData, itemsInCart):number => {
     let totalPrice = 0;

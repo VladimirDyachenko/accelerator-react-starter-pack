@@ -24,7 +24,7 @@ const productMock = generateGuitarMock();
 
 const store = mockStore({
   [NameSpace.Product]: {product: productMock},
-  [NameSpace.Cart]: {inCart: []},
+  [NameSpace.Cart]: {itemsInCartList: []},
 });
 
 describe('Component: ProductPage', () => {

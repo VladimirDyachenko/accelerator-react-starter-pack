@@ -1,8 +1,8 @@
 import { Guitar } from 'types/types';
 
 export type CartProcess = {
-  inCart: Array<{id: number, amount: number}>;
-  productData: {
+  itemsInCartList: Array<{id: number, amount: number}>;
+  productsData: {
     [id: number]: Guitar
   };
   discount: number;

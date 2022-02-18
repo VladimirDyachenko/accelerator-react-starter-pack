@@ -36,7 +36,7 @@ const store = mockStore({
     },
   },
   [NameSpace.Product]: {product: productMock},
-  [NameSpace.Cart]: {inCart: []},
+  [NameSpace.Cart]: {itemsInCartList: []},
 });
 
 describe('App routing', () => {

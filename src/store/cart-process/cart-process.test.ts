@@ -9,11 +9,11 @@ import {
 } from './actions';
 import { cartProcess } from './cart-process';
 
-describe('Reducer: catalogProcess', () => {
+describe('Reducer: cartProcess', () => {
   it('without additional parameters should return initial state', () => {
     const state: CartProcess = {
-      inCart: [],
-      productData: {},
+      itemsInCartList: [],
+      productsData: {},
       discount: 0,
       coupon: null,
     };
@@ -24,8 +24,8 @@ describe('Reducer: catalogProcess', () => {
 
   it('should add item to cart', () => {
     const state: CartProcess = {
-      inCart: [],
-      productData: {},
+      itemsInCartList: [],
+      productsData: {},
       discount: 0,
       coupon: null,
     };
@@ -33,14 +33,14 @@ describe('Reducer: catalogProcess', () => {
     const cartItem = {id: 10, amount: 1};
 
     expect(cartProcess(state, addProduct(cartItem.id, cartItem.amount)))
-      .toEqual({...state, inCart: [cartItem]});
+      .toEqual({...state, itemsInCartList: [cartItem]});
   });
 
   it('should set item in cart amount', () => {
     const cartItem = {id: 10, amount: 10};
     const state: CartProcess = {
-      inCart: [{id: 22, amount: 1}, cartItem],
-      productData: {},
+      itemsInCartList: [{id: 22, amount: 1}, cartItem],
+      productsData: {},
       discount: 0,
       coupon: null,
     };
@@ -51,14 +51,14 @@ describe('Reducer: catalogProcess', () => {
     ];
 
     expect(cartProcess(state, setProductCount(cartItem.id, cartItem.amount + 1)))
-      .toEqual({...state, inCart: expectedInCart});
+      .toEqual({...state, itemsInCartList: expectedInCart});
   });
 
   it('should delete item from cart if amount is 0', () => {
     const cartItem = {id: 10, amount: 10};
     const state: CartProcess = {
-      inCart: [{id: 22, amount: 1}, cartItem],
-      productData: {},
+      itemsInCartList: [{id: 22, amount: 1}, cartItem],
+      productsData: {},
       discount: 0,
       coupon: null,
     };
@@ -68,14 +68,14 @@ describe('Reducer: catalogProcess', () => {
     ];
 
     expect(cartProcess(state, setProductCount(cartItem.id, 0)))
-      .toEqual({...state, inCart: expectedInCart});
+      .toEqual({...state, itemsInCartList: expectedInCart});
   });
 
   it('should add item to from cart if it not exist already', () => {
     const cartItem = {id: 10, amount: 10};
     const state: CartProcess = {
-      inCart: [{id: 22, amount: 1}],
-      productData: {},
+      itemsInCartList: [{id: 22, amount: 1}],
+      productsData: {},
       discount: 0,
       coupon: null,
     };
@@ -86,15 +86,15 @@ describe('Reducer: catalogProcess', () => {
     ];
 
     expect(cartProcess(state, setProductCount(cartItem.id, cartItem.amount)))
-      .toEqual({...state, inCart: expectedInCart});
+      .toEqual({...state, itemsInCartList: expectedInCart});
   });
 
   it('should set cart data', () => {
     const productsMock = new Array(2).fill(undefined).map(generateGuitarMock);
 
     const state: CartProcess = {
-      inCart: [{id: 22, amount: 1}],
-      productData: {},
+      itemsInCartList: [{id: 22, amount: 1}],
+      productsData: {},
       discount: 0,
       coupon: null,
     };
@@ -105,13 +105,13 @@ describe('Reducer: catalogProcess', () => {
     };
 
     expect(cartProcess(state, setCartData(productsMock)))
-      .toEqual({...state, productData: expected});
+      .toEqual({...state, productsData: expected});
   });
 
   it('should set discount', () => {
     const state: CartProcess = {
-      inCart: [{id: 22, amount: 1}],
-      productData: {},
+      itemsInCartList: [{id: 22, amount: 1}],
+      productsData: {},
       discount: 0,
       coupon: null,
     };
@@ -124,8 +124,8 @@ describe('Reducer: catalogProcess', () => {
 
   it('should set coupon', () => {
     const state: CartProcess = {
-      inCart: [{id: 22, amount: 1}],
-      productData: {},
+      itemsInCartList: [{id: 22, amount: 1}],
+      productsData: {},
       discount: 0,
       coupon: null,
     };

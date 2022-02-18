@@ -1,6 +1,6 @@
 import { memo, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCartItemsAmount, getCoupon, getDiscountAmount, getIsNeedFetchProductData, getItemsInCart, getProductData, getTotalPrice } from 'store/cart-process/selectors';
+import { getCartItemsAmount, getCoupon, getDiscountAmount, getIsNeedFetchProductsData, getItemsInCart, getProductsData, getTotalPrice } from 'store/cart-process/selectors';
 import { CouponForm, ModalContainer, Spinner } from 'components/common/common';
 import { CartItem, CartTotal, RemoveCartItemModal } from '../components';
 import { AppRoute } from 'const/const';
@@ -11,10 +11,10 @@ import { Guitar } from 'types/types';
 
 function Cart() {
   const dispatch = useDispatch();
-  const itemsInCart = useSelector(getItemsInCart);
+  const itemsInCartList = useSelector(getItemsInCart);
   const cartItemsAmount = useSelector(getCartItemsAmount);
-  const isNeedFetchProductData = useSelector(getIsNeedFetchProductData);
-  const productData = useSelector(getProductData);
+  const isNeedFetchProductData = useSelector(getIsNeedFetchProductsData);
+  const productsData = useSelector(getProductsData);
   const [modalName, setModalName] = useState<'confirm-delete'>();
   const [confirmModalData, setConfirmModalData] = useState<Guitar>();
   const totalPrice = useSelector(getTotalPrice);
@@ -35,9 +35,9 @@ function Cart() {
   }, [dispatch, onModalClose, confirmModalData]);
 
   const openConfirmModal = useCallback((productId: number) => {
-    setConfirmModalData(productData[productId]);
+    setConfirmModalData(productsData[productId]);
     setModalName('confirm-delete');
-  }, [productData]);
+  }, [productsData]);
 
   const onAmountUpdate = useCallback((id: number, amount: number) => {
     if (amount === 0) {
@@ -49,12 +49,12 @@ function Cart() {
 
   useEffect(() => {
     if (isNeedFetchProductData) {
-      const idsToLoad = itemsInCart.map((item) => item.id);
+      const idsToLoad = itemsInCartList.map((item) => item.id);
       const onSuccess = () => setIsLoadingError(false);
       const onError = () => setIsLoadingError(true);
       dispatch(fetchCartData(idsToLoad, onSuccess, onError));
     }
-  }, [dispatch, isNeedFetchProductData, itemsInCart]);
+  }, [dispatch, isNeedFetchProductData, itemsInCartList]);
 
   if (isLoadingError) {
     return (
@@ -108,11 +108,11 @@ function Cart() {
   return (
     <div className='cart'>
 
-      {itemsInCart.map((item) => (
+      {itemsInCartList.map((item) => (
         <CartItem
           key={item.id}
           amount={item.amount}
-          productData={productData[item.id]}
+          productData={productsData[item.id]}
           onAmountUpdate={onAmountUpdate}
         />))}
 

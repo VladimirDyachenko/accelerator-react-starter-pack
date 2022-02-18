@@ -26,7 +26,7 @@ describe('Component: ProductList', () => {
             isError: false,
           },
         },
-        [NameSpace.Cart]: {inCart: []},
+        [NameSpace.Cart]: {itemsInCartList: []},
       },
     );
 
@@ -52,7 +52,7 @@ describe('Component: ProductList', () => {
             isError: false,
           },
         },
-        [NameSpace.Cart]: {inCart: []},
+        [NameSpace.Cart]: {itemsInCartList: []},
       },
     );
 
@@ -77,7 +77,7 @@ describe('Component: ProductList', () => {
             isError: true,
           },
         },
-        [NameSpace.Cart]: {inCart: []},
+        [NameSpace.Cart]: {itemsInCartList: []},
       },
     );
 
@@ -102,7 +102,7 @@ describe('Component: ProductList', () => {
             isError: false,
           },
         },
-        [NameSpace.Cart]: {inCart: []},
+        [NameSpace.Cart]: {itemsInCartList: []},
       },
     );
 
