@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AppRoute } from 'const/const';
 
-export type AddToCartSuccessModalProps = {
+type AddToCartSuccessModalProps = {
   onModalClose: () => void;
 };
 

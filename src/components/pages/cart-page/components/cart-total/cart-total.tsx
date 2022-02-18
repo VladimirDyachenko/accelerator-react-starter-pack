@@ -1,7 +1,7 @@
 import { formatPrice } from 'const/const';
 import { memo } from 'react';
 
-export type CartTotalProps = {
+type CartTotalProps = {
   total: number;
   discount: number;
 }
